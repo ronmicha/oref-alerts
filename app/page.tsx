@@ -11,6 +11,14 @@ import { filterAlerts, aggregateByDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
 import type { DateRangeOption } from '@/types/oref'
 
+// Maps UI date range to oref API mode: 1=day, 2=week, 3=month
+const API_MODE: Record<DateRangeOption, 1 | 2 | 3> = {
+  today: 1,
+  '7d':  2,
+  '14d': 3,  // no 2-week mode in API; client-side date filter trims to 14d
+  '30d': 3,
+}
+
 function getDateRange(option: DateRangeOption): { startDate: string; endDate: string } {
   const today = new Date()
   const end = today.toISOString().slice(0, 10)
@@ -29,7 +37,10 @@ function getDateRange(option: DateRangeOption): { startDate: string; endDate: st
 
 export default function Home() {
   const { t, lang } = useI18n()
-  const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts()
+  const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts(
+    API_MODE[dateRange],
+    cityLabel || undefined
+  )
   const { cityLabels, loading: citiesLoading } = useCities()
   const { categories, loading: categoriesLoading } = useCategories()
 

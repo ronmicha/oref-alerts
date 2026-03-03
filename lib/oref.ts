@@ -2,7 +2,7 @@ import type { City, AlertCategory, AlarmHistoryItem } from '@/types/oref'
 
 const CITIES_URL = '/api/cities'
 const CATEGORIES_URL = '/api/categories'
-const HISTORY_URL = '/api/history'
+const HISTORY_BASE = '/api/history'
 
 // Module-level cache — persists for the lifetime of the page session
 let cachedCities: City[] | null = null
@@ -25,8 +25,10 @@ export async function fetchCategories(): Promise<AlertCategory[]> {
 }
 
 // Always fetches fresh — no caching
-export async function fetchAlertHistory(): Promise<AlarmHistoryItem[]> {
-  const res = await fetch(HISTORY_URL, { cache: 'no-store' })
+export async function fetchAlertHistory(mode: 1 | 2 | 3, city?: string): Promise<AlarmHistoryItem[]> {
+  const params = new URLSearchParams({ mode: String(mode) })
+  if (city) params.set('city', city)
+  const res = await fetch(`${HISTORY_BASE}?${params}`, { cache: 'no-store' })
   if (!res.ok) throw new Error(`Failed to fetch alert history: ${res.status}`)
   return res.json()
 }
