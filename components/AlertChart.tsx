@@ -64,7 +64,7 @@ export function AlertChart({ data, categories }: AlertChartProps) {
 
   return (
     <ResponsiveContainer width="100%" height={320}>
-      <BarChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 32 }}>
+      <BarChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 48 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
         <XAxis
           dataKey="xKey"
@@ -108,9 +108,9 @@ export function AlertChart({ data, categories }: AlertChartProps) {
         <Legend
           formatter={(value) => {
             const id = Number(String(value).replace('cat_', ''))
-            return <span style={{ fontSize: 12, color: '#374151' }}>{catName(id)}</span>
+            return <span style={{ fontSize: 12, color: '#374151', marginLeft: 4 }}>{catName(id)}</span>
           }}
-          wrapperStyle={{ paddingTop: 8 }}
+          wrapperStyle={{ paddingTop: 24 }}
         />
         {activeCatIds.map((id, i) => (
           <Bar
