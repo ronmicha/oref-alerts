@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react'
 import { useAlerts } from '@/hooks/useAlerts'
-import { useCities } from '@/hooks/useCities'
 import { useCategories } from '@/hooks/useCategories'
 import { FilterBar } from '@/components/FilterBar'
 import { AlertChart } from '@/components/AlertChart'
@@ -30,12 +29,16 @@ function getDateRange(option: DateRangeOption): { startDate: string; endDate: st
 export default function Home() {
   const { t, lang } = useI18n()
   const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts()
-  const { cityLabels, loading: citiesLoading } = useCities()
   const { categories, loading: categoriesLoading } = useCategories()
 
   const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
   const [cityLabel, setCityLabel] = useState('')
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined)
+
+  const cityLabels = useMemo(
+    () => [...new Set(alerts.map((a) => a.data))].sort(),
+    [alerts]
+  )
 
   const { startDate, endDate } = getDateRange(dateRange)
 
@@ -54,7 +57,7 @@ export default function Home() {
     [filteredAlerts, startDate, endDate, lang]
   )
 
-  const isLoading = alertsLoading || citiesLoading || categoriesLoading
+  const isLoading = alertsLoading || categoriesLoading
 
   return (
     <div className="min-h-screen bg-gray-50">

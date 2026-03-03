@@ -13,8 +13,7 @@ export function filterAlerts(
 ): AlarmHistoryItem[] {
   return alerts.filter((alert) => {
     if (options.cityLabel) {
-      const cityName = options.cityLabel.split(' | ')[0]
-      if (alert.data !== cityName) return false
+      if (alert.data !== options.cityLabel) return false
     }
     if (options.categoryId !== undefined) {
       if (alert.category !== options.categoryId) return false

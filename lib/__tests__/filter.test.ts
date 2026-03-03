@@ -20,20 +20,20 @@ describe('filterAlerts', () => {
     expect(result).toHaveLength(2)
   })
 
-  it('filters by city label', () => {
+  it('filters by city label (exact match on alert.data)', () => {
     const alerts = [
-      makeAlert({ data: 'תל אביב' }),
+      makeAlert({ data: 'תל אביב - מרכז העיר' }),
       makeAlert({ data: 'ירושלים' }),
     ]
-    const result = filterAlerts(alerts, { cityLabel: 'תל אביב | גוש דן' })
+    const result = filterAlerts(alerts, { cityLabel: 'תל אביב - מרכז העיר' })
     expect(result).toHaveLength(1)
-    expect(result[0].data).toBe('תל אביב')
+    expect(result[0].data).toBe('תל אביב - מרכז העיר')
   })
 
-  it('filters by city label without area suffix', () => {
+  it('filters by city label for single-name cities', () => {
     const alerts = [
       makeAlert({ data: 'ירושלים' }),
-      makeAlert({ data: 'תל אביב' }),
+      makeAlert({ data: 'אשדוד' }),
     ]
     const result = filterAlerts(alerts, { cityLabel: 'ירושלים' })
     expect(result).toHaveLength(1)
@@ -76,7 +76,7 @@ describe('filterAlerts', () => {
       makeAlert({ data: 'ירושלים', category: 1, alertDate: '2026-03-02T10:00:00' }),
       makeAlert({ data: 'תל אביב', category: 2, alertDate: '2026-03-02T10:00:00' }),
     ]
-    const result = filterAlerts(alerts, { cityLabel: 'תל אביב | גוש דן', categoryId: 1 })
+    const result = filterAlerts(alerts, { cityLabel: 'תל אביב', categoryId: 1 })
     expect(result).toHaveLength(1)
   })
 })
