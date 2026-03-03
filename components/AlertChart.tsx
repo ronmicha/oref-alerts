@@ -108,7 +108,7 @@ export function AlertChart({ data, categories }: AlertChartProps) {
         <Legend
           formatter={(value) => {
             const id = Number(String(value).replace('cat_', ''))
-            return <span style={{ fontSize: 12, color: '#374151', marginLeft: 4 }}>{catName(id)}</span>
+            return <span style={{ fontSize: 12, color: '#374151', margin: '0 6px' }}>{catName(id)}</span>
           }}
           wrapperStyle={{ paddingTop: 24 }}
         />
