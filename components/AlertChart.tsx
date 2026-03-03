@@ -4,7 +4,6 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts'
 import type { DayCount } from '@/types/oref'
-import { useI18n } from '@/lib/i18n'
 
 interface AlertChartProps {
   data: DayCount[]
@@ -26,8 +25,6 @@ function CustomTick({ x, y, payload }: { x?: number; y?: number; payload?: { val
 }
 
 export function AlertChart({ data }: AlertChartProps) {
-  const { lang } = useI18n()
-
   const chartData = data.map((d) => ({
     ...d,
     // Encode both day name and date into the x-axis key, decoded by CustomTick
