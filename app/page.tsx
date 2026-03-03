@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useAlerts } from '@/hooks/useAlerts'
 import { useCities } from '@/hooks/useCities'
 import { useCategories } from '@/hooks/useCategories'
@@ -42,6 +42,14 @@ export default function Home() {
   const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
   const [cityLabel, setCityLabel] = useState('')
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined)
+
+  // Reset content filters when language changes (city names change; category IDs become stale in context)
+  const isFirstRender = useRef(true)
+  useEffect(() => {
+    if (isFirstRender.current) { isFirstRender.current = false; return }
+    setCityLabel('')
+    setCategoryId(undefined)
+  }, [lang])
 
   const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts(
     API_MODE[dateRange],
