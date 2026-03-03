@@ -113,7 +113,9 @@ export default function Home() {
         </div>
 
         {/* Chart area */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[360px] flex items-center justify-center">
+        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[360px]">
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">{t('chartByDayTitle')}</h2>
+          <div className="flex items-center justify-center h-full">
           {isLoading && (
             <div className="text-gray-400 text-sm animate-pulse">{t('loading')}</div>
           )}
@@ -129,14 +131,18 @@ export default function Home() {
             </div>
           )}
           {!isLoading && !alertsError && <AlertChart data={chartData} categories={categories} />}
+          </div>
         </div>
 
         {/* Time-of-day chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[320px] flex items-center justify-center">
+        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[320px]">
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">{t('chartByTimeTitle')}</h2>
+          <div className="flex items-center justify-center h-full">
           {isLoading && (
             <div className="text-gray-400 text-sm animate-pulse">{t('loading')}</div>
           )}
           {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} />}
+          </div>
         </div>
       </main>
 
