@@ -4,6 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts'
 import type { DayCount } from '@/types/oref'
+import { useI18n } from '@/lib/i18n'
 
 interface AlertChartProps {
   data: DayCount[]
@@ -25,7 +26,12 @@ function CustomTick({ x, y, payload }: { x?: number; y?: number; payload?: { val
 }
 
 export function AlertChart({ data }: AlertChartProps) {
-  const chartData = data.map((d) => ({
+  const { lang } = useI18n()
+
+  // RTL: reverse so newest date is on the left, oldest on the right
+  const orderedData = lang === 'he' ? [...data].reverse() : data
+
+  const chartData = orderedData.map((d) => ({
     ...d,
     // Encode both day name and date into the x-axis key, decoded by CustomTick
     xKey: `${d.dayName}|${d.label}`,
