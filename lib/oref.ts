@@ -1,9 +1,8 @@
 import type { District, AlertCategory, AlarmHistoryItem } from '@/types/oref'
 
-const DISTRICTS_URL = 'https://www.oref.org.il/districts/districts_heb.json'
-const CATEGORIES_URL = 'https://www.oref.org.il/alerts/alertCategories.json'
-const HISTORY_URL =
-  'https://alerts-history.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=3'
+const DISTRICTS_URL = '/api/districts'
+const CATEGORIES_URL = '/api/categories'
+const HISTORY_URL = '/api/history'
 
 // Module-level cache — persists for the lifetime of the page session
 let cachedDistricts: District[] | null = null
@@ -27,12 +26,7 @@ export async function fetchCategories(): Promise<AlertCategory[]> {
 
 // Always fetches fresh — no caching
 export async function fetchAlertHistory(): Promise<AlarmHistoryItem[]> {
-  const res = await fetch(HISTORY_URL, {
-    headers: {
-      Referer: 'https://www.oref.org.il/',
-      'X-Requested-With': 'XMLHttpRequest',
-    },
-  })
+  const res = await fetch(HISTORY_URL, { cache: 'no-store' })
   if (!res.ok) throw new Error(`Failed to fetch alert history: ${res.status}`)
   return res.json()
 }
