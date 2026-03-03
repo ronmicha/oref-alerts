@@ -45,9 +45,10 @@ export default function Home() {
 
   const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts(
     API_MODE[dateRange],
-    cityLabel || undefined
+    cityLabel || undefined,
+    lang
   )
-  const { cityLabels, loading: citiesLoading } = useCities()
+  const { cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
 
   const { startDate, endDate } = getDateRange(dateRange)
