@@ -32,7 +32,8 @@ describe('FilterBar', () => {
 
   it('renders city input with empty value', () => {
     renderFilterBar()
-    const cityInput = screen.getByRole('textbox')
+    // City input has role="combobox"; it is the second combobox (after date range select)
+    const cityInput = screen.getAllByRole('combobox')[1]
     expect(cityInput).toHaveValue('')
   })
 
@@ -47,7 +48,7 @@ describe('FilterBar', () => {
   it('calls onCityLabelChange when city input is cleared', () => {
     const onCityLabelChange = jest.fn()
     renderFilterBar({ cityLabel: 'תל אביב | גוש דן', onCityLabelChange })
-    const input = screen.getByRole('textbox')
+    const input = screen.getAllByRole('combobox')[1]
     fireEvent.change(input, { target: { value: '' } })
     expect(onCityLabelChange).toHaveBeenCalledWith('')
   })

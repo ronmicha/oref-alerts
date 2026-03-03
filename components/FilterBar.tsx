@@ -14,7 +14,9 @@ interface CityComboboxProps {
 function CityCombobox({ value, onChange, options, placeholder }: CityComboboxProps) {
   const [input, setInput] = useState(value)
   const [open, setOpen] = useState(false)
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const containerRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
 
   // Sync input when the selected value changes externally
   useEffect(() => { setInput(value) }, [value])
@@ -22,6 +24,16 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
   const matches = options
     .filter((o) => !input || o.toLowerCase().includes(input.toLowerCase()))
     .slice(0, 100)
+
+  // Reset highlight when the match list changes (new search term)
+  useEffect(() => { setHighlightedIndex(-1) }, [matches.length])
+
+  // Scroll highlighted item into view
+  useEffect(() => {
+    if (highlightedIndex < 0 || !listRef.current) return
+    const item = listRef.current.children[highlightedIndex] as HTMLElement | undefined
+    item?.scrollIntoView({ block: 'nearest' })
+  }, [highlightedIndex])
 
   // Close dropdown and revert if user clicks outside without selecting
   useEffect(() => {
@@ -35,13 +47,44 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
     return () => document.removeEventListener('mousedown', onMouseDown)
   }, [input, value, options])
 
+  function select(opt: string) {
+    setInput(opt)
+    onChange(opt)
+    setOpen(false)
+    setHighlightedIndex(-1)
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!open || matches.length === 0) return
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setHighlightedIndex((i) => (i + 1) % matches.length)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setHighlightedIndex((i) => (i <= 0 ? matches.length - 1 : i - 1))
+    } else if (e.key === 'Enter' && highlightedIndex >= 0) {
+      e.preventDefault()
+      select(matches[highlightedIndex])
+    } else if (e.key === 'Escape') {
+      setOpen(false)
+      if (input && !options.includes(input)) setInput(value)
+    }
+  }
+
   const inputClass =
     'block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500'
+
+  const listId = 'city-combobox-list'
 
   return (
     <div ref={containerRef} className="relative">
       <input
         type="text"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded={open && matches.length > 0}
+        aria-controls={listId}
+        aria-activedescendant={highlightedIndex >= 0 ? `city-opt-${highlightedIndex}` : undefined}
         value={input}
         placeholder={placeholder}
         className={inputClass}
@@ -51,19 +94,27 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
           if (!e.target.value) onChange('')
         }}
         onFocus={() => setOpen(true)}
+        onKeyDown={handleKeyDown}
       />
       {open && matches.length > 0 && (
-        <ul className="absolute z-50 w-full max-h-52 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg mt-1 text-sm">
-          {matches.map((opt) => (
+        <ul
+          ref={listRef}
+          id={listId}
+          role="listbox"
+          className="absolute z-50 w-full max-h-52 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg mt-1 text-sm"
+        >
+          {matches.map((opt, i) => (
             <li
               key={opt}
-              className="px-3 py-2 cursor-pointer hover:bg-blue-50 text-gray-700"
+              id={`city-opt-${i}`}
+              role="option"
+              aria-selected={i === highlightedIndex}
+              className={`px-3 py-2 cursor-pointer text-gray-700 ${i === highlightedIndex ? 'bg-blue-100' : 'hover:bg-blue-50'}`}
               onMouseDown={(e) => {
                 e.preventDefault() // keep input focused until selection completes
-                setInput(opt)
-                onChange(opt)
-                setOpen(false)
+                select(opt)
               }}
+              onMouseEnter={() => setHighlightedIndex(i)}
             >
               {opt}
             </li>
