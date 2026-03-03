@@ -30,10 +30,10 @@ describe('FilterBar', () => {
     expect(screen.getByDisplayValue('7 ימים אחרונים')).toBeInTheDocument()
   })
 
-  it('renders city dropdown with All option', () => {
+  it('renders city input with empty value', () => {
     renderFilterBar()
-    const citySelect = screen.getAllByRole('combobox')[1]
-    expect(citySelect).toHaveValue('')
+    const cityInput = screen.getByRole('textbox')
+    expect(cityInput).toHaveValue('')
   })
 
   it('calls onDateRangeChange when date range changes', () => {
@@ -44,11 +44,11 @@ describe('FilterBar', () => {
     expect(onDateRangeChange).toHaveBeenCalledWith('30d')
   })
 
-  it('calls onCityLabelChange when city changes', () => {
+  it('calls onCityLabelChange when city input is cleared', () => {
     const onCityLabelChange = jest.fn()
-    renderFilterBar({ onCityLabelChange })
-    const select = screen.getAllByRole('combobox')[1]
-    fireEvent.change(select, { target: { value: 'תל אביב | גוש דן' } })
-    expect(onCityLabelChange).toHaveBeenCalledWith('תל אביב | גוש דן')
+    renderFilterBar({ cityLabel: 'תל אביב | גוש דן', onCityLabelChange })
+    const input = screen.getByRole('textbox')
+    fireEvent.change(input, { target: { value: '' } })
+    expect(onCityLabelChange).toHaveBeenCalledWith('')
   })
 })

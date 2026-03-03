@@ -1,7 +1,78 @@
 'use client'
 
+import { useState, useEffect, useRef } from 'react'
 import { useI18n } from '@/lib/i18n'
 import type { AlertCategory, DateRangeOption } from '@/types/oref'
+
+interface CityComboboxProps {
+  value: string
+  onChange: (v: string) => void
+  options: string[]
+  placeholder: string
+}
+
+function CityCombobox({ value, onChange, options, placeholder }: CityComboboxProps) {
+  const [input, setInput] = useState(value)
+  const [open, setOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // Sync input when the selected value changes externally
+  useEffect(() => { setInput(value) }, [value])
+
+  const matches = options
+    .filter((o) => !input || o.toLowerCase().includes(input.toLowerCase()))
+    .slice(0, 100)
+
+  // Close dropdown and revert if user clicks outside without selecting
+  useEffect(() => {
+    const onMouseDown = (e: MouseEvent) => {
+      if (!containerRef.current?.contains(e.target as Node)) {
+        setOpen(false)
+        if (input && !options.includes(input)) setInput(value)
+      }
+    }
+    document.addEventListener('mousedown', onMouseDown)
+    return () => document.removeEventListener('mousedown', onMouseDown)
+  }, [input, value, options])
+
+  const inputClass =
+    'block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500'
+
+  return (
+    <div ref={containerRef} className="relative">
+      <input
+        type="text"
+        value={input}
+        placeholder={placeholder}
+        className={inputClass}
+        onChange={(e) => {
+          setInput(e.target.value)
+          setOpen(true)
+          if (!e.target.value) onChange('')
+        }}
+        onFocus={() => setOpen(true)}
+      />
+      {open && matches.length > 0 && (
+        <ul className="absolute z-50 w-full max-h-52 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg mt-1 text-sm">
+          {matches.map((opt) => (
+            <li
+              key={opt}
+              className="px-3 py-2 cursor-pointer hover:bg-blue-50 text-gray-700"
+              onMouseDown={(e) => {
+                e.preventDefault() // keep input focused until selection completes
+                setInput(opt)
+                onChange(opt)
+                setOpen(false)
+              }}
+            >
+              {opt}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
 
 interface FilterBarProps {
   dateRange: DateRangeOption
@@ -49,16 +120,12 @@ export function FilterBar({
         <label className="block text-xs font-medium text-gray-500 mb-1">
           {t('filterCity')}
         </label>
-        <select
+        <CityCombobox
           value={cityLabel}
-          onChange={(e) => onCityLabelChange(e.target.value)}
-          className={selectClass}
-        >
-          <option value="">{t('all')}</option>
-          {cityLabels.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
+          onChange={onCityLabelChange}
+          options={cityLabels}
+          placeholder={t('all')}
+        />
       </div>
 
       {/* Category */}
