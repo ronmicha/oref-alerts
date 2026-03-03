@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { orefFetch } from '@/lib/orefFetch'
 
+export const runtime = 'edge'
+
 const BASE_URL = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx'
 
 export async function GET(req: NextRequest) {
