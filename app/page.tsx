@@ -6,8 +6,9 @@ import { useCities } from '@/hooks/useCities'
 import { useCategories } from '@/hooks/useCategories'
 import { FilterBar } from '@/components/FilterBar'
 import { AlertChart } from '@/components/AlertChart'
+import { TimeOfDayChart } from '@/components/TimeOfDayChart'
 import { LanguageToggle } from '@/components/LanguageToggle'
-import { filterAlerts, aggregateByDay } from '@/lib/filter'
+import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
 import type { DateRangeOption } from '@/types/oref'
 
@@ -64,6 +65,11 @@ export default function Home() {
   const chartData = useMemo(
     () => aggregateByDay(filteredAlerts, startDate, endDate, lang as 'he' | 'en'),
     [filteredAlerts, startDate, endDate, lang]
+  )
+
+  const timeOfDayData = useMemo(
+    () => aggregateByTimeOfDay(filteredAlerts),
+    [filteredAlerts]
   )
 
   const isLoading = alertsLoading || citiesLoading || categoriesLoading
@@ -123,6 +129,14 @@ export default function Home() {
             </div>
           )}
           {!isLoading && !alertsError && <AlertChart data={chartData} categories={categories} />}
+        </div>
+
+        {/* Time-of-day chart */}
+        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[320px] flex items-center justify-center">
+          {isLoading && (
+            <div className="text-gray-400 text-sm animate-pulse">{t('loading')}</div>
+          )}
+          {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} />}
         </div>
       </main>
 

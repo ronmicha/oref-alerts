@@ -36,4 +36,10 @@ export interface DayCount {
   byCategory: Record<number, number>  // categoryId → count
 }
 
+export interface TimeSlotCount {
+  timeKey: string              // "HH:MM" — start of the 15-min window
+  count: number
+  byCategory: Record<number, number>
+}
+
 export type DateRangeOption = 'today' | '7d' | '14d' | '30d'

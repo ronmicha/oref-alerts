@@ -1,4 +1,4 @@
-import type { AlarmHistoryItem, DayCount } from '@/types/oref'
+import type { AlarmHistoryItem, DayCount, TimeSlotCount } from '@/types/oref'
 
 interface FilterOptions {
   cityLabel?: string  // exact city name — matches alert.data
@@ -75,4 +75,32 @@ export function aggregateByDay(
   }
 
   return days
+}
+
+export function aggregateByTimeOfDay(alerts: AlarmHistoryItem[]): TimeSlotCount[] {
+  const countMap = new Map<string, number>()
+  const byCategoryMap = new Map<string, Record<number, number>>()
+
+  for (const alert of alerts) {
+    // alertDate format: "YYYY-MM-DDTHH:MM:SS"
+    const h = Number(alert.alertDate.slice(11, 13))
+    const m = Number(alert.alertDate.slice(14, 16))
+    const bucket = Math.floor(m / 15) * 15
+    const key = `${String(h).padStart(2, '0')}:${String(bucket).padStart(2, '0')}`
+
+    countMap.set(key, (countMap.get(key) ?? 0) + 1)
+    if (!byCategoryMap.has(key)) byCategoryMap.set(key, {})
+    const cats = byCategoryMap.get(key)!
+    cats[alert.category] = (cats[alert.category] ?? 0) + 1
+  }
+
+  // All 96 slots: 00:00, 00:15, ..., 23:45
+  const slots: TimeSlotCount[] = []
+  for (let h = 0; h < 24; h++) {
+    for (let m = 0; m < 60; m += 15) {
+      const key = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+      slots.push({ timeKey: key, count: countMap.get(key) ?? 0, byCategory: byCategoryMap.get(key) ?? {} })
+    }
+  }
+  return slots
 }

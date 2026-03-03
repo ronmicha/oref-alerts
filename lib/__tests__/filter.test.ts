@@ -1,4 +1,4 @@
-import { filterAlerts, aggregateByDay } from '../filter'
+import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '../filter'
 import type { AlarmHistoryItem } from '@/types/oref'
 
 const makeAlert = (overrides: Partial<AlarmHistoryItem> = {}): AlarmHistoryItem => ({
@@ -121,5 +121,50 @@ describe('aggregateByDay', () => {
     const alerts = [makeAlert({ alertDate: '2026-03-02T10:00:00' })] // Monday
     const result = aggregateByDay(alerts, '2026-03-02', '2026-03-02', 'he')
     expect(result[0].dayName).toBe("ב'")
+  })
+})
+
+describe('aggregateByTimeOfDay', () => {
+  it('returns 96 slots (one per 15 minutes)', () => {
+    const result = aggregateByTimeOfDay([])
+    expect(result).toHaveLength(96)
+  })
+
+  it('slots are ordered 00:00 to 23:45', () => {
+    const result = aggregateByTimeOfDay([])
+    expect(result[0].timeKey).toBe('00:00')
+    expect(result[95].timeKey).toBe('23:45')
+  })
+
+  it('buckets an alert into the correct 15-min slot', () => {
+    const alert = makeAlert({ alertDate: '2026-03-01T10:17:00' }) // → 10:15
+    const result = aggregateByTimeOfDay([alert])
+    const slot = result.find((s) => s.timeKey === '10:15')!
+    expect(slot.count).toBe(1)
+  })
+
+  it('buckets alerts at boundary (HH:00) correctly', () => {
+    const alert = makeAlert({ alertDate: '2026-03-01T07:00:00' }) // → 07:00
+    const result = aggregateByTimeOfDay([alert])
+    const slot = result.find((s) => s.timeKey === '07:00')!
+    expect(slot.count).toBe(1)
+  })
+
+  it('populates byCategory for each slot', () => {
+    const alerts = [
+      makeAlert({ alertDate: '2026-03-01T10:05:00', category: 1 }), // → 10:00
+      makeAlert({ alertDate: '2026-03-01T10:10:00', category: 2 }), // → 10:00
+    ]
+    const result = aggregateByTimeOfDay(alerts)
+    const slot = result.find((s) => s.timeKey === '10:00')!
+    expect(slot.count).toBe(2)
+    expect(slot.byCategory[1]).toBe(1)
+    expect(slot.byCategory[2]).toBe(1)
+  })
+
+  it('returns 0 count and empty byCategory for empty slots', () => {
+    const result = aggregateByTimeOfDay([])
+    expect(result[0].count).toBe(0)
+    expect(result[0].byCategory).toEqual({})
   })
 })
