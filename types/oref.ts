@@ -1,10 +1,12 @@
 export interface City {
-  areaid: number
-  cityAlId: string
+  label: string      // city name — matches alert.data exactly
+  value: string      // UUID
   id: string
-  label: string    // format: "CityName | AreaName"
-  rashut: string | null
+  areaid: number
   color: string
+  migun_time: number
+  rashut: string
+  label_he: string
 }
 
 export interface AlertCategory {
