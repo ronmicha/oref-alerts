@@ -16,8 +16,8 @@ export function useCities() {
       .finally(() => setLoading(false))
   }, [])
 
-  // City labels sorted alphabetically (label format: "CityName | AreaName")
-  const cityLabels = cities.map((c) => c.label).sort()
+  // Unique city labels sorted alphabetically (label format: "CityName | AreaName")
+  const cityLabels = [...new Set(cities.map((c) => c.label))].sort()
 
   return { cities, cityLabels, loading, error }
 }
