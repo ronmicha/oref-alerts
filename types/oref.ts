@@ -1,11 +1,10 @@
-export interface District {
+export interface City {
   areaid: number
-  areaname: string
+  cityAlId: string
   id: string
-  label: string
-  label_he: string
+  label: string    // format: "CityName | AreaName"
   rashut: string | null
-  migun_time: number
+  color: string
 }
 
 export interface AlertCategory {

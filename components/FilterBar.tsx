@@ -6,19 +6,19 @@ import type { AlertCategory, DateRangeOption } from '@/types/oref'
 interface FilterBarProps {
   dateRange: DateRangeOption
   onDateRangeChange: (v: DateRangeOption) => void
-  areaname: string
-  onAreanameChange: (v: string) => void
+  cityLabel: string
+  onCityLabelChange: (v: string) => void
   categoryId: number | undefined
   onCategoryIdChange: (v: number | undefined) => void
-  areas: string[]
+  cityLabels: string[]
   categories: AlertCategory[]
 }
 
 export function FilterBar({
   dateRange, onDateRangeChange,
-  areaname, onAreanameChange,
+  cityLabel, onCityLabelChange,
   categoryId, onCategoryIdChange,
-  areas, categories,
+  cityLabels, categories,
 }: FilterBarProps) {
   const { t, tCategory } = useI18n()
 
@@ -44,19 +44,19 @@ export function FilterBar({
         </select>
       </div>
 
-      {/* District */}
+      {/* City */}
       <div className="flex-1 min-w-[160px]">
         <label className="block text-xs font-medium text-gray-500 mb-1">
-          {t('filterDistrict')}
+          {t('filterCity')}
         </label>
         <select
-          value={areaname}
-          onChange={(e) => onAreanameChange(e.target.value)}
+          value={cityLabel}
+          onChange={(e) => onCityLabelChange(e.target.value)}
           className={selectClass}
         >
           <option value="">{t('all')}</option>
-          {areas.map((a) => (
-            <option key={a} value={a}>{a}</option>
+          {cityLabels.map((c) => (
+            <option key={c} value={c}>{c}</option>
           ))}
         </select>
       </div>

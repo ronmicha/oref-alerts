@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { useAlerts } from '@/hooks/useAlerts'
-import { useDistricts } from '@/hooks/useDistricts'
+import { useCities } from '@/hooks/useCities'
 import { useCategories } from '@/hooks/useCategories'
 import { FilterBar } from '@/components/FilterBar'
 import { AlertChart } from '@/components/AlertChart'
@@ -30,23 +30,23 @@ function getDateRange(option: DateRangeOption): { startDate: string; endDate: st
 export default function Home() {
   const { t, lang } = useI18n()
   const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts()
-  const { districts, areas, loading: districtsLoading } = useDistricts()
+  const { cityLabels, loading: citiesLoading } = useCities()
   const { categories, loading: categoriesLoading } = useCategories()
 
   const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
-  const [areaname, setAreaname] = useState('')
+  const [cityLabel, setCityLabel] = useState('')
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined)
 
   const { startDate, endDate } = getDateRange(dateRange)
 
   const filteredAlerts = useMemo(
-    () => filterAlerts(alerts, districts, {
-      areaname: areaname || undefined,
+    () => filterAlerts(alerts, {
+      cityLabel: cityLabel || undefined,
       categoryId,
       startDate,
       endDate,
     }),
-    [alerts, districts, areaname, categoryId, startDate, endDate]
+    [alerts, cityLabel, categoryId, startDate, endDate]
   )
 
   const chartData = useMemo(
@@ -54,7 +54,7 @@ export default function Home() {
     [filteredAlerts, startDate, endDate, lang]
   )
 
-  const isLoading = alertsLoading || districtsLoading || categoriesLoading
+  const isLoading = alertsLoading || citiesLoading || categoriesLoading
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -75,11 +75,11 @@ export default function Home() {
           <FilterBar
             dateRange={dateRange}
             onDateRangeChange={setDateRange}
-            areaname={areaname}
-            onAreanameChange={setAreaname}
+            cityLabel={cityLabel}
+            onCityLabelChange={setCityLabel}
             categoryId={categoryId}
             onCategoryIdChange={setCategoryId}
-            areas={areas}
+            cityLabels={cityLabels}
             categories={categories}
           />
         </div>

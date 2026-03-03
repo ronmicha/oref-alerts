@@ -1,19 +1,19 @@
-import type { District, AlertCategory, AlarmHistoryItem } from '@/types/oref'
+import type { City, AlertCategory, AlarmHistoryItem } from '@/types/oref'
 
-const DISTRICTS_URL = '/api/districts'
+const CITIES_URL = '/api/cities'
 const CATEGORIES_URL = '/api/categories'
 const HISTORY_URL = '/api/history'
 
 // Module-level cache — persists for the lifetime of the page session
-let cachedDistricts: District[] | null = null
+let cachedCities: City[] | null = null
 let cachedCategories: AlertCategory[] | null = null
 
-export async function fetchDistricts(): Promise<District[]> {
-  if (cachedDistricts) return cachedDistricts
-  const res = await fetch(DISTRICTS_URL)
-  if (!res.ok) throw new Error(`Failed to fetch districts: ${res.status}`)
-  cachedDistricts = await res.json()
-  return cachedDistricts!
+export async function fetchCities(): Promise<City[]> {
+  if (cachedCities) return cachedCities
+  const res = await fetch(CITIES_URL)
+  if (!res.ok) throw new Error(`Failed to fetch cities: ${res.status}`)
+  cachedCities = await res.json()
+  return cachedCities!
 }
 
 export async function fetchCategories(): Promise<AlertCategory[]> {

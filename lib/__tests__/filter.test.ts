@@ -1,5 +1,5 @@
 import { filterAlerts, aggregateByDay } from '../filter'
-import type { AlarmHistoryItem, District } from '@/types/oref'
+import type { AlarmHistoryItem } from '@/types/oref'
 
 const makeAlert = (overrides: Partial<AlarmHistoryItem> = {}): AlarmHistoryItem => ({
   data: 'תל אביב',
@@ -13,27 +13,31 @@ const makeAlert = (overrides: Partial<AlarmHistoryItem> = {}): AlarmHistoryItem 
   ...overrides,
 })
 
-const districts: District[] = [
-  { areaid: 1, areaname: 'גוש דן', id: '1', label: 'תל אביב', label_he: 'תל אביב', rashut: null, migun_time: 90 },
-  { areaid: 1, areaname: 'גוש דן', id: '2', label: 'רמת גן', label_he: 'רמת גן', rashut: null, migun_time: 90 },
-  { areaid: 2, areaname: 'ירושלים', id: '3', label: 'ירושלים', label_he: 'ירושלים', rashut: null, migun_time: 90 },
-]
-
 describe('filterAlerts', () => {
   it('returns all alerts when no filters are set', () => {
     const alerts = [makeAlert(), makeAlert({ data: 'רמת גן' })]
-    const result = filterAlerts(alerts, districts, {})
+    const result = filterAlerts(alerts, {})
     expect(result).toHaveLength(2)
   })
 
-  it('filters by area name', () => {
+  it('filters by city label', () => {
     const alerts = [
       makeAlert({ data: 'תל אביב' }),
       makeAlert({ data: 'ירושלים' }),
     ]
-    const result = filterAlerts(alerts, districts, { areaname: 'גוש דן' })
+    const result = filterAlerts(alerts, { cityLabel: 'תל אביב | גוש דן' })
     expect(result).toHaveLength(1)
     expect(result[0].data).toBe('תל אביב')
+  })
+
+  it('filters by city label without area suffix', () => {
+    const alerts = [
+      makeAlert({ data: 'ירושלים' }),
+      makeAlert({ data: 'תל אביב' }),
+    ]
+    const result = filterAlerts(alerts, { cityLabel: 'ירושלים' })
+    expect(result).toHaveLength(1)
+    expect(result[0].data).toBe('ירושלים')
   })
 
   it('filters by category', () => {
@@ -41,7 +45,7 @@ describe('filterAlerts', () => {
       makeAlert({ category: 1 }),
       makeAlert({ category: 2 }),
     ]
-    const result = filterAlerts(alerts, districts, { categoryId: 2 })
+    const result = filterAlerts(alerts, { categoryId: 2 })
     expect(result).toHaveLength(1)
     expect(result[0].category).toBe(2)
   })
@@ -51,7 +55,7 @@ describe('filterAlerts', () => {
       makeAlert({ alertDate: '2026-03-01T10:00:00' }),
       makeAlert({ alertDate: '2026-03-05T10:00:00' }),
     ]
-    const result = filterAlerts(alerts, districts, { startDate: '2026-03-03' })
+    const result = filterAlerts(alerts, { startDate: '2026-03-03' })
     expect(result).toHaveLength(1)
     expect(result[0].alertDate).toContain('2026-03-05')
   })
@@ -61,7 +65,7 @@ describe('filterAlerts', () => {
       makeAlert({ alertDate: '2026-03-01T10:00:00' }),
       makeAlert({ alertDate: '2026-03-05T10:00:00' }),
     ]
-    const result = filterAlerts(alerts, districts, { endDate: '2026-03-03' })
+    const result = filterAlerts(alerts, { endDate: '2026-03-03' })
     expect(result).toHaveLength(1)
     expect(result[0].alertDate).toContain('2026-03-01')
   })
@@ -72,7 +76,7 @@ describe('filterAlerts', () => {
       makeAlert({ data: 'ירושלים', category: 1, alertDate: '2026-03-02T10:00:00' }),
       makeAlert({ data: 'תל אביב', category: 2, alertDate: '2026-03-02T10:00:00' }),
     ]
-    const result = filterAlerts(alerts, districts, { areaname: 'גוש דן', categoryId: 1 })
+    const result = filterAlerts(alerts, { cityLabel: 'תל אביב | גוש דן', categoryId: 1 })
     expect(result).toHaveLength(1)
   })
 })

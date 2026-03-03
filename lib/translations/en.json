@@ -1,7 +1,7 @@
 {
   "appTitle": "Israel War Alerts",
   "filterDateRange": "Date range",
-  "filterDistrict": "District",
+  "filterCity": "City",
   "filterCategory": "Category",
   "all": "All",
   "today": "Today",

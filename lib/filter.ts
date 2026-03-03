@@ -1,7 +1,7 @@
-import type { AlarmHistoryItem, District, DayCount } from '@/types/oref'
+import type { AlarmHistoryItem, DayCount } from '@/types/oref'
 
 interface FilterOptions {
-  areaname?: string
+  cityLabel?: string  // full city label: "CityName | AreaName"
   categoryId?: number
   startDate?: string  // "YYYY-MM-DD"
   endDate?: string    // "YYYY-MM-DD"
@@ -9,17 +9,12 @@ interface FilterOptions {
 
 export function filterAlerts(
   alerts: AlarmHistoryItem[],
-  districts: District[],
   options: FilterOptions
 ): AlarmHistoryItem[] {
-  const localityToArea = new Map<string, string>()
-  for (const d of districts) {
-    localityToArea.set(d.label, d.areaname)
-  }
-
   return alerts.filter((alert) => {
-    if (options.areaname) {
-      if (localityToArea.get(alert.data) !== options.areaname) return false
+    if (options.cityLabel) {
+      const cityName = options.cityLabel.split(' | ')[0]
+      if (alert.data !== cityName) return false
     }
     if (options.categoryId !== undefined) {
       if (alert.category !== options.categoryId) return false
