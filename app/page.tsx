@@ -37,16 +37,17 @@ function getDateRange(option: DateRangeOption): { startDate: string; endDate: st
 
 export default function Home() {
   const { t, lang } = useI18n()
+
+  const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
+  const [cityLabel, setCityLabel] = useState('')
+  const [categoryId, setCategoryId] = useState<number | undefined>(undefined)
+
   const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts(
     API_MODE[dateRange],
     cityLabel || undefined
   )
   const { cityLabels, loading: citiesLoading } = useCities()
   const { categories, loading: categoriesLoading } = useCategories()
-
-  const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
-  const [cityLabel, setCityLabel] = useState('')
-  const [categoryId, setCategoryId] = useState<number | undefined>(undefined)
 
   const { startDate, endDate } = getDateRange(dateRange)
 
