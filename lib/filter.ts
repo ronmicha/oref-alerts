@@ -1,7 +1,7 @@
 import type { AlarmHistoryItem, DayCount } from '@/types/oref'
 
 interface FilterOptions {
-  cityLabel?: string  // full city label: "CityName | AreaName"
+  cityLabel?: string  // exact city name — matches alert.data
   categoryId?: number
   startDate?: string  // "YYYY-MM-DD"
   endDate?: string    // "YYYY-MM-DD"
