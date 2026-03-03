@@ -113,7 +113,7 @@ export default function Home() {
               </button>
             </div>
           )}
-          {!isLoading && !alertsError && <AlertChart data={chartData} />}
+          {!isLoading && !alertsError && <AlertChart data={chartData} categories={categories} />}
         </div>
       </main>
 

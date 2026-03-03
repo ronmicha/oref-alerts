@@ -31,6 +31,7 @@ export interface DayCount {
   label: string     // "DD/MM" — displayed on x-axis
   dayName: string   // "Mon" or "ב'" depending on language
   count: number
+  byCategory: Record<number, number>  // categoryId → count
 }
 
 export type DateRangeOption = 'today' | '7d' | '14d' | '30d'

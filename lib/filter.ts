@@ -45,9 +45,13 @@ export function aggregateByDay(
   lang: 'he' | 'en'
 ): DayCount[] {
   const countMap = new Map<string, number>()
+  const byCategoryMap = new Map<string, Record<number, number>>()
   for (const alert of alerts) {
     const key = alert.alertDate.slice(0, 10)
     countMap.set(key, (countMap.get(key) ?? 0) + 1)
+    if (!byCategoryMap.has(key)) byCategoryMap.set(key, {})
+    const cats = byCategoryMap.get(key)!
+    cats[alert.category] = (cats[alert.category] ?? 0) + 1
   }
 
   const days: DayCount[] = []
@@ -65,6 +69,7 @@ export function aggregateByDay(
       label: `${dd}/${mm}`,
       dayName: days_arr[day],
       count: countMap.get(key) ?? 0,
+      byCategory: byCategoryMap.get(key) ?? {},
     })
     cursor.setDate(cursor.getDate() + 1)
   }
