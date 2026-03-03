@@ -34,7 +34,7 @@ function CustomTick({ x, y, payload }: { x?: number; y?: number; payload?: { val
 }
 
 export function AlertChart({ data, categories }: AlertChartProps) {
-  const { lang, tCategory } = useI18n()
+  const { lang, t, tCategory } = useI18n()
 
   // RTL: reverse so newest date is on the left, oldest on the right
   const orderedData = lang === 'he' ? [...data].reverse() : data
@@ -98,7 +98,7 @@ export function AlertChart({ data, categories }: AlertChartProps) {
                   </div>
                 ))}
                 <div className="mt-1 pt-1 border-t border-gray-100 flex justify-between font-semibold text-gray-800">
-                  <span>סה״כ</span>
+                  <span>{t('total')}</span>
                   <span>{d.count}</span>
                 </div>
               </div>

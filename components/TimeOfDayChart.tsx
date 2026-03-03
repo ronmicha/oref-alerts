@@ -31,7 +31,7 @@ function TimeAxisTick({ x, y, payload }: { x?: number; y?: number; payload?: { v
 }
 
 export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
-  const { tCategory } = useI18n()
+  const { t, tCategory } = useI18n()
 
   const activeCatIds = [...new Set(
     data.flatMap((d) => Object.keys(d.byCategory).map(Number))
@@ -84,7 +84,7 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
                   </div>
                 ))}
                 <div className="mt-1 pt-1 border-t border-gray-100 flex justify-between font-semibold text-gray-800">
-                  <span>סה״כ</span>
+                  <span>{t('total')}</span>
                   <span>{d.count}</span>
                 </div>
               </div>

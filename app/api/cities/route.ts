@@ -4,7 +4,7 @@ import { type NextRequest } from 'next/server'
 const CITIES_BASE = 'https://alerts-history.oref.org.il/Shared/Ajax/GetCitiesMix.aspx'
 
 export async function GET(req: NextRequest) {
-  const lang = req.nextUrl.searchParams.get('lang') ?? 'he'
+  const lang = req.nextUrl.searchParams.get('lang') === 'en' ? 'en' : 'he'
   const url = `${CITIES_BASE}?lang=${lang}`
   const res = await fetch(url, {
     headers: { Referer: 'https://www.oref.org.il/', 'X-Requested-With': 'XMLHttpRequest' },

@@ -9,6 +9,7 @@
   "last14days": "14 ימים אחרונים",
   "last30days": "30 ימים אחרונים",
   "alertsCount": "{count} התראות",
+  "total": "סה״כ",
   "chartByDayTitle": "התראות לפי יום",
   "chartByTimeTitle": "התראות לפי שעה ביום",
   "loading": "טוען...",
