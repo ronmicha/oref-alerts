@@ -15,6 +15,9 @@
   "errorLoad": "Failed to load data",
   "retry": "Retry",
   "footerSource": "Data from oref.org.il",
+  "custom": "Custom",
+  "filterFromDate": "From date",
+  "filterToDate": "To date",
   "langToggle": "עברית",
   "categories": {
     "missilealert": "Missile Alert",

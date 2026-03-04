@@ -10,21 +10,27 @@ interface UseAlertsOptions {
   lang?: 'he' | 'en'
   fromDate?: string
   toDate?: string
+  enabled?: boolean
 }
 
-export function useAlerts({ mode, city, lang = 'he', fromDate, toDate }: UseAlertsOptions) {
+export function useAlerts({ mode, city, lang = 'he', fromDate, toDate, enabled = true }: UseAlertsOptions) {
   const [alerts, setAlerts] = useState<AlarmHistoryItem[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(enabled)
   const [error, setError] = useState<string | null>(null)
 
   const load = useCallback(() => {
+    if (!enabled) {
+      setAlerts([])
+      setLoading(false)
+      return
+    }
     setLoading(true)
     setError(null)
     fetchAlertHistory({ mode, city, lang, fromDate, toDate })
       .then(setAlerts)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
-  }, [mode, city, lang, fromDate, toDate])
+  }, [mode, city, lang, fromDate, toDate, enabled])
 
   useEffect(() => {
     load()

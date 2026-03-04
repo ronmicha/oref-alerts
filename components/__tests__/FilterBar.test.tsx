@@ -14,6 +14,10 @@ const defaultProps = {
     { id: 1, category: 'missilealert', matrix_id: 1, priority: 120, queue: false },
     { id: 2, category: 'uav', matrix_id: 6, priority: 130, queue: false },
   ],
+  customFrom: '',
+  onCustomFromChange: jest.fn(),
+  customTo: '',
+  onCustomToChange: jest.fn(),
 }
 
 function renderFilterBar(props = {}) {

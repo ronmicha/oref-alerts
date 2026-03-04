@@ -15,6 +15,9 @@
   "errorLoad": "שגיאה בטעינת הנתונים",
   "retry": "נסה שוב",
   "footerSource": "נתונים מ-oref.org.il",
+  "custom": "אחר",
+  "filterFromDate": "מתאריך",
+  "filterToDate": "עד תאריך",
   "langToggle": "English",
   "categories": {
     "missilealert": "ירי רקטות וטילים",
