@@ -6,7 +6,7 @@ import { I18nProvider } from '@/lib/i18n'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'oref alerts',
+  title: 'שאגת הארי - התראות',
   description: 'Israel war alert history visualizer',
 }
 
