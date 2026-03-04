@@ -12,24 +12,25 @@ import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter
 import { useI18n } from '@/lib/i18n'
 import type { DateRangeOption } from '@/types/oref'
 
-// Maps UI date range to oref API mode: 1=day, 2=week, 3=month
-const API_MODE: Record<DateRangeOption, 1 | 2 | 3> = {
+// Maps UI date range to oref API mode: 1=day, 2=week, 3=month, 0=custom
+const API_MODE: Record<Exclude<DateRangeOption, 'custom'>, 1 | 2 | 3> = {
   today: 1,
   '7d':  2,
   '30d': 3,
 }
 
-function getDateRange(option: DateRangeOption): { startDate: string; endDate: string } {
+// "YYYY-MM-DD" → "DD.MM.YYYY" (oref API format)
+function toOrefDate(iso: string): string {
+  const [y, m, d] = iso.split('-')
+  return `${d}.${m}.${y}`
+}
+
+function getPresetDateRange(option: Exclude<DateRangeOption, 'custom'>): { startDate: string; endDate: string } {
   const today = new Date()
   const end = today.toISOString().slice(0, 10)
   const start = new Date(today)
-  if (option === 'today') {
-    // no change — start === end === today
-  } else if (option === '7d') {
-    start.setDate(start.getDate() - 6)
-  } else {
-    start.setDate(start.getDate() - 29)
-  }
+  if (option === '7d') start.setDate(start.getDate() - 6)
+  else if (option === '30d') start.setDate(start.getDate() - 29)
   return { startDate: start.toISOString().slice(0, 10), endDate: end }
 }
 
@@ -37,6 +38,9 @@ export default function Home() {
   const { t, lang } = useI18n()
 
   const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
+  const today = new Date().toISOString().slice(0, 10)
+  const [customFrom, setCustomFrom] = useState(today)
+  const [customTo, setCustomTo] = useState(today)
   const [cityLabel, setCityLabel] = useState('')
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined)
 
@@ -48,17 +52,22 @@ export default function Home() {
     setCategoryId(undefined)
   }, [lang])
 
-  const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts(
-    API_MODE[dateRange],
-    cityLabel || undefined,
-    lang
-  )
+  const isCustom = dateRange === 'custom'
+  const { alerts, loading: alertsLoading, error: alertsError, retry } = useAlerts({
+    mode: isCustom ? 0 : API_MODE[dateRange],
+    city: cityLabel || undefined,
+    lang,
+    fromDate: isCustom ? toOrefDate(customFrom) : undefined,
+    toDate:   isCustom ? toOrefDate(customTo)   : undefined,
+  })
   const { cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
   const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
   const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
 
-  const { startDate, endDate } = getDateRange(dateRange)
+  const { startDate, endDate } = isCustom
+    ? { startDate: customFrom, endDate: customTo }
+    : getPresetDateRange(dateRange)
 
   const filteredAlerts = useMemo(
     () => filterAlerts(alerts, {
@@ -101,6 +110,10 @@ export default function Home() {
           <FilterBar
             dateRange={dateRange}
             onDateRangeChange={setDateRange}
+            customFrom={customFrom}
+            onCustomFromChange={setCustomFrom}
+            customTo={customTo}
+            onCustomToChange={setCustomTo}
             cityLabel={cityLabel}
             onCityLabelChange={setCityLabel}
             categoryId={categoryId}
