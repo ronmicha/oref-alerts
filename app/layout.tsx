@@ -7,7 +7,13 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'שאגת הארי - התראות',
-  description: 'Israel war alert history visualizer',
+  description: 'עקוב אחר היסטוריית התראות פיקוד העורף לפי עיר, קטגוריה ושעה ביום',
+  openGraph: {
+    title: 'שאגת הארי - התראות',
+    description: 'עקוב אחר היסטוריית התראות פיקוד העורף לפי עיר, קטגוריה ושעה ביום',
+    type: 'website',
+    locale: 'he_IL',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
