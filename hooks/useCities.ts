@@ -19,7 +19,7 @@ export function useCities(lang: 'he' | 'en' = 'he') {
 
   // Unique city labels sorted alphabetically, excluding area-wide entries that return no results
   const cityLabels = [...new Set(
-    cities.filter((c) => !c.label.includes('כל האזורים') && !c.label.toLowerCase().includes('all areas')).map((c) => c.label)
+    cities.filter((c) => !c.label.includes('כל האזורים') && !c.label.includes('כל - האזורים') && !c.label.toLowerCase().includes('all areas')).map((c) => c.label)
   )].sort()
 
   return { cities, cityLabels, loading, error }
