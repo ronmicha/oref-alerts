@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚨 Lion's Roar — Israel Alert Tracker
 
-## Getting Started
+**A real-time dashboard for tracking IDF Home Front Command (Pikud Ha'Oref) alerts — by city, category, and time of day.**
 
-First, run the development server:
+🔗 **[oref-alerts.vercel.app](https://oref-alerts.vercel.app/)**
+
+---
+
+## Overview
+
+Lion's Roar visualizes the full history of Israeli home front alerts — missile fire, hostile UAV infiltrations, and more. Filter by city and alert type across multiple time ranges, and explore patterns by day and time of day.
+
+For recent data (up to 30 days), the app pulls live from the official Oref API. For historical analysis, it draws on the tzevaadom.co.il dataset covering **May 2021 – December 2024**, enabling exploration of major events like October 7th and beyond.
+
+## Features
+
+- **Live & historical data** — last 24h, 7 days, 30 days, or any custom date range
+- **Filter by city** — searchable combobox across all Israeli localities
+- **Filter by alert type** — missiles, UAVs, flash alerts, and more
+- **Alerts by Day chart** — stacked bar chart with smart label rotation for long ranges
+- **Alerts by Time of Day chart** — 15-minute resolution across the full 24-hour cycle
+- **Full Hebrew / English support** — RTL/LTR layout switching
+- **Mobile-friendly** — responsive layout built with Tailwind CSS
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Charts | Recharts |
+| Data | [Pikud Ha'Oref API](https://www.oref.org.il) · [tzevaadom.co.il](https://www.tzevaadom.co.il) |
+| Hosting | Vercel |
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm test      # run tests
+npm run build # production build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Data Sources
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Preset ranges (today / 7d / 30d):** [oref.org.il](https://www.oref.org.il) official API
+- **Custom date ranges:** [tzevaadom.co.il](https://www.tzevaadom.co.il) historical archive, proxied through `/api/tzevaadom` and cached client-side for instant re-filtering
