@@ -18,7 +18,7 @@ interface AlertChartProps {
   categories: AlertCategory[]
 }
 
-function CustomTick({ x, y, payload, dense }: { x?: number; y?: number; payload?: { value: string }; dense?: boolean }) {
+function CustomTick({ x, y, payload, dense }: { x?: number | string; y?: number | string; payload?: { value: string }; dense?: boolean }) {
   if (!payload) return null
   const [dayName, dateLabel] = payload.value.split('|')
 
