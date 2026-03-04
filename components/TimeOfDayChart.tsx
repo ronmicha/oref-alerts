@@ -107,6 +107,7 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
             radius={i === activeCatIds.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
             maxBarSize={16}
             name={`cat_${id}`}
+            tabIndex={-1}
           />
         ))}
       </BarChart>

@@ -121,6 +121,7 @@ export function AlertChart({ data, categories }: AlertChartProps) {
             radius={i === activeCatIds.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
             maxBarSize={40}
             name={`cat_${id}`}
+            tabIndex={-1}
           />
         ))}
       </BarChart>
