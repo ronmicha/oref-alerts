@@ -120,7 +120,7 @@ describe('aggregateByDay', () => {
   it('sets Hebrew day names', () => {
     const alerts = [makeAlert({ alertDate: '2026-03-02T10:00:00' })] // Monday
     const result = aggregateByDay(alerts, { startDate: '2026-03-02', endDate: '2026-03-02', lang: 'he' })
-    expect(result[0].dayName).toBe("ב'")
+    expect(result[0].dayName).toBe("'ב")
   })
 })
 

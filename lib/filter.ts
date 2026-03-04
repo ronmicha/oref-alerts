@@ -40,7 +40,7 @@ export function filterAlerts(
 }
 
 const EN_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-const HE_DAYS = ["א'", "ב'", "ג'", "ד'", "ה'", "ו'", "ש'"]
+const HE_DAYS = ["'א", "'ב", "'ג", "'ד", "'ה", "'ו", "'ש"]
 
 function dateToKey(d: Date): string {
   const yyyy = d.getFullYear()
