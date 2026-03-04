@@ -2,7 +2,7 @@ import type { City, AlertCategory, AlarmHistoryItem } from '@/types/oref'
 
 // In production, point to the Cloudflare Worker proxy (set NEXT_PUBLIC_OREF_PROXY in Vercel env vars).
 // Falls back to the local Next.js API routes for development.
-const PROXY = process.env.NEXT_PUBLIC_OREF_PROXY ?? ''
+const PROXY = process.env.NEXT_PUBLIC_OREF_PROXY ?? '/api'
 const CITIES_URL = `${PROXY}/cities`
 const CATEGORIES_URL = `${PROXY}/categories`
 const HISTORY_BASE = `${PROXY}/history`
