@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { orefFetch } from '@/lib/orefFetch'
 
+export const runtime = 'edge'
+
 
 export async function GET() {
   try {
