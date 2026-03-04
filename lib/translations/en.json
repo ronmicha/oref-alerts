@@ -2,7 +2,7 @@
   "appTitle": "Lion's Roar - Alerts",
   "filterDateRange": "Date range",
   "filterCity": "City",
-  "filterCategory": "Category",
+  "filterCategory": "Alert type",
   "all": "All",
   "today": "Today",
   "last7days": "Last 7 days",
