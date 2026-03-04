@@ -16,13 +16,13 @@ describe('I18nProvider', () => {
   it('defaults to Hebrew', () => {
     render(<I18nProvider><TestConsumer /></I18nProvider>)
     expect(screen.getByTestId('lang').textContent).toBe('he')
-    expect(screen.getByTestId('title').textContent).toBe('התראות פיקוד העורף')
+    expect(screen.getByTestId('title').textContent).toBe('שאגת הארי - התראות')
   })
 
   it('switches to English on toggle', () => {
     render(<I18nProvider><TestConsumer /></I18nProvider>)
     fireEvent.click(screen.getByText('toggle'))
     expect(screen.getByTestId('lang').textContent).toBe('en')
-    expect(screen.getByTestId('title').textContent).toBe('Israel War Alerts')
+    expect(screen.getByTestId('title').textContent).toBe("Lion's Roar - Alerts")
   })
 })
