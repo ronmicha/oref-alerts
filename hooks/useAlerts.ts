@@ -12,7 +12,7 @@ export function useAlerts(mode: 0 | 1 | 2 | 3, city?: string, lang: 'he' | 'en' 
   const load = useCallback(() => {
     setLoading(true)
     setError(null)
-    fetchAlertHistory(mode, city, lang)
+    fetchAlertHistory({ mode, city, lang })
       .then(setAlerts)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))

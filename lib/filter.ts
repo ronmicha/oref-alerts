@@ -40,9 +40,7 @@ function dateToKey(d: Date): string {
 
 export function aggregateByDay(
   alerts: AlarmHistoryItem[],
-  startDate: string,
-  endDate: string,
-  lang: 'he' | 'en'
+  { startDate, endDate, lang }: { startDate: string; endDate: string; lang: 'he' | 'en' }
 ): DayCount[] {
   const countMap = new Map<string, number>()
   const byCategoryMap = new Map<string, Record<number, number>>()

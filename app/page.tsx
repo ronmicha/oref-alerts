@@ -71,7 +71,7 @@ export default function Home() {
   )
 
   const chartData = useMemo(
-    () => aggregateByDay(filteredAlerts, startDate, endDate, lang as 'he' | 'en'),
+    () => aggregateByDay(filteredAlerts, { startDate, endDate, lang: lang as 'he' | 'en' }),
     [filteredAlerts, startDate, endDate, lang]
   )
 

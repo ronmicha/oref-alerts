@@ -28,17 +28,27 @@ export async function fetchCategories(): Promise<AlertCategory[]> {
   return cachedCategories!
 }
 
+export interface FetchAlertHistoryOptions {
+  mode: 0 | 1 | 2 | 3
+  city?: string
+  lang?: 'he' | 'en'
+  /** Custom range start in "DD.MM.YYYY" format — requires mode=0 */
+  fromDate?: string
+  /** Custom range end in "DD.MM.YYYY" format — requires mode=0 */
+  toDate?: string
+}
+
 // Always fetches fresh — no caching
 // oref returns an empty string (not []) when there are no alerts
 // For a preset range use mode 1/2/3 (today/7d/30d).
 // For a custom range use mode=0 with fromDate/toDate in "DD.MM.YYYY" format.
-export async function fetchAlertHistory(
-  mode: 0 | 1 | 2 | 3,
-  city?: string,
-  lang: 'he' | 'en' = 'he',
-  fromDate?: string,
-  toDate?: string,
-): Promise<AlarmHistoryItem[]> {
+export async function fetchAlertHistory({
+  mode,
+  city,
+  lang = 'he',
+  fromDate,
+  toDate,
+}: FetchAlertHistoryOptions): Promise<AlarmHistoryItem[]> {
   const params = new URLSearchParams({ mode: String(mode), lang })
   if (city) params.set('city', city)
   if (fromDate) params.set('fromDate', fromDate)

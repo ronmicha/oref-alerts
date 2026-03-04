@@ -88,7 +88,7 @@ describe('aggregateByDay', () => {
       makeAlert({ alertDate: '2026-03-01T14:00:00' }),
       makeAlert({ alertDate: '2026-03-02T10:00:00' }),
     ]
-    const result = aggregateByDay(alerts, '2026-03-01', '2026-03-02', 'en')
+    const result = aggregateByDay(alerts, { startDate: '2026-03-01', endDate: '2026-03-02', lang: 'en' })
     expect(result).toHaveLength(2)
     expect(result[0].count).toBe(2)
     expect(result[1].count).toBe(1)
@@ -99,7 +99,7 @@ describe('aggregateByDay', () => {
       makeAlert({ alertDate: '2026-03-01T10:00:00' }),
       makeAlert({ alertDate: '2026-03-03T10:00:00' }),
     ]
-    const result = aggregateByDay(alerts, '2026-03-01', '2026-03-03', 'en')
+    const result = aggregateByDay(alerts, { startDate: '2026-03-01', endDate: '2026-03-03', lang: 'en' })
     expect(result).toHaveLength(3)
     expect(result[1].count).toBe(0)
     expect(result[1].dateKey).toBe('2026-03-02')
@@ -107,19 +107,19 @@ describe('aggregateByDay', () => {
 
   it('sets label as DD/MM', () => {
     const alerts = [makeAlert({ alertDate: '2026-03-07T10:00:00' })]
-    const result = aggregateByDay(alerts, '2026-03-07', '2026-03-07', 'en')
+    const result = aggregateByDay(alerts, { startDate: '2026-03-07', endDate: '2026-03-07', lang: 'en' })
     expect(result[0].label).toBe('07/03')
   })
 
   it('sets English day names', () => {
     const alerts = [makeAlert({ alertDate: '2026-03-02T10:00:00' })] // Monday
-    const result = aggregateByDay(alerts, '2026-03-02', '2026-03-02', 'en')
+    const result = aggregateByDay(alerts, { startDate: '2026-03-02', endDate: '2026-03-02', lang: 'en' })
     expect(result[0].dayName).toBe('Mon')
   })
 
   it('sets Hebrew day names', () => {
     const alerts = [makeAlert({ alertDate: '2026-03-02T10:00:00' })] // Monday
-    const result = aggregateByDay(alerts, '2026-03-02', '2026-03-02', 'he')
+    const result = aggregateByDay(alerts, { startDate: '2026-03-02', endDate: '2026-03-02', lang: 'he' })
     expect(result[0].dayName).toBe("ב'")
   })
 })
