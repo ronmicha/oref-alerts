@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+/* Remove focus outline on Recharts SVG elements (shown on click) */
+.recharts-wrapper:focus,
+.recharts-wrapper svg:focus,
+.recharts-surface:focus {
+  outline: none;
+}
