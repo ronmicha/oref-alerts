@@ -128,10 +128,6 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
 interface FilterBarProps {
   dateRange: DateRangeOption
   onDateRangeChange: (v: DateRangeOption) => void
-  customFrom: string
-  onCustomFromChange: (v: string) => void
-  customTo: string
-  onCustomToChange: (v: string) => void
   cityLabel: string
   onCityLabelChange: (v: string) => void
   categoryId: number | undefined
@@ -142,8 +138,6 @@ interface FilterBarProps {
 
 export function FilterBar({
   dateRange, onDateRangeChange,
-  customFrom, onCustomFromChange,
-  customTo, onCustomToChange,
   cityLabel, onCityLabelChange,
   categoryId, onCategoryIdChange,
   cityLabels, categories,
@@ -168,37 +162,7 @@ export function FilterBar({
           <option value="today">{t('today')}</option>
           <option value="7d">{t('last7days')}</option>
           <option value="30d">{t('last30days')}</option>
-          <option value="custom">{t('custom')}</option>
         </select>
-
-        {dateRange === 'custom' && (
-          <div className="flex gap-2 mt-2">
-            <div className="flex-1">
-              <label className="block text-xs font-medium text-gray-500 mb-1">
-                {t('filterFromDate')}
-              </label>
-              <input
-                type="date"
-                value={customFrom}
-                max={customTo}
-                onChange={(e) => onCustomFromChange(e.target.value)}
-                className={selectClass}
-              />
-            </div>
-            <div className="flex-1">
-              <label className="block text-xs font-medium text-gray-500 mb-1">
-                {t('filterToDate')}
-              </label>
-              <input
-                type="date"
-                value={customTo}
-                min={customFrom}
-                onChange={(e) => onCustomToChange(e.target.value)}
-                className={selectClass}
-              />
-            </div>
-          </div>
-        )}
       </div>
 
       {/* City */}
