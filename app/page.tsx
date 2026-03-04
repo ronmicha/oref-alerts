@@ -16,7 +16,6 @@ import type { DateRangeOption } from '@/types/oref'
 const API_MODE: Record<DateRangeOption, 1 | 2 | 3> = {
   today: 1,
   '7d':  2,
-  '14d': 3,  // no 2-week mode in API; client-side date filter trims to 14d
   '30d': 3,
 }
 
@@ -28,8 +27,6 @@ function getDateRange(option: DateRangeOption): { startDate: string; endDate: st
     // no change — start === end === today
   } else if (option === '7d') {
     start.setDate(start.getDate() - 6)
-  } else if (option === '14d') {
-    start.setDate(start.getDate() - 13)
   } else {
     start.setDate(start.getDate() - 29)
   }

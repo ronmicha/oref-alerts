@@ -161,7 +161,6 @@ export function FilterBar({
         >
           <option value="today">{t('today')}</option>
           <option value="7d">{t('last7days')}</option>
-          <option value="14d">{t('last14days')}</option>
           <option value="30d">{t('last30days')}</option>
         </select>
       </div>
