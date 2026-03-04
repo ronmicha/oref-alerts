@@ -18,9 +18,26 @@ interface AlertChartProps {
   categories: AlertCategory[]
 }
 
-function CustomTick({ x, y, payload }: { x?: number; y?: number; payload?: { value: string } }) {
+function CustomTick({ x, y, payload, dense }: { x?: number; y?: number; payload?: { value: string }; dense?: boolean }) {
   if (!payload) return null
   const [dayName, dateLabel] = payload.value.split('|')
+
+  if (dense) {
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0} y={0} dy={4}
+          textAnchor="end"
+          fill="#9CA3AF"
+          fontSize={10}
+          transform="rotate(-45)"
+        >
+          {dateLabel}
+        </text>
+      </g>
+    )
+  }
+
   return (
     <g transform={`translate(${x},${y})`}>
       <text x={0} y={0} dy={14} textAnchor="middle" fill="#6B7280" fontSize={11}>
@@ -62,16 +79,19 @@ export function AlertChart({ data, categories }: AlertChartProps) {
     return cat ? tCategory(cat.category) : String(id)
   }
 
+  const dense = chartData.length > 7
+  const interval = chartData.length <= 30 ? 0 : Math.ceil(chartData.length / 15) - 1
+
   return (
     <ResponsiveContainer width="100%" height={320}>
-      <BarChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 48 }}>
+      <BarChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: dense ? 60 : 48 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
         <XAxis
           dataKey="xKey"
-          tick={<CustomTick />}
+          tick={(props) => <CustomTick {...props} dense={dense} />}
           tickLine={false}
           axisLine={{ stroke: '#E5E7EB' }}
-          interval={0}
+          interval={interval}
         />
         <YAxis
           allowDecimals={false}

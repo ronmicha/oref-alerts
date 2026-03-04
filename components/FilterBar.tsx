@@ -155,50 +155,50 @@ export function FilterBar({
 
   return (
     <div className="flex flex-wrap gap-4">
-      {/* Date range */}
-      <div className="flex-1 min-w-[160px]">
-        <label className="block text-xs font-medium text-gray-500 mb-1">
-          {t('filterDateRange')}
-        </label>
-        <select
-          value={dateRange}
-          onChange={(e) => onDateRangeChange(e.target.value as DateRangeOption)}
-          className={selectClass}
-        >
-          <option value="today">{t('today')}</option>
-          <option value="7d">{t('last7days')}</option>
-          <option value="30d">{t('last30days')}</option>
-          <option value="custom">{t('custom')}</option>
-        </select>
+      {/* Date range + custom date pickers (stacked vertically) */}
+      <div className="flex-1 min-w-[160px] flex flex-col gap-2">
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-1">
+            {t('filterDateRange')}
+          </label>
+          <select
+            value={dateRange}
+            onChange={(e) => onDateRangeChange(e.target.value as DateRangeOption)}
+            className={selectClass}
+          >
+            <option value="today">{t('today')}</option>
+            <option value="7d">{t('last7days')}</option>
+            <option value="30d">{t('last30days')}</option>
+            <option value="custom">{t('custom')}</option>
+          </select>
+        </div>
+        {dateRange === 'custom' && (
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-500 mb-1">
+                {t('filterFromDate')}
+              </label>
+              <input
+                type="date"
+                value={customFrom}
+                onChange={(e) => onCustomFromChange(e.target.value)}
+                className={`${selectClass}${customFrom ? '' : ' text-transparent'}`}
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-500 mb-1">
+                {t('filterToDate')}
+              </label>
+              <input
+                type="date"
+                value={customTo}
+                onChange={(e) => onCustomToChange(e.target.value)}
+                className={`${selectClass}${customTo ? '' : ' text-transparent'}`}
+              />
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Custom date pickers */}
-      {dateRange === 'custom' && (
-        <>
-          <div className="flex-1 min-w-[140px]">
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              {t('filterFromDate')}
-            </label>
-            <input
-              type="date"
-              value={customFrom}
-              onChange={(e) => onCustomFromChange(e.target.value)}
-              className={selectClass}
-            />
-          </div>
-          <div className="flex-1 min-w-[140px]">
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              {t('filterToDate')}
-            </label>
-            <input
-              type="date"
-              value={customTo}
-              onChange={(e) => onCustomToChange(e.target.value)}
-              className={selectClass}
-            />
-          </div>
-        </>
-      )}
 
       {/* City */}
       <div className="flex-1 min-w-[160px]">

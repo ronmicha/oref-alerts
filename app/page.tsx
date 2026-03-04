@@ -142,9 +142,9 @@ export default function Home() {
         </div>
 
         {/* Chart area */}
-        <div dir="ltr" className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[360px]">
+        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[360px]">
           <h2 className="text-sm font-semibold text-gray-700 mb-3">{t('chartByDayTitle')}</h2>
-          <div className="flex items-center justify-center h-full">
+          <div dir="ltr" className="flex items-center justify-center h-full">
           {isLoading && (
             <div className="text-gray-400 text-sm animate-pulse">{t('loading')}</div>
           )}
@@ -166,9 +166,9 @@ export default function Home() {
         </div>
 
         {/* Time-of-day chart */}
-        <div dir="ltr" className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[320px]">
+        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[320px]">
           <h2 className="text-sm font-semibold text-gray-700 mb-3">{t('chartByTimeTitle')}</h2>
-          <div className="flex items-center justify-center h-full">
+          <div dir="ltr" className="flex items-center justify-center h-full">
           {isLoading && (
             <div className="text-gray-400 text-sm animate-pulse">{t('loading')}</div>
           )}

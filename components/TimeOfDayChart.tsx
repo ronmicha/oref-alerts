@@ -49,7 +49,7 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={450}>
+    <ResponsiveContainer width="100%" height={700}>
       <BarChart
         data={chartData}
         layout="vertical"
@@ -111,7 +111,7 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
             stackId="stack"
             fill={COLORS[i % COLORS.length]}
             radius={i === activeCatIds.length - 1 ? [0, 4, 4, 0] : [0, 0, 0, 0]}
-            maxBarSize={8}
+            maxBarSize={6}
             name={`cat_${id}`}
             tabIndex={-1}
           />
