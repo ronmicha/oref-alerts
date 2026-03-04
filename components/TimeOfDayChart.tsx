@@ -70,7 +70,7 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
           tickLine={false}
           axisLine={{ stroke: '#E5E7EB' }}
           interval={0}
-          width={36}
+          width={48}
         />
         <Tooltip
           cursor={{ fill: '#F3F4F6' }}
