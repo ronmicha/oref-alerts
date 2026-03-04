@@ -55,6 +55,8 @@ export default function Home() {
   )
   const { cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
+  const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
+  const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
 
   const { startDate, endDate } = getDateRange(dateRange)
 
@@ -104,7 +106,7 @@ export default function Home() {
             categoryId={categoryId}
             onCategoryIdChange={setCategoryId}
             cityLabels={cityLabels}
-            categories={categories}
+            categories={filterableCategories}
           />
         </div>
 
