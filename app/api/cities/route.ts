@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { orefFetch } from '@/lib/orefFetch'
 
-export const runtime = 'edge'
 
 const CITIES_BASE = 'https://alerts-history.oref.org.il/Shared/Ajax/GetCitiesMix.aspx'
 
