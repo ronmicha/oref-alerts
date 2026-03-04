@@ -63,7 +63,6 @@ export function AlertChart({ data, categories }: AlertChartProps) {
   }
 
   return (
-    <div dir="ltr">
     <ResponsiveContainer width="100%" height={320}>
       <BarChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 48 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
@@ -127,6 +126,5 @@ export function AlertChart({ data, categories }: AlertChartProps) {
         ))}
       </BarChart>
     </ResponsiveContainer>
-    </div>
   )
 }

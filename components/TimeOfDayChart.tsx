@@ -49,7 +49,6 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
   }
 
   return (
-    <div dir="ltr">
     <ResponsiveContainer width="100%" height={450}>
       <BarChart
         data={chartData}
@@ -119,6 +118,5 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
         ))}
       </BarChart>
     </ResponsiveContainer>
-    </div>
   )
 }
