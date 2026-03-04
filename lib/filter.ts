@@ -1,5 +1,16 @@
 import type { AlarmHistoryItem, DayCount, TimeSlotCount } from '@/types/oref'
 
+// Extract YYYY-MM-DD from alertDate regardless of format.
+// Handles both "YYYY-MM-DD[T ]HH:MM:SS" (modes 1/2/3) and
+// "DD/MM/YYYY HH:MM:SS" (mode 0 custom range).
+function toDateKey(alertDate: string): string {
+  if (alertDate.charAt(4) === '-') return alertDate.slice(0, 10)   // YYYY-MM-DD...
+  if (alertDate.charAt(2) === '/') {                                // DD/MM/YYYY...
+    return `${alertDate.slice(6, 10)}-${alertDate.slice(3, 5)}-${alertDate.slice(0, 2)}`
+  }
+  return alertDate.slice(0, 10) // fallback
+}
+
 interface FilterOptions {
   cityLabel?: string  // exact city name — matches alert.data
   categoryId?: number
@@ -19,10 +30,10 @@ export function filterAlerts(
       if (alert.category !== options.categoryId) return false
     }
     if (options.startDate) {
-      if (alert.alertDate.slice(0, 10) < options.startDate) return false
+      if (toDateKey(alert.alertDate) < options.startDate) return false
     }
     if (options.endDate) {
-      if (alert.alertDate.slice(0, 10) > options.endDate) return false
+      if (toDateKey(alert.alertDate) > options.endDate) return false
     }
     return true
   })
@@ -46,8 +57,8 @@ export function aggregateByDay(
   const byCategoryMap = new Map<string, Record<number, number>>()
   const timeRangeMap = new Map<string, { start: string; end: string }>()
   for (const alert of alerts) {
-    const key = alert.alertDate.slice(0, 10)
-    const time = alert.alertDate.slice(11, 16) // "HH:MM"
+    const key = toDateKey(alert.alertDate)
+    const time = alert.alertDate.slice(11, 16) // "HH:MM" — position 11 is correct for both formats
     countMap.set(key, (countMap.get(key) ?? 0) + 1)
     if (!byCategoryMap.has(key)) byCategoryMap.set(key, {})
     const cats = byCategoryMap.get(key)!
