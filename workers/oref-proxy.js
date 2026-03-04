@@ -65,11 +65,15 @@ export default {
         const mode = searchParams.get('mode') ?? '3'
         const lang = searchParams.get('lang') === 'en' ? 'en' : 'he'
         const city = searchParams.get('city')
+        const fromDate = searchParams.get('fromDate')
+        const toDate = searchParams.get('toDate')
 
         const url = new URL('https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx')
         url.searchParams.set('lang', lang)
         url.searchParams.set('mode', mode)
         if (city) url.searchParams.set('city_0', city)
+        if (fromDate) url.searchParams.set('fromDate', fromDate)
+        if (toDate) url.searchParams.set('toDate', toDate)
 
         const data = await orefFetch(url.toString())
         return new Response(data, {

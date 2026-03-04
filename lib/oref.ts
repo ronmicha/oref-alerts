@@ -30,9 +30,19 @@ export async function fetchCategories(): Promise<AlertCategory[]> {
 
 // Always fetches fresh — no caching
 // oref returns an empty string (not []) when there are no alerts
-export async function fetchAlertHistory(mode: 1 | 2 | 3, city?: string, lang: 'he' | 'en' = 'he'): Promise<AlarmHistoryItem[]> {
+// For a preset range use mode 1/2/3 (today/7d/30d).
+// For a custom range use mode=0 with fromDate/toDate in "DD.MM.YYYY" format.
+export async function fetchAlertHistory(
+  mode: 0 | 1 | 2 | 3,
+  city?: string,
+  lang: 'he' | 'en' = 'he',
+  fromDate?: string,
+  toDate?: string,
+): Promise<AlarmHistoryItem[]> {
   const params = new URLSearchParams({ mode: String(mode), lang })
   if (city) params.set('city', city)
+  if (fromDate) params.set('fromDate', fromDate)
+  if (toDate) params.set('toDate', toDate)
   const res = await fetch(`${HISTORY_BASE}?${params}`, { cache: 'no-store' })
   if (!res.ok) throw new Error(`Failed to fetch alert history: ${res.status}`)
   const text = await res.text()

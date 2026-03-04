@@ -11,11 +11,15 @@ export async function GET(req: NextRequest) {
   const mode = searchParams.get('mode') ?? '3'
   const city = searchParams.get('city')
   const lang = searchParams.get('lang') === 'en' ? 'en' : 'he'
+  const fromDate = searchParams.get('fromDate')
+  const toDate = searchParams.get('toDate')
 
   const url = new URL(BASE_URL)
   url.searchParams.set('lang', lang)
   url.searchParams.set('mode', mode)
   if (city) url.searchParams.set('city_0', city)
+  if (fromDate) url.searchParams.set('fromDate', fromDate)
+  if (toDate) url.searchParams.set('toDate', toDate)
 
   try {
     const data = await orefFetch(url.toString(), { cache: 'no-store' })
