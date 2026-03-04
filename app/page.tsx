@@ -89,6 +89,20 @@ export default function Home() {
     [filteredAlerts]
   )
 
+  // Date range chip — derived from the actual alerts, with timestamp
+  const alertDateRange = useMemo(() => {
+    if (!filteredAlerts.length) return null
+    let min = filteredAlerts[0].alertDate
+    let max = filteredAlerts[0].alertDate
+    for (const a of filteredAlerts) {
+      if (a.alertDate < min) min = a.alertDate
+      if (a.alertDate > max) max = a.alertDate
+    }
+    // alertDate format: "YYYY-MM-DDTHH:MM:SS" → "YYYY-MM-DD HH:MM"
+    const fmt = (d: string) => `${d.slice(0, 10)} ${d.slice(11, 16)}`
+    return min === max ? fmt(min) : `${fmt(min)} – ${fmt(max)}`
+  }, [filteredAlerts])
+
   const isLoading = alertsLoading || citiesLoading || categoriesLoading
 
   return (
@@ -128,9 +142,11 @@ export default function Home() {
           <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 border border-blue-100">
             {t('alertsCount', { count: `${filteredAlerts.length}${filteredAlerts.length === 3000 ? '+' : ''}` })}
           </span>
-          <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
-            {startDate === endDate ? startDate : `${startDate} – ${endDate}`}
-          </span>
+          {alertDateRange && (
+            <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600" dir="ltr">
+              {alertDateRange}
+            </span>
+          )}
         </div>
 
         {/* Chart area */}
