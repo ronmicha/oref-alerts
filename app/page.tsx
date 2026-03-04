@@ -113,7 +113,7 @@ export default function Home() {
         {/* Summary chips */}
         <div className="flex items-center gap-3">
           <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 border border-blue-100">
-            {t('alertsCount', { count: filteredAlerts.length })}
+            {t('alertsCount', { count: `${filteredAlerts.length}${filteredAlerts.length === 3000 ? '+' : ''}` })}
           </span>
           <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
             {startDate === endDate ? startDate : `${startDate} – ${endDate}`}
