@@ -18,12 +18,12 @@ interface TimeOfDayChartProps {
   categories: AlertCategory[]
 }
 
-// Only render x-axis labels on the hour (HH:00)
+// Only render y-axis labels on the hour (HH:00)
 function TimeAxisTick({ x, y, payload }: { x?: number; y?: number; payload?: { value: string } }) {
   if (!payload || !payload.value.endsWith(':00')) return <g />
   return (
     <g transform={`translate(${x},${y})`}>
-      <text x={0} y={0} dy={14} textAnchor="middle" fill="#9CA3AF" fontSize={10}>
+      <text x={-4} y={0} dy={4} textAnchor="end" fill="#9CA3AF" fontSize={10}>
         {payload.value}
       </text>
     </g>
@@ -49,22 +49,28 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={240}>
-      <BarChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 48 }}>
-        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+    <ResponsiveContainer width="100%" height={450}>
+      <BarChart
+        data={chartData}
+        layout="vertical"
+        margin={{ top: 8, right: 16, left: 0, bottom: 24 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
         <XAxis
+          type="number"
+          allowDecimals={false}
+          tickLine={false}
+          axisLine={false}
+          tick={{ fontSize: 11, fill: '#9CA3AF' }}
+        />
+        <YAxis
+          type="category"
           dataKey="timeKey"
           tick={<TimeAxisTick />}
           tickLine={false}
           axisLine={{ stroke: '#E5E7EB' }}
           interval={0}
-        />
-        <YAxis
-          allowDecimals={false}
-          tickLine={false}
-          axisLine={false}
-          tick={{ fontSize: 11, fill: '#9CA3AF' }}
-          width={32}
+          width={36}
         />
         <Tooltip
           cursor={{ fill: '#F3F4F6' }}
@@ -96,7 +102,7 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
             const id = Number(String(value).replace('cat_', ''))
             return <span style={{ fontSize: 12, color: '#374151', margin: '0 6px' }}>{catName(id)}</span>
           }}
-          wrapperStyle={{ paddingTop: 24 }}
+          wrapperStyle={{ paddingTop: 8 }}
         />
         {activeCatIds.map((id, i) => (
           <Bar
@@ -104,8 +110,8 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
             dataKey={`cat_${id}`}
             stackId="stack"
             fill={COLORS[i % COLORS.length]}
-            radius={i === activeCatIds.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
-            maxBarSize={16}
+            radius={i === activeCatIds.length - 1 ? [0, 4, 4, 0] : [0, 0, 0, 0]}
+            maxBarSize={8}
             name={`cat_${id}`}
             tabIndex={-1}
           />
