@@ -16,7 +16,7 @@ describe('I18nProvider', () => {
   it('defaults to Hebrew', () => {
     render(<I18nProvider><TestConsumer /></I18nProvider>)
     expect(screen.getByTestId('lang').textContent).toBe('he')
-    expect(screen.getByTestId('title').textContent).toBe('שאגת הארי - התראות')
+    expect(screen.getByTestId('title').textContent).toBe('שאגת הארי - התרעות')
   })
 
   it('switches to English on toggle', () => {
