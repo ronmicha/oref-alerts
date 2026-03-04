@@ -34,6 +34,8 @@ export interface DayCount {
   dayName: string   // "Mon" or "ב'" depending on language
   count: number
   byCategory: Record<number, number>  // categoryId → count
+  startTime?: string  // "HH:MM" — earliest alert in this day
+  endTime?: string    // "HH:MM" — latest alert in this day
 }
 
 export interface TimeSlotCount {

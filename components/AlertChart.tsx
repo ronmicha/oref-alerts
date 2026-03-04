@@ -90,7 +90,12 @@ export function AlertChart({ data, categories }: AlertChartProps) {
               .filter((e) => e.count > 0)
             return (
               <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow text-sm min-w-[140px]">
-                <div className="font-medium text-gray-700 mb-1">{d.dayName} {d.label}</div>
+                <div className="font-medium text-gray-700">{d.dayName} {d.label}</div>
+                {d.startTime && (
+                  <div className="text-xs text-gray-400 mb-1" dir="ltr">
+                    {d.startTime}{d.endTime !== d.startTime ? ` – ${d.endTime}` : ''}
+                  </div>
+                )}
                 {entries.map((e, i) => (
                   <div key={i} className="flex justify-between gap-4">
                     <span className="text-gray-600">{e.name}</span>

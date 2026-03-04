@@ -44,12 +44,20 @@ export function aggregateByDay(
 ): DayCount[] {
   const countMap = new Map<string, number>()
   const byCategoryMap = new Map<string, Record<number, number>>()
+  const timeRangeMap = new Map<string, { start: string; end: string }>()
   for (const alert of alerts) {
     const key = alert.alertDate.slice(0, 10)
+    const time = alert.alertDate.slice(11, 16) // "HH:MM"
     countMap.set(key, (countMap.get(key) ?? 0) + 1)
     if (!byCategoryMap.has(key)) byCategoryMap.set(key, {})
     const cats = byCategoryMap.get(key)!
     cats[alert.category] = (cats[alert.category] ?? 0) + 1
+    const tr = timeRangeMap.get(key)
+    if (!tr) timeRangeMap.set(key, { start: time, end: time })
+    else {
+      if (time < tr.start) tr.start = time
+      if (time > tr.end) tr.end = time
+    }
   }
 
   const days: DayCount[] = []
@@ -62,12 +70,15 @@ export function aggregateByDay(
     const day = cursor.getDay()
     const dd = String(cursor.getDate()).padStart(2, '0')
     const mm = String(cursor.getMonth() + 1).padStart(2, '0')
+    const tr = timeRangeMap.get(key)
     days.push({
       dateKey: key,
       label: `${dd}/${mm}`,
       dayName: days_arr[day],
       count: countMap.get(key) ?? 0,
       byCategory: byCategoryMap.get(key) ?? {},
+      startTime: tr?.start,
+      endTime: tr?.end,
     })
     cursor.setDate(cursor.getDate() + 1)
   }
