@@ -9,22 +9,29 @@ export interface CityCount {
   count: number
 }
 
-// Cache key — derived from actual city labels (first 5), not raw lang.
-// This ensures the cache only fires when the right-language labels have arrived,
-// preventing a race where lang='en' but cityLabels still holds Hebrew names.
-export function cityAlertsQueryKey(cityLabels: string[]) {
-  return ['cityAlerts', cityLabels.slice(0, 5).join(',')]
+// Cache key — keyed by language, not by label strings.
+// This ensures switching back to a previously loaded language is instant.
+export function cityAlertsQueryKey(lang: string) {
+  return ['cityAlerts', lang]
+}
+
+// Returns true when cityLabels appear to be in the expected language.
+// Prevents fetching with mismatched lang+cityLabels during a language switch race.
+function labelsMatchLang(labels: string[], lang: 'he' | 'en') {
+  if (!labels.length) return false
+  const hasHebrew = /[\u0590-\u05FF]/.test(labels[0])
+  return lang === 'he' ? hasHebrew : !hasHebrew
 }
 
 /**
  * Fetches 7-day alert counts for every city in parallel (up to 20 concurrent).
  * Results stream into state as cities complete; only cities with count > 0 are included.
- * Results are cached via React Query — switching languages then back is instant.
+ * Results are cached via React Query per language — switching languages then back is instant.
  */
 export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
   const queryClient = useQueryClient()
 
-  const cached = queryClient.getQueryData<CityCount[]>(cityAlertsQueryKey(cityLabels))
+  const cached = queryClient.getQueryData<CityCount[]>(cityAlertsQueryKey(lang))
 
   const [cities, setCities] = useState<CityCount[]>(cached ?? [])
   const [loaded, setLoaded] = useState(cached?.length ?? 0)
@@ -32,10 +39,8 @@ export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
   const [done, setDone] = useState(!!cached)
 
   useEffect(() => {
-    if (!cityLabels.length) return
-
-    // Cache hit — restore instantly
-    const hit = queryClient.getQueryData<CityCount[]>(cityAlertsQueryKey(cityLabels))
+    // Fast path: cache hit — restore instantly (even before labels settle for new lang)
+    const hit = queryClient.getQueryData<CityCount[]>(cityAlertsQueryKey(lang))
     if (hit) {
       setCities(hit)
       setLoaded(hit.length)
@@ -44,6 +49,16 @@ export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
       return
     }
 
+    // Labels haven't settled for the current lang yet — show empty, wait for next render
+    if (!labelsMatchLang(cityLabels, lang)) {
+      setCities([])
+      setLoaded(0)
+      setTotal(0)
+      setDone(false)
+      return
+    }
+
+    // Cache miss + labels settled for lang — start progressive fetch
     setCities([])
     setLoaded(0)
     setDone(false)
@@ -98,7 +113,7 @@ export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
       if (!cancelled) {
         if (flushTimer) { clearTimeout(flushTimer); flushTimer = null }
         flush()
-        queryClient.setQueryData(cityAlertsQueryKey(cityLabels), allResults)
+        queryClient.setQueryData(cityAlertsQueryKey(lang), allResults)
         setDone(true)
       }
     })
