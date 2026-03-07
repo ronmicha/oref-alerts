@@ -93,7 +93,7 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
         aria-activedescendant={highlightedIndex >= 0 ? `city-opt-${highlightedIndex}` : undefined}
         value={input}
         placeholder={placeholder}
-        className={`${inputClass}${input ? ' pr-8' : ''}`}
+        className={`${inputClass}${input ? ' pe-8' : ''}`}
         onChange={(e) => {
           setInput(e.target.value)
           setOpen(true)
