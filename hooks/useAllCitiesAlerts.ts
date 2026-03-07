@@ -107,7 +107,7 @@ export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
       }
     }
 
-    const workers = Array.from({ length: Math.min(50, cityLabels.length) }, () => worker())
+    const workers = Array.from({ length: Math.min(150, cityLabels.length) }, () => worker())
 
     Promise.all(workers).then(() => {
       if (!cancelled) {
