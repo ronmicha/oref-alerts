@@ -68,6 +68,7 @@ export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
 
     Promise.all(workers).then(() => {
       if (!cancelled) {
+        if (flushTimer) { clearTimeout(flushTimer); flushTimer = null }
         flush()
         setDone(true)
       }
