@@ -22,6 +22,7 @@
   "cityRankingLoading": "טוען {loaded} מתוך {total} ערים…",
   "sortMostFirst": "הכי הרבה קודם",
   "sortLeastFirst": "הכי מעט קודם",
+  "cityRankingEmpty": "אין ערים עם התרעות בתקופה זו",
   "langToggle": "English",
   "categories": {
     "missilealert": "ירי רקטות וטילים",

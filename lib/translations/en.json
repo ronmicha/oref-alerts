@@ -22,6 +22,7 @@
   "cityRankingLoading": "Loading {loaded} of {total} cities…",
   "sortMostFirst": "Most first",
   "sortLeastFirst": "Least first",
+  "cityRankingEmpty": "No cities with alerts in this period",
   "langToggle": "עברית",
   "categories": {
     "missilealert": "Missile Alert",

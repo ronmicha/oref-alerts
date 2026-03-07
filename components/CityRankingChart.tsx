@@ -29,14 +29,13 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
       {/* Header row */}
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-sm font-semibold text-gray-700">{t('chartByCityTitle')}</h2>
-        {withAlerts.length > 0 && (
-          <button
-            onClick={() => setSortDesc((d) => !d)}
-            className="text-xs px-2 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50"
-          >
-            {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
-          </button>
-        )}
+        <button
+          onClick={() => setSortDesc((d) => !d)}
+          disabled={withAlerts.length === 0}
+          className="text-xs px-2 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
+        </button>
       </div>
 
       {/* Loading progress banner */}
@@ -48,7 +47,7 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
 
       {/* Empty state once done */}
       {done && sorted.length === 0 && (
-        <div className="text-sm text-gray-400 text-center py-8">{t('loading')}</div>
+        <div className="text-sm text-gray-400 text-center py-8">{t('cityRankingEmpty')}</div>
       )}
 
       {/* Scrollable chart */}
@@ -85,7 +84,7 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
                     return (
                       <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow text-sm">
                         <div className="font-medium text-gray-700">{d.label}</div>
-                        <div className="text-gray-600 font-bold text-blue-600">{d.count}</div>
+                        <div className="font-bold text-blue-600">{d.count}</div>
                       </div>
                     )
                   }}
