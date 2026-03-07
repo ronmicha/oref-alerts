@@ -14,6 +14,8 @@ interface CityRankingChartProps {
   done: boolean
 }
 
+const LIMIT = 50
+
 export function CityRankingChart({ cities, loaded, total, done }: CityRankingChartProps) {
   const { t } = useI18n()
   const [sortDesc, setSortDesc] = useState(true)
@@ -21,10 +23,10 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
   const withAlerts = cities.filter((c) => c.count > 0)
 
   // While loading: keep insertion order so bars don't jump and blink.
-  // Once done: apply the user's sort preference; Recharts animates the value changes.
+  // Once done: apply the user's sort preference and cap to LIMIT.
   const displayData = done
-    ? [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count)
-    : withAlerts
+    ? [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count).slice(0, LIMIT)
+    : withAlerts.slice(0, LIMIT)
 
   // 22px per bar row + margins
   const chartHeight = Math.max(200, displayData.length * 22 + 60)
@@ -33,7 +35,16 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
     <div>
       {/* Header row */}
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-gray-700">{t('chartByCityTitle')}</h2>
+        <div>
+          <h2 className="text-sm font-semibold text-gray-700">{t('chartByCityTitle')}</h2>
+          {done && withAlerts.length > LIMIT && (
+            <p className="text-xs text-gray-400 mt-0.5">
+              {sortDesc
+                ? t('cityRankingTop', { n: String(LIMIT), total: String(withAlerts.length) })
+                : t('cityRankingBottom', { n: String(LIMIT), total: String(withAlerts.length) })}
+            </p>
+          )}
+        </div>
         <button
           onClick={() => setSortDesc((d) => !d)}
           disabled={!done || withAlerts.length === 0}

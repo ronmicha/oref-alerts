@@ -20,6 +20,8 @@
   "filterToDate": "To date",
   "chartByCityTitle": "City Alert Ranking – Last 7 Days, All Types",
   "cityRankingLoading": "Loading {loaded} of {total} cities…",
+  "cityRankingTop": "Top {n} of {total} cities",
+  "cityRankingBottom": "Bottom {n} of {total} cities",
   "sortMostFirst": "Most first",
   "sortLeastFirst": "Least first",
   "cityRankingEmpty": "No cities with alerts in this period",
