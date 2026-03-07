@@ -1,20 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { fetchCategories } from '@/lib/oref'
 import type { AlertCategory } from '@/types/oref'
 
 export function useCategories() {
-  const [categories, setCategories] = useState<AlertCategory[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { data: categories = [], isLoading, error } = useQuery<AlertCategory[]>({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  })
 
-  useEffect(() => {
-    fetchCategories()
-      .then(setCategories)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { categories, loading, error }
+  return { categories, loading: isLoading, error: error?.message ?? null }
 }

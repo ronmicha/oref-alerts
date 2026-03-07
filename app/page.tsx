@@ -65,10 +65,7 @@ export default function Home() {
   const alertsLoading = isCustom ? tzevaadomLoading : orefLoading
   const alertsError = isCustom ? tzevaadomError : orefError
 
-  const { cities: rawCities, cityLabels: unstableCityLabels, loading: citiesLoading } = useCities(lang)
-  // Stabilize reference — useCities computes cityLabels inline (new array every render).
-  // Without this, useAllCitiesAlerts restarts all 1200+ fetches on every state update.
-  const cityLabels = useMemo(() => unstableCityLabels, [rawCities])
+  const { cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
   const { cities: rankedCities, loaded: rankLoaded, total: rankTotal, done: rankDone } =
     useAllCitiesAlerts(cityLabels, lang)

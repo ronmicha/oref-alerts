@@ -1,26 +1,25 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { fetchCities } from '@/lib/oref'
 import type { City } from '@/types/oref'
 
 export function useCities(lang: 'he' | 'en' = 'he') {
-  const [cities, setCities] = useState<City[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { data: cities = [], isLoading, error } = useQuery<City[]>({
+    queryKey: ['cities', lang],
+    queryFn: () => fetchCities(lang),
+  })
 
-  useEffect(() => {
-    setLoading(true)
-    fetchCities(lang)
-      .then(setCities)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }, [lang])
+  // React Query returns the same `cities` reference until data changes,
+  // so this memo produces a stable cityLabels array for downstream hooks.
+  const cityLabels = useMemo(() =>
+    [...new Set(
+      cities
+        .filter((c) => !c.label.includes('כל האזורים') && !c.label.includes('כל - האזורים') && !c.label.toLowerCase().includes('all areas'))
+        .map((c) => c.label)
+    )].sort(),
+  [cities])
 
-  // Unique city labels sorted alphabetically, excluding area-wide entries that return no results
-  const cityLabels = [...new Set(
-    cities.filter((c) => !c.label.includes('כל האזורים') && !c.label.includes('כל - האזורים') && !c.label.toLowerCase().includes('all areas')).map((c) => c.label)
-  )].sort()
-
-  return { cities, cityLabels, loading, error }
+  return { cities, cityLabels, loading: isLoading, error: error?.message ?? null }
 }

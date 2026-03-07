@@ -25,11 +25,7 @@ function toIsraelDateTime(ts: number): { alertDate: string; date: string; time: 
   return { alertDate, date, time }
 }
 
-let cachedHistory: AlarmHistoryItem[] | null = null
-
 export async function fetchTzevaadomHistory(): Promise<AlarmHistoryItem[]> {
-  if (cachedHistory) return cachedHistory
-
   const res = await fetch('/api/tzevaadom')
   if (!res.ok) throw new Error(`Failed to fetch tzevaadom data: ${res.status}`)
   const entries: TzevaadomEntry[] = await res.json()
@@ -53,6 +49,5 @@ export async function fetchTzevaadomHistory(): Promise<AlarmHistoryItem[]> {
     }
   }
 
-  cachedHistory = expanded
   return expanded
 }

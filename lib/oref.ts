@@ -7,25 +7,16 @@ const CITIES_URL = `${PROXY}/cities`
 const CATEGORIES_URL = `${PROXY}/categories`
 const HISTORY_BASE = `${PROXY}/history`
 
-// Module-level cache — persists for the lifetime of the page session
-const cachedCities = new Map<string, City[]>()  // keyed by lang
-let cachedCategories: AlertCategory[] | null = null
-
 export async function fetchCities(lang: 'he' | 'en' = 'he'): Promise<City[]> {
-  if (cachedCities.has(lang)) return cachedCities.get(lang)!
   const res = await fetch(`${CITIES_URL}?lang=${lang}`)
   if (!res.ok) throw new Error(`Failed to fetch cities: ${res.status}`)
-  const data: City[] = await res.json()
-  cachedCities.set(lang, data)
-  return data
+  return res.json()
 }
 
 export async function fetchCategories(): Promise<AlertCategory[]> {
-  if (cachedCategories) return cachedCategories
   const res = await fetch(CATEGORIES_URL)
   if (!res.ok) throw new Error(`Failed to fetch categories: ${res.status}`)
-  cachedCategories = await res.json()
-  return cachedCategories!
+  return res.json()
 }
 
 export interface FetchAlertHistoryOptions {
