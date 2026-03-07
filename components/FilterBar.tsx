@@ -76,6 +76,12 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
 
   const listId = 'city-combobox-list'
 
+  function clear() {
+    setInput('')
+    onChange('')
+    setOpen(false)
+  }
+
   return (
     <div ref={containerRef} className="relative">
       <input
@@ -87,7 +93,7 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
         aria-activedescendant={highlightedIndex >= 0 ? `city-opt-${highlightedIndex}` : undefined}
         value={input}
         placeholder={placeholder}
-        className={inputClass}
+        className={`${inputClass}${input ? ' pr-8' : ''}`}
         onChange={(e) => {
           setInput(e.target.value)
           setOpen(true)
@@ -96,6 +102,16 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
         onFocus={() => setOpen(true)}
         onKeyDown={handleKeyDown}
       />
+      {input && (
+        <button
+          type="button"
+          aria-label="Clear"
+          onMouseDown={(e) => { e.preventDefault(); clear() }}
+          className="absolute inset-y-0 end-0 flex items-center px-2 text-gray-400 hover:text-gray-600"
+        >
+          ✕
+        </button>
+      )}
       {open && matches.length > 0 && (
         <ul
           ref={listRef}
