@@ -92,7 +92,7 @@ export function AlertChart({ data, categories }: AlertChartProps) {
           tickLine={false}
           axisLine={false}
           tick={{ fontSize: 11, fill: '#9CA3AF' }}
-          width={32}
+          width={48}
         />
         <Tooltip
           cursor={{ fill: '#F3F4F6' }}
