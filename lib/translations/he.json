@@ -18,6 +18,10 @@
   "custom": "אחר",
   "filterFromDate": "מתאריך",
   "filterToDate": "עד תאריך",
+  "chartByCityTitle": "דירוג ערים לפי התרעות",
+  "cityRankingLoading": "טוען {loaded} מתוך {total} ערים…",
+  "sortMostFirst": "הכי הרבה קודם",
+  "sortLeastFirst": "הכי מעט קודם",
   "langToggle": "English",
   "categories": {
     "missilealert": "ירי רקטות וטילים",
