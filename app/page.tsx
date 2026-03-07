@@ -8,6 +8,8 @@ import { useCategories } from '@/hooks/useCategories'
 import { FilterBar } from '@/components/FilterBar'
 import { AlertChart } from '@/components/AlertChart'
 import { TimeOfDayChart } from '@/components/TimeOfDayChart'
+import { useAllCitiesAlerts } from '@/hooks/useAllCitiesAlerts'
+import { CityRankingChart } from '@/components/CityRankingChart'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
@@ -63,8 +65,13 @@ export default function Home() {
   const alertsLoading = isCustom ? tzevaadomLoading : orefLoading
   const alertsError = isCustom ? tzevaadomError : orefError
 
-  const { cityLabels, loading: citiesLoading } = useCities(lang)
+  const { cities: rawCities, cityLabels: unstableCityLabels, loading: citiesLoading } = useCities(lang)
+  // Stabilize reference — useCities computes cityLabels inline (new array every render).
+  // Without this, useAllCitiesAlerts restarts all 1200+ fetches on every state update.
+  const cityLabels = useMemo(() => unstableCityLabels, [rawCities])
   const { categories, loading: categoriesLoading } = useCategories()
+  const { cities: rankedCities, loaded: rankLoaded, total: rankTotal, done: rankDone } =
+    useAllCitiesAlerts(cityLabels, lang)
   const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
   const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
 
@@ -174,6 +181,16 @@ export default function Home() {
           )}
           {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} />}
           </div>
+        </div>
+
+        {/* City ranking chart */}
+        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+          <CityRankingChart
+            cities={rankedCities}
+            loaded={rankLoaded}
+            total={rankTotal}
+            done={rankDone}
+          />
         </div>
       </main>
 
