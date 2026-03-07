@@ -187,7 +187,7 @@ export default function Home() {
             loaded={rankLoaded}
             total={rankTotal}
             done={rankDone}
-            cityLabel={cityLabel || undefined}
+            cityLabels={cityLabels}
           />
         </div>
       </main>

@@ -5,6 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, LabelList, ResponsiveContainer,
 } from 'recharts'
 import type { CityCount } from '@/hooks/useAllCitiesAlerts'
+import { CityCombobox } from '@/components/FilterBar'
 import { useI18n } from '@/lib/i18n'
 
 interface CityRankingChartProps {
@@ -12,14 +13,15 @@ interface CityRankingChartProps {
   loaded: number
   total: number
   done: boolean
-  cityLabel?: string
+  cityLabels: string[]
 }
 
 const LIMIT = 50
 
-export function CityRankingChart({ cities, loaded, total, done, cityLabel }: CityRankingChartProps) {
+export function CityRankingChart({ cities, loaded, total, done, cityLabels }: CityRankingChartProps) {
   const { t } = useI18n()
   const [sortDesc, setSortDesc] = useState(true)
+  const [cityLabel, setCityLabel] = useState('')
 
   const withAlerts = cities.filter((c) => c.count > 0)
 
@@ -60,6 +62,16 @@ export function CityRankingChart({ cities, loaded, total, done, cityLabel }: Cit
             {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
           </button>
         )}
+      </div>
+
+      {/* City search */}
+      <div className="mb-3">
+        <CityCombobox
+          value={cityLabel}
+          onChange={setCityLabel}
+          options={cityLabels}
+          placeholder={t('filterCity')}
+        />
       </div>
 
       {/* Loading progress — only while fetching, with percentage bar */}

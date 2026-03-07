@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useId } from 'react'
 import { useI18n } from '@/lib/i18n'
 import type { AlertCategory, DateRangeOption } from '@/types/oref'
 
@@ -11,12 +11,13 @@ interface CityComboboxProps {
   placeholder: string
 }
 
-function CityCombobox({ value, onChange, options, placeholder }: CityComboboxProps) {
+export function CityCombobox({ value, onChange, options, placeholder }: CityComboboxProps) {
   const [input, setInput] = useState(value)
   const [open, setOpen] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const containerRef = useRef<HTMLDivElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
+  const uid = useId()
 
   // Sync input when the selected value changes externally
   useEffect(() => { setInput(value) }, [value])
@@ -74,7 +75,7 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
   const inputClass =
     'block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500'
 
-  const listId = 'city-combobox-list'
+  const listId = `${uid}-list`
 
   function clear() {
     setInput('')
@@ -90,7 +91,7 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
         aria-autocomplete="list"
         aria-expanded={open && matches.length > 0}
         aria-controls={listId}
-        aria-activedescendant={highlightedIndex >= 0 ? `city-opt-${highlightedIndex}` : undefined}
+        aria-activedescendant={highlightedIndex >= 0 ? `${uid}-opt-${highlightedIndex}` : undefined}
         value={input}
         placeholder={placeholder}
         className={`${inputClass}${input ? ' pe-8' : ''}`}
@@ -122,7 +123,7 @@ function CityCombobox({ value, onChange, options, placeholder }: CityComboboxPro
           {matches.map((opt, i) => (
             <li
               key={opt}
-              id={`city-opt-${i}`}
+              id={`${uid}-opt-${i}`}
               role="option"
               aria-selected={i === highlightedIndex}
               className={`px-3 py-2 cursor-pointer text-gray-700 ${i === highlightedIndex ? 'bg-blue-100' : 'hover:bg-blue-50'}`}
