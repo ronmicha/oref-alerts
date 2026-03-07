@@ -25,15 +25,18 @@ export function CityRankingChart({ cities, loaded, total, done, cityLabels }: Ci
 
   const withAlerts = cities.filter((c) => c.count > 0)
 
-  // If a city is selected: show just that city (no limit, no rank)
-  // Otherwise: sort by count, cap to LIMIT, prepend rank number
+  // Rank is always based on most-alerts-first order (#1 = most alerts)
+  const rankMap = new Map(
+    [...withAlerts].sort((a, b) => b.count - a.count).map((city, i) => [city.label, i + 1])
+  )
+
   const sortedSliced = cityLabel
     ? withAlerts.filter((c) => c.label === cityLabel)
     : [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count).slice(0, LIMIT)
 
-  const displayData = sortedSliced.map((city, i) => ({
+  const displayData = sortedSliced.map((city) => ({
     ...city,
-    displayLabel: cityLabel ? city.label : `#${i + 1}  ${city.label}`,
+    displayLabel: `#${rankMap.get(city.label) ?? '?'}  ${city.label}`,
   }))
 
   const chartHeight = Math.max(200, displayData.length * 22 + 60)
