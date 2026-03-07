@@ -5,8 +5,12 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchCities } from '@/lib/oref'
 import type { City } from '@/types/oref'
 
+// Stable empty array so the = [] default doesn't create a new reference
+// on every render while the query is loading (data = undefined).
+const EMPTY_CITIES: City[] = []
+
 export function useCities(lang: 'he' | 'en' = 'he') {
-  const { data: cities = [], isLoading, error } = useQuery<City[]>({
+  const { data: cities = EMPTY_CITIES, isLoading, error } = useQuery<City[]>({
     queryKey: ['cities', lang],
     queryFn: () => fetchCities(lang),
   })
