@@ -12,24 +12,30 @@ interface CityRankingChartProps {
   loaded: number
   total: number
   done: boolean
+  cityLabel?: string
 }
 
 const LIMIT = 50
 
-export function CityRankingChart({ cities, loaded, total, done }: CityRankingChartProps) {
+export function CityRankingChart({ cities, loaded, total, done, cityLabel }: CityRankingChartProps) {
   const { t } = useI18n()
   const [sortDesc, setSortDesc] = useState(true)
 
   const withAlerts = cities.filter((c) => c.count > 0)
 
-  // While loading: keep insertion order so bars don't jump and blink.
-  // Once done: apply the user's sort preference and cap to LIMIT.
-  const displayData = done
-    ? [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count).slice(0, LIMIT)
-    : withAlerts.slice(0, LIMIT)
+  // If a city is selected: show just that city (no limit, no rank)
+  // Otherwise: sort by count, cap to LIMIT, prepend rank number
+  const sortedSliced = cityLabel
+    ? withAlerts.filter((c) => c.label === cityLabel)
+    : [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count).slice(0, LIMIT)
 
-  // 22px per bar row + margins
+  const displayData = sortedSliced.map((city, i) => ({
+    ...city,
+    displayLabel: cityLabel ? city.label : `#${i + 1}  ${city.label}`,
+  }))
+
   const chartHeight = Math.max(200, displayData.length * 22 + 60)
+  const pct = total > 0 ? Math.round((loaded / total) * 100) : 0
 
   return (
     <div>
@@ -37,7 +43,7 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
       <div className="flex items-center justify-between mb-3">
         <div>
           <h2 className="text-sm font-semibold text-gray-700">{t('chartByCityTitle')}</h2>
-          {done && withAlerts.length > LIMIT && (
+          {done && !cityLabel && withAlerts.length > LIMIT && (
             <p className="text-xs text-gray-400 mt-0.5">
               {sortDesc
                 ? t('cityRankingTop', { n: String(LIMIT), total: String(withAlerts.length) })
@@ -45,29 +51,36 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
             </p>
           )}
         </div>
-        <button
-          onClick={() => setSortDesc((d) => !d)}
-          disabled={!done || withAlerts.length === 0}
-          className="text-xs px-2 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
-        </button>
+        {!cityLabel && (
+          <button
+            onClick={() => setSortDesc((d) => !d)}
+            disabled={!done || withAlerts.length === 0}
+            className="text-xs px-2 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
+          </button>
+        )}
       </div>
 
-      {/* Loading progress banner */}
+      {/* Loading progress — only while fetching, with percentage bar */}
       {!done && total > 0 && (
-        <div className="mb-3 text-xs text-blue-600 bg-blue-50 rounded px-3 py-2 animate-pulse">
-          {t('cityRankingLoading', { loaded, total })}
+        <div className="mb-3 text-xs text-blue-600 bg-blue-50 rounded px-3 py-2">
+          {t('cityRankingLoading', { pct: String(pct) })}
+          <div className="mt-1.5 h-1 bg-blue-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-blue-500 rounded-full transition-all duration-300"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
         </div>
       )}
 
-      {/* Empty state once done */}
+      {/* Chart — only shown when done */}
       {done && displayData.length === 0 && (
         <div className="text-sm text-gray-400 text-center py-8">{t('cityRankingEmpty')}</div>
       )}
 
-      {/* Scrollable chart */}
-      {displayData.length > 0 && (
+      {done && displayData.length > 0 && (
         <div dir="ltr" style={{ maxHeight: 600, overflowY: 'auto' }}>
           <div style={{ height: chartHeight }}>
             <ResponsiveContainer width="100%" height="100%">
@@ -86,11 +99,11 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
                 />
                 <YAxis
                   type="category"
-                  dataKey="label"
+                  dataKey="displayLabel"
                   tick={{ fontSize: 11, fill: '#6B7280' }}
                   tickLine={false}
                   axisLine={{ stroke: '#E5E7EB' }}
-                  width={180}
+                  width={200}
                 />
                 <Bar
                   dataKey="count"
