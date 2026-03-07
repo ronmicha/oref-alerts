@@ -18,7 +18,7 @@
   "custom": "אחר",
   "filterFromDate": "מתאריך",
   "filterToDate": "עד תאריך",
-  "chartByCityTitle": "דירוג ערים לפי התרעות",
+  "chartByCityTitle": "דירוג ערים – 7 ימים אחרונים, כל הסוגים",
   "cityRankingLoading": "טוען {loaded} מתוך {total} ערים…",
   "sortMostFirst": "הכי הרבה קודם",
   "sortLeastFirst": "הכי מעט קודם",

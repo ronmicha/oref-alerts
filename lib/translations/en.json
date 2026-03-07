@@ -18,7 +18,7 @@
   "custom": "Custom",
   "filterFromDate": "From date",
   "filterToDate": "To date",
-  "chartByCityTitle": "City Alert Ranking",
+  "chartByCityTitle": "City Alert Ranking – Last 7 Days, All Types",
   "cityRankingLoading": "Loading {loaded} of {total} cities…",
   "sortMostFirst": "Most first",
   "sortLeastFirst": "Least first",

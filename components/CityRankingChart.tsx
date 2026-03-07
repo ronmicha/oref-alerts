@@ -84,14 +84,14 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
                     return (
                       <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow text-sm">
                         <div className="font-medium text-gray-700">{d.label}</div>
-                        <div className="font-bold text-blue-600">{d.count}</div>
+                        <div className="font-bold text-red-500">{d.count}</div>
                       </div>
                     )
                   }}
                 />
                 <Bar
                   dataKey="count"
-                  fill="#3B82F6"
+                  fill="#EF4444"
                   radius={[0, 4, 4, 0]}
                   maxBarSize={16}
                 />
