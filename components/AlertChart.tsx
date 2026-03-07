@@ -5,13 +5,7 @@ import {
 } from 'recharts'
 import type { DayCount, AlertCategory } from '@/types/oref'
 import { useI18n } from '@/lib/i18n'
-
-// Fixed color palette — assigned to categories in the order they appear
-const COLORS = [
-  '#EF4444', '#F97316', '#3B82F6', '#10B981',
-  '#8B5CF6', '#F59E0B', '#06B6D4', '#EC4899',
-  '#84CC16', '#6B7280',
-]
+import { getCategoryColor } from '@/lib/chartColors'
 
 interface AlertChartProps {
   data: DayCount[]
@@ -106,7 +100,7 @@ export function AlertChart({ data, categories }: AlertChartProps) {
             if (!active || !payload?.length) return null
             const d = payload[0].payload as DayCount & { xKey: string }
             const entries = activeCatIds
-              .map((id) => ({ name: catName(id), count: d.byCategory[id] ?? 0 }))
+              .map((id) => ({ id, name: catName(id), count: d.byCategory[id] ?? 0 }))
               .filter((e) => e.count > 0)
             return (
               <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow text-sm min-w-[140px]">
@@ -116,10 +110,10 @@ export function AlertChart({ data, categories }: AlertChartProps) {
                     {d.startTime}{d.endTime !== d.startTime ? ` – ${d.endTime}` : ''}
                   </div>
                 )}
-                {entries.map((e, i) => (
-                  <div key={i} className="flex justify-between gap-4">
+                {entries.map((e) => (
+                  <div key={e.id} className="flex justify-between gap-4">
                     <span className="text-gray-600">{e.name}</span>
-                    <span className="font-bold" style={{ color: COLORS[i % COLORS.length] }}>{e.count}</span>
+                    <span className="font-bold" style={{ color: getCategoryColor(categories, e.id) }}>{e.count}</span>
                   </div>
                 ))}
                 <div className="mt-1 pt-1 border-t border-gray-100 flex justify-between font-semibold text-gray-800">
@@ -142,7 +136,7 @@ export function AlertChart({ data, categories }: AlertChartProps) {
             key={id}
             dataKey={`cat_${id}`}
             stackId="stack"
-            fill={COLORS[i % COLORS.length]}
+            fill={getCategoryColor(categories, id, i)}
             radius={i === activeCatIds.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
             maxBarSize={40}
             name={`cat_${id}`}
