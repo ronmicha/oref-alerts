@@ -55,6 +55,14 @@ export function CityRankingChart({ cities, loaded, total, done, cityLabels }: Ci
                 : t('cityRankingBottom', { n: String(LIMIT), total: String(withAlerts.length) })}
             </p>
           )}
+          {done && cityLabel && (
+            <p className="text-xs text-gray-400 mt-0.5">
+              {t('cityRankSearchInfo', {
+                rank: String(rankMap.get(cityLabel) ?? '?'),
+                total: String(withAlerts.length),
+              })}
+            </p>
+          )}
         </div>
         {!cityLabel && (
           <button

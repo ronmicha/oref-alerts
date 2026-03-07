@@ -21,6 +21,7 @@
   "chartByCityTitle": "City Alert Ranking – Last 7 Days, All Alert Types",
   "cityRankingLoading": "Loading… {pct}%",
   "cityRankingTop": "Top {n} of {total} cities",
+  "cityRankSearchInfo": "Ranked #{rank} of {total} cities · #1 = most alerted",
   "cityRankingBottom": "Bottom {n} of {total} cities",
   "sortMostFirst": "Most first",
   "sortLeastFirst": "Least first",
