@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, LabelList, ResponsiveContainer,
 } from 'recharts'
 import type { CityCount } from '@/hooks/useAllCitiesAlerts'
 import { useI18n } from '@/lib/i18n'
@@ -19,10 +19,15 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
   const [sortDesc, setSortDesc] = useState(true)
 
   const withAlerts = cities.filter((c) => c.count > 0)
-  const sorted = [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count)
 
-  // 20px per bar row + margins
-  const chartHeight = Math.max(200, sorted.length * 20 + 60)
+  // While loading: keep insertion order so bars don't jump and blink.
+  // Once done: apply the user's sort preference; Recharts animates the value changes.
+  const displayData = done
+    ? [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count)
+    : withAlerts
+
+  // 22px per bar row + margins
+  const chartHeight = Math.max(200, displayData.length * 22 + 60)
 
   return (
     <div>
@@ -31,7 +36,7 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
         <h2 className="text-sm font-semibold text-gray-700">{t('chartByCityTitle')}</h2>
         <button
           onClick={() => setSortDesc((d) => !d)}
-          disabled={withAlerts.length === 0}
+          disabled={!done || withAlerts.length === 0}
           className="text-xs px-2 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
@@ -46,17 +51,17 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
       )}
 
       {/* Empty state once done */}
-      {done && sorted.length === 0 && (
+      {done && displayData.length === 0 && (
         <div className="text-sm text-gray-400 text-center py-8">{t('cityRankingEmpty')}</div>
       )}
 
       {/* Scrollable chart */}
-      {sorted.length > 0 && (
+      {displayData.length > 0 && (
         <div dir="ltr" style={{ maxHeight: 600, overflowY: 'auto' }}>
           <div style={{ height: chartHeight }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={sorted}
+                data={displayData}
                 layout="vertical"
                 margin={{ top: 4, right: 48, left: 0, bottom: 4 }}
               >
@@ -76,25 +81,20 @@ export function CityRankingChart({ cities, loaded, total, done }: CityRankingCha
                   axisLine={{ stroke: '#E5E7EB' }}
                   width={180}
                 />
-                <Tooltip
-                  cursor={{ fill: '#F3F4F6' }}
-                  content={({ active, payload }) => {
-                    if (!active || !payload?.length) return null
-                    const d = payload[0].payload as CityCount
-                    return (
-                      <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow text-sm">
-                        <div className="font-medium text-gray-700">{d.label}</div>
-                        <div className="font-bold text-red-500">{d.count}</div>
-                      </div>
-                    )
-                  }}
-                />
                 <Bar
                   dataKey="count"
                   fill="#EF4444"
                   radius={[0, 4, 4, 0]}
                   maxBarSize={16}
-                />
+                  isAnimationActive={true}
+                  animationDuration={400}
+                >
+                  <LabelList
+                    dataKey="count"
+                    position="right"
+                    style={{ fontSize: 11, fill: '#6B7280' }}
+                  />
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>

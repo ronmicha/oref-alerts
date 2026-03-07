@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { fetchAlertHistory } from '@/lib/oref'
 
 export interface CityCount {
@@ -8,30 +9,37 @@ export interface CityCount {
   count: number
 }
 
-// Module-level session cache keyed by lang.
-// Persists for the lifetime of the page session — switching languages then back is instant.
-const citiesCache = new Map<string, CityCount[]>()
+// Cache key — derived from actual city labels (first 5), not raw lang.
+// This ensures the cache only fires when the right-language labels have arrived,
+// preventing a race where lang='en' but cityLabels still holds Hebrew names.
+export function cityAlertsQueryKey(cityLabels: string[]) {
+  return ['cityAlerts', cityLabels.slice(0, 5).join(',')]
+}
 
 /**
  * Fetches 7-day alert counts for every city in parallel (up to 20 concurrent).
  * Results stream into state as cities complete; only cities with count > 0 are included.
- * Results are cached per language — re-selecting a previously loaded language is instant.
+ * Results are cached via React Query — switching languages then back is instant.
  */
 export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
-  const [cities, setCities] = useState<CityCount[]>(() => citiesCache.get(lang) ?? [])
-  const [loaded, setLoaded] = useState(() => citiesCache.get(lang)?.length ?? 0)
-  const [total, setTotal] = useState(() => citiesCache.get(lang)?.length ?? 0)
-  const [done, setDone] = useState(() => citiesCache.has(lang))
+  const queryClient = useQueryClient()
+
+  const cached = queryClient.getQueryData<CityCount[]>(cityAlertsQueryKey(cityLabels))
+
+  const [cities, setCities] = useState<CityCount[]>(cached ?? [])
+  const [loaded, setLoaded] = useState(cached?.length ?? 0)
+  const [total, setTotal] = useState(cached?.length ?? 0)
+  const [done, setDone] = useState(!!cached)
 
   useEffect(() => {
     if (!cityLabels.length) return
 
-    // Cache hit: restore instantly without re-fetching
-    if (citiesCache.has(lang)) {
-      const data = citiesCache.get(lang)!
-      setCities(data)
-      setLoaded(data.length)
-      setTotal(data.length)
+    // Cache hit — restore instantly
+    const hit = queryClient.getQueryData<CityCount[]>(cityAlertsQueryKey(cityLabels))
+    if (hit) {
+      setCities(hit)
+      setLoaded(hit.length)
+      setTotal(hit.length)
       setDone(true)
       return
     }
@@ -45,7 +53,7 @@ export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
     let index = 0
     let loadedCount = 0
     const pending: CityCount[] = []
-    const allResults: CityCount[] = [] // accumulates everything for the cache
+    const allResults: CityCount[] = []
     let flushTimer: ReturnType<typeof setTimeout> | null = null
 
     function flush() {
@@ -90,7 +98,7 @@ export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
       if (!cancelled) {
         if (flushTimer) { clearTimeout(flushTimer); flushTimer = null }
         flush()
-        citiesCache.set(lang, allResults)
+        queryClient.setQueryData(cityAlertsQueryKey(cityLabels), allResults)
         setDone(true)
       }
     })
@@ -99,6 +107,7 @@ export function useAllCitiesAlerts(cityLabels: string[], lang: 'he' | 'en') {
       cancelled = true
       if (flushTimer) clearTimeout(flushTimer)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityLabels, lang])
 
   return { cities, loaded, total, done }
