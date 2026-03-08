@@ -59,10 +59,7 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
       <div className="flex items-center justify-between mb-3">
         <div>
           <h2 className="text-sm font-semibold text-gray-700">
-            {t('chartByCityTitle', {
-              from: formatDateShort(fromTs, lang as 'he' | 'en'),
-              to: formatDateShort(Date.now() / 1000, lang as 'he' | 'en'),
-            })}
+            {t('chartByCityTitle', { from: formatDateShort(fromTs, lang as 'he' | 'en') })}
           </h2>
           {!loading && !cityLabel && withAlerts.length > LIMIT && (
             <p className="text-xs text-gray-400 mt-0.5">
