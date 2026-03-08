@@ -18,7 +18,7 @@
   "custom": "Custom",
   "filterFromDate": "From date",
   "filterToDate": "To date",
-  "chartByCityTitle": "City Alert Ranking – {from} – today · Missile & UAV",
+  "chartByCityTitle": "City Alert Ranking – {from} – today",
   "cityRankingTop": "Top {n} of {total} cities",
   "cityRankSearchInfo": "Ranked #{rank} of {total} cities",
   "cityRankingBottom": "Bottom {n} of {total} cities",

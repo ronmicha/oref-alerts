@@ -18,7 +18,7 @@
   "custom": "אחר",
   "filterFromDate": "מתאריך",
   "filterToDate": "עד תאריך",
-  "chartByCityTitle": "דירוג ערים – {from} – היום · טילים ורחפנים עוינים",
+  "chartByCityTitle": "דירוג ערים – {from} – היום",
   "cityRankingTop": "{n} ראשונות מתוך {total} ערים",
   "cityRankSearchInfo": "מקום {rank} מתוך {total} ערים",
   "cityRankingBottom": "{n} אחרונות מתוך {total} ערים",
