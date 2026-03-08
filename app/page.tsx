@@ -15,6 +15,9 @@ import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter
 import { useI18n } from '@/lib/i18n'
 import type { DateRangeOption } from '@/types/oref'
 
+// Start of the city ranking window: 28 Feb 2026 00:00:00 Israel time (UTC+2)
+const CITY_RANKING_FROM_TS = new Date('2026-02-28T00:00:00+02:00').getTime() / 1000
+
 // Maps UI date range to oref API mode: 1=day, 2=week, 3=month
 const API_MODE: Record<Exclude<DateRangeOption, 'custom'>, 1 | 2 | 3> = {
   today: 1,
@@ -68,7 +71,7 @@ export default function Home() {
   const { cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
   const { cities: rankedCities, loading: rankLoading, error: rankError } =
-    useCityRankings(lang, '7d')
+    useCityRankings(lang, CITY_RANKING_FROM_TS)
   const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
   const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
 
@@ -186,6 +189,7 @@ export default function Home() {
             cities={rankedCities}
             loading={rankLoading}
             error={rankError}
+            fromTs={CITY_RANKING_FROM_TS}
             cityLabels={cityLabels}
           />
         </div>

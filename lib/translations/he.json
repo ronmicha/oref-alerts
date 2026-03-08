@@ -18,7 +18,7 @@
   "custom": "אחר",
   "filterFromDate": "מתאריך",
   "filterToDate": "עד תאריך",
-  "chartByCityTitle": "דירוג ערים לפי התרעות – 7 ימים אחרונים, כל סוגי ההתרעות",
+  "chartByCityTitle": "דירוג ערים – {from} – {to} · טילים ורחפנים עוינים",
   "cityRankingTop": "{n} ראשונות מתוך {total} ערים",
   "cityRankSearchInfo": "מקום {rank} מתוך {total} ערים",
   "cityRankingBottom": "{n} אחרונות מתוך {total} ערים",

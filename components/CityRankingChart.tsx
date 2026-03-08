@@ -12,13 +12,22 @@ interface CityRankingChartProps {
   cities: CityCount[]
   loading: boolean
   error: string | null
+  fromTs: number
   cityLabels: string[]
 }
 
 const LIMIT = 50
 
-export function CityRankingChart({ cities, loading, error, cityLabels }: CityRankingChartProps) {
-  const { t } = useI18n()
+function formatDateShort(ts: number, lang: 'he' | 'en'): string {
+  return new Intl.DateTimeFormat(lang === 'he' ? 'he-IL' : 'en-GB', {
+    timeZone: 'Asia/Jerusalem',
+    day: 'numeric',
+    month: 'short',
+  }).format(new Date(ts * 1000))
+}
+
+export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }: CityRankingChartProps) {
+  const { t, lang } = useI18n()
   const [sortDesc, setSortDesc] = useState(true)
   const [cityLabel, setCityLabel] = useState('')
 
@@ -49,7 +58,12 @@ export function CityRankingChart({ cities, loading, error, cityLabels }: CityRan
       {/* Header row */}
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h2 className="text-sm font-semibold text-gray-700">{t('chartByCityTitle')}</h2>
+          <h2 className="text-sm font-semibold text-gray-700">
+            {t('chartByCityTitle', {
+              from: formatDateShort(fromTs, lang as 'he' | 'en'),
+              to: formatDateShort(Date.now() / 1000, lang as 'he' | 'en'),
+            })}
+          </h2>
           {!loading && !cityLabel && withAlerts.length > LIMIT && (
             <p className="text-xs text-gray-400 mt-0.5">
               {sortDesc
