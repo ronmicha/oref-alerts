@@ -8,7 +8,7 @@ import { useCategories } from '@/hooks/useCategories'
 import { FilterBar } from '@/components/FilterBar'
 import { AlertChart } from '@/components/AlertChart'
 import { TimeOfDayChart } from '@/components/TimeOfDayChart'
-import { useAllCitiesAlerts } from '@/hooks/useAllCitiesAlerts'
+import { useCityRankings } from '@/hooks/useCityRankings'
 import { CityRankingChart } from '@/components/CityRankingChart'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
@@ -67,8 +67,8 @@ export default function Home() {
 
   const { cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
-  const { cities: rankedCities, loaded: rankLoaded, total: rankTotal, done: rankDone } =
-    useAllCitiesAlerts(cityLabels, lang)
+  const { cities: rankedCities, loading: rankLoading, error: rankError } =
+    useCityRankings(lang, '7d')
   const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
   const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
 
@@ -184,9 +184,8 @@ export default function Home() {
         <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
           <CityRankingChart
             cities={rankedCities}
-            loaded={rankLoaded}
-            total={rankTotal}
-            done={rankDone}
+            loading={rankLoading}
+            error={rankError}
             cityLabels={cityLabels}
           />
         </div>

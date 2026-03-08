@@ -1,24 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, LabelList, ResponsiveContainer,
 } from 'recharts'
-import type { CityCount } from '@/hooks/useAllCitiesAlerts'
+import type { CityCount } from '@/types/oref'
 import { CityCombobox } from '@/components/FilterBar'
 import { useI18n } from '@/lib/i18n'
 
 interface CityRankingChartProps {
   cities: CityCount[]
-  loaded: number
-  total: number
-  done: boolean
+  loading: boolean
+  error: string | null
   cityLabels: string[]
 }
 
 const LIMIT = 50
 
-export function CityRankingChart({ cities, loaded, total, done, cityLabels }: CityRankingChartProps) {
+export function CityRankingChart({ cities, loading, error, cityLabels }: CityRankingChartProps) {
   const { t } = useI18n()
   const [sortDesc, setSortDesc] = useState(true)
   const [cityLabel, setCityLabel] = useState('')
@@ -26,21 +25,24 @@ export function CityRankingChart({ cities, loaded, total, done, cityLabels }: Ci
   const withAlerts = cities.filter((c) => c.count > 0)
 
   // Rank is always based on most-alerts-first order (#1 = most alerts)
-  const rankMap = new Map(
-    [...withAlerts].sort((a, b) => b.count - a.count).map((city, i) => [city.label, i + 1])
+  const rankMap = useMemo(
+    () => new Map([...withAlerts].sort((a, b) => b.count - a.count).map((city, i) => [city.label, i + 1])),
+    [withAlerts],
   )
 
   const sortedSliced = cityLabel
-    ? withAlerts.filter((c) => c.label === cityLabel)
+    ? (() => {
+        const found = withAlerts.filter((c) => c.label === cityLabel)
+        return found.length > 0 ? found : [{ label: cityLabel, count: 0 }]
+      })()
     : [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count).slice(0, LIMIT)
 
   const displayData = sortedSliced.map((city) => ({
     ...city,
-    displayLabel: `#${rankMap.get(city.label) ?? '?'}  ${city.label}`,
+    displayLabel: city.count === 0 ? `#—  ${city.label}` : `#${rankMap.get(city.label) ?? '?'}  ${city.label}`,
   }))
 
   const chartHeight = Math.max(200, displayData.length * 22 + 60)
-  const pct = total > 0 ? Math.round((loaded / total) * 100) : 0
 
   return (
     <div>
@@ -48,26 +50,25 @@ export function CityRankingChart({ cities, loaded, total, done, cityLabels }: Ci
       <div className="flex items-center justify-between mb-3">
         <div>
           <h2 className="text-sm font-semibold text-gray-700">{t('chartByCityTitle')}</h2>
-          {done && !cityLabel && withAlerts.length > LIMIT && (
+          {!loading && !cityLabel && withAlerts.length > LIMIT && (
             <p className="text-xs text-gray-400 mt-0.5">
               {sortDesc
                 ? t('cityRankingTop', { n: String(LIMIT), total: String(withAlerts.length) })
                 : t('cityRankingBottom', { n: String(LIMIT), total: String(withAlerts.length) })}
             </p>
           )}
-          {done && cityLabel && (
+          {!loading && cityLabel && (
             <p className="text-xs text-gray-400 mt-0.5">
-              {t('cityRankSearchInfo', {
-                rank: String(rankMap.get(cityLabel) ?? '?'),
-                total: String(withAlerts.length),
-              })}
+              {rankMap.has(cityLabel)
+                ? t('cityRankSearchInfo', { rank: String(rankMap.get(cityLabel)), total: String(withAlerts.length) })
+                : t('cityRankingNoAlerts')}
             </p>
           )}
         </div>
         {!cityLabel && (
           <button
             onClick={() => setSortDesc((d) => !d)}
-            disabled={!done || withAlerts.length === 0}
+            disabled={loading || withAlerts.length === 0}
             className="text-xs px-2 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
@@ -85,25 +86,23 @@ export function CityRankingChart({ cities, loaded, total, done, cityLabels }: Ci
         />
       </div>
 
-      {/* Loading progress — only while fetching, with percentage bar */}
-      {!done && total > 0 && (
-        <div className="mb-3 text-xs text-blue-600 bg-blue-50 rounded px-3 py-2">
-          {t('cityRankingLoading', { pct: String(pct) })}
-          <div className="mt-1.5 h-1 bg-blue-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-blue-500 rounded-full transition-all duration-300"
-              style={{ width: `${pct}%` }}
-            />
-          </div>
-        </div>
+      {/* Loading */}
+      {loading && (
+        <div className="text-sm text-gray-400 text-center py-8 animate-pulse">{t('loading')}</div>
       )}
 
-      {/* Chart — only shown when done */}
-      {done && displayData.length === 0 && (
+      {/* Error */}
+      {!loading && error && (
+        <div className="text-sm text-red-500 text-center py-8">{t('errorLoad')}</div>
+      )}
+
+      {/* Empty state */}
+      {!loading && !error && displayData.length === 0 && (
         <div className="text-sm text-gray-400 text-center py-8">{t('cityRankingEmpty')}</div>
       )}
 
-      {done && displayData.length > 0 && (
+      {/* Chart */}
+      {!loading && !error && displayData.length > 0 && (
         <div dir="ltr" style={{ maxHeight: 600, overflowY: 'auto' }}>
           <div style={{ height: chartHeight }}>
             <ResponsiveContainer width="100%" height="100%">

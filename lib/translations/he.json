@@ -19,12 +19,12 @@
   "filterFromDate": "מתאריך",
   "filterToDate": "עד תאריך",
   "chartByCityTitle": "דירוג ערים לפי התרעות – 7 ימים אחרונים, כל סוגי ההתרעות",
-  "cityRankingLoading": "טוען… {pct}%",
   "cityRankingTop": "{n} ראשונות מתוך {total} ערים",
   "cityRankSearchInfo": "מקום {rank} מתוך {total} ערים",
   "cityRankingBottom": "{n} אחרונות מתוך {total} ערים",
   "sortMostFirst": "הכי הרבה קודם",
   "sortLeastFirst": "הכי מעט קודם",
+  "cityRankingNoAlerts": "אין התרעות בתקופה זו",
   "cityRankingEmpty": "אין ערים עם התרעות בתקופה זו",
   "langToggle": "English",
   "categories": {
