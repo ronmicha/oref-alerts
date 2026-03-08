@@ -45,3 +45,8 @@ export interface TimeSlotCount {
 }
 
 export type DateRangeOption = 'today' | '7d' | '30d' | 'custom'
+
+export interface CityCount {
+  label: string
+  count: number
+}
