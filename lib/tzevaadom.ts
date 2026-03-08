@@ -1,11 +1,13 @@
 import type { AlarmHistoryItem } from '@/types/oref'
 
-type TzevaadomEntry = [number, number, string[], number]
+export type TzevaadomEntry = [number, number, string[], number]
 
 const TZEVAADOM_CATEGORY_MAP: Record<number, { category: number; category_desc: string; matrix_id: number }> = {
   0: { category: 1, category_desc: 'ירי רקטות וטילים', matrix_id: 1 },
   5: { category: 2, category_desc: 'חדירת כלי טיס עוין', matrix_id: 6 },
 }
+
+export const TZEVAADOM_ALLOWED_CODES = new Set(Object.keys(TZEVAADOM_CATEGORY_MAP).map(Number))
 
 function toIsraelDateTime(ts: number): { alertDate: string; date: string; time: string } {
   const formatter = new Intl.DateTimeFormat('en-CA', {
@@ -25,10 +27,14 @@ function toIsraelDateTime(ts: number): { alertDate: string; date: string; time: 
   return { alertDate, date, time }
 }
 
-export async function fetchTzevaadomHistory(): Promise<AlarmHistoryItem[]> {
+export async function fetchTzevaadomRaw(): Promise<TzevaadomEntry[]> {
   const res = await fetch('/api/tzevaadom')
   if (!res.ok) throw new Error(`Failed to fetch tzevaadom data: ${res.status}`)
-  const entries: TzevaadomEntry[] = await res.json()
+  return res.json()
+}
+
+export async function fetchTzevaadomHistory(): Promise<AlarmHistoryItem[]> {
+  const entries = await fetchTzevaadomRaw()
 
   const expanded: AlarmHistoryItem[] = []
   for (const [rid, categoryCode, cities, ts] of entries) {
