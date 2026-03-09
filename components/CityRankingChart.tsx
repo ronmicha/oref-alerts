@@ -1,9 +1,6 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, LabelList, ResponsiveContainer,
-} from 'recharts'
 import type { CityCount } from '@/types/oref'
 import { CityCombobox } from '@/components/FilterBar'
 import { useI18n } from '@/lib/i18n'
@@ -15,8 +12,6 @@ interface CityRankingChartProps {
   fromTs: number
   cityLabels: string[]
 }
-
-const LIMIT = 50
 
 function formatDateShort(ts: number, lang: 'he' | 'en'): string {
   return new Intl.DateTimeFormat(lang === 'he' ? 'he-IL' : 'en-GB', {
@@ -44,14 +39,7 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
         const found = withAlerts.filter((c) => c.label === cityLabel)
         return found.length > 0 ? found : [{ label: cityLabel, count: 0 }]
       })()
-    : [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count).slice(0, LIMIT)
-
-  const displayData = sortedSliced.map((city) => ({
-    ...city,
-    displayLabel: city.count === 0 ? `#—  ${city.label}` : `#${rankMap.get(city.label) ?? '?'}  ${city.label}`,
-  }))
-
-  const chartHeight = Math.max(200, displayData.length * 22 + 60)
+    : [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count).slice(0, 50)
 
   return (
     <div>
@@ -61,11 +49,11 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
           <h2 className="text-sm font-semibold text-gray-700">
             {t('chartByCityTitle', { from: formatDateShort(fromTs, lang as 'he' | 'en') })}
           </h2>
-          {!loading && !cityLabel && withAlerts.length > LIMIT && (
+          {!loading && !cityLabel && withAlerts.length > 50 && (
             <p className="text-xs text-gray-400 mt-0.5">
               {sortDesc
-                ? t('cityRankingTop', { n: String(LIMIT), total: String(withAlerts.length) })
-                : t('cityRankingBottom', { n: String(LIMIT), total: String(withAlerts.length) })}
+                ? t('cityRankingTop', { n: '50', total: String(withAlerts.length) })
+                : t('cityRankingBottom', { n: '50', total: String(withAlerts.length) })}
             </p>
           )}
           {!loading && cityLabel && (
@@ -108,53 +96,38 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
       )}
 
       {/* Empty state */}
-      {!loading && !error && displayData.length === 0 && (
+      {!loading && !error && sortedSliced.length === 0 && (
         <div className="text-sm text-gray-400 text-center py-8">{t('cityRankingEmpty')}</div>
       )}
 
-      {/* Chart */}
-      {!loading && !error && displayData.length > 0 && (
-        <div dir="ltr" style={{ maxHeight: 600, overflowY: 'auto' }}>
-          <div style={{ height: chartHeight }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={displayData}
-                layout="vertical"
-                margin={{ top: 4, right: 48, left: 0, bottom: 4 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
-                <XAxis
-                  type="number"
-                  allowDecimals={false}
-                  tickLine={false}
-                  axisLine={false}
-                  tick={{ fontSize: 11, fill: '#9CA3AF' }}
-                />
-                <YAxis
-                  type="category"
-                  dataKey="displayLabel"
-                  tick={{ fontSize: 11, fill: '#6B7280' }}
-                  tickLine={false}
-                  axisLine={{ stroke: '#E5E7EB' }}
-                  width={200}
-                />
-                <Bar
-                  dataKey="count"
-                  fill="#EF4444"
-                  radius={[0, 4, 4, 0]}
-                  maxBarSize={16}
-                  isAnimationActive={true}
-                  animationDuration={400}
-                >
-                  <LabelList
-                    dataKey="count"
-                    position="right"
-                    style={{ fontSize: 11, fill: '#6B7280' }}
-                  />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+      {/* Table */}
+      {!loading && !error && sortedSliced.length > 0 && (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="text-left py-2 px-3 font-medium text-gray-500 w-14">{t('rankColumn')}</th>
+                <th className="text-left py-2 px-3 font-medium text-gray-500">{t('filterCity')}</th>
+                <th className="text-right py-2 px-3 font-medium text-gray-500 w-20">{t('alertsColumn')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedSliced.map((city, i) => {
+                const rank = rankMap.get(city.label)
+                return (
+                  <tr key={city.label} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="py-2 px-3 text-gray-400 tabular-nums">
+                      {city.count === 0 ? '—' : `#${rank}`}
+                    </td>
+                    <td className="py-2 px-3 text-gray-700">{city.label}</td>
+                    <td className="py-2 px-3 text-right text-gray-700 font-medium tabular-nums">
+                      {city.count === 0 ? '—' : city.count}
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

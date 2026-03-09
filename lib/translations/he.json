@@ -22,6 +22,8 @@
   "cityRankingTop": "{n} ראשונות מתוך {total} ערים",
   "cityRankSearchInfo": "מקום {rank} מתוך {total} ערים",
   "cityRankingBottom": "{n} אחרונות מתוך {total} ערים",
+  "rankColumn": "מקום",
+  "alertsColumn": "התרעות",
   "sortMostFirst": "הכי הרבה קודם",
   "sortLeastFirst": "הכי מעט קודם",
   "cityRankingNoAlerts": "אין התרעות בתקופה זו",

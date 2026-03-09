@@ -22,6 +22,8 @@
   "cityRankingTop": "Top {n} of {total} cities",
   "cityRankSearchInfo": "Ranked #{rank} of {total} cities",
   "cityRankingBottom": "Bottom {n} of {total} cities",
+  "rankColumn": "Rank",
+  "alertsColumn": "Alerts",
   "sortMostFirst": "Most first",
   "sortLeastFirst": "Least first",
   "cityRankingNoAlerts": "No alerts in this period",
