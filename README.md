@@ -23,8 +23,10 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 | 📅 **Live & historical data** | Last 24h, 7 days, 30 days, or any custom date range |
 | 🏙️ **Filter by city** | Searchable combobox across all Israeli localities |
 | 🎯 **Filter by alert type** | Missiles, UAVs, flash alerts, and more |
-| 📊 **Alerts by Day** | Stacked bar chart with smart label rotation for long ranges |
+| 📊 **Alerts by Day** | Stacked bar chart (always oldest→newest, left to right) |
 | 🕐 **Alerts by Time of Day** | 15-minute resolution across the full 24-hour cycle |
+| 🥇 **City Rankings** | Sortable table ranking every city by alert count since Feb 28 2026, with city search |
+| 🔁 **Automatic API fallback** | Seamlessly switches to tzevaadom when the Oref API cap is reached |
 | 🌐 **Hebrew / English** | Full RTL/LTR layout switching |
 | 📱 **Mobile-friendly** | Responsive layout built with Tailwind CSS |
 
