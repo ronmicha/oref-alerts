@@ -254,7 +254,7 @@ export default function Home() {
         </div>
 
         {/* Alerts by Day */}
-        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', minHeight: 360 }}>
+        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 360 }}>
           <p style={sectionHeadingStyle}>{t('chartByDayTitle')}</p>
           <div dir="ltr" className="flex items-center justify-center">
             {isLoading && (
@@ -289,7 +289,7 @@ export default function Home() {
         </div>
 
         {/* Alerts by Time of Day */}
-        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', minHeight: 320 }}>
+        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 320 }}>
           <p style={sectionHeadingStyle}>{t('chartByTimeTitle')}</p>
           <div dir="ltr" className="flex items-center justify-center">
             {isLoading && (
