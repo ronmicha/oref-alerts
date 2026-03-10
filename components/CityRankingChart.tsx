@@ -50,20 +50,27 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
   return (
     <div>
       {/* Header row */}
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-start justify-between mb-3">
         <div>
-          <h2 className="text-sm font-semibold text-gray-700">
+          <p style={{
+            fontSize: '0.7rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: 'var(--color-text-muted)',
+            marginBottom: '0.2rem',
+          }}>
             {t('chartByCityTitle', { from: formatDateShort(fromTs, lang as 'he' | 'en') })}
-          </h2>
+          </p>
           {!loading && !cityLabel && withAlerts.length > 50 && (
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
               {sortDesc
                 ? t('cityRankingTop', { n: '50', total: String(withAlerts.length) })
                 : t('cityRankingBottom', { n: '50', total: String(withAlerts.length) })}
             </p>
           )}
           {!loading && cityLabel && (
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
               {rankMap.has(cityLabel)
                 ? t('cityRankSearchInfo', { rank: String(rankMap.get(cityLabel)), total: String(withAlerts.length) })
                 : t('cityRankingNoAlerts')}
@@ -74,7 +81,18 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
           <button
             onClick={() => setSortDesc((d) => !d)}
             disabled={loading || withAlerts.length === 0}
-            className="text-xs px-3 py-1.5 rounded-md border border-gray-300 bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-50 active:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{
+              fontSize: '0.75rem',
+              padding: '0.3rem 0.875rem',
+              borderRadius: 7,
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-text-secondary)',
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'var(--font-body)',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+            }}
           >
             {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
           </button>
@@ -82,7 +100,7 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
       </div>
 
       {/* City search */}
-      <div className="mb-3">
+      <div className="mb-4">
         <CityCombobox
           value={cityLabel}
           onChange={setCityLabel}
@@ -93,17 +111,23 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
 
       {/* Loading */}
       {loading && (
-        <div className="text-sm text-gray-400 text-center py-8 animate-pulse">{t('loading')}</div>
+        <div style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', textAlign: 'center', padding: '2rem 0' }}>
+          {t('loading')}
+        </div>
       )}
 
       {/* Error */}
       {!loading && error && (
-        <div className="text-sm text-red-500 text-center py-8">{t('errorLoad')}</div>
+        <div style={{ color: 'var(--color-accent)', fontSize: '0.875rem', textAlign: 'center', padding: '2rem 0' }}>
+          {t('errorLoad')}
+        </div>
       )}
 
       {/* Empty state */}
       {!loading && !error && sortedSliced.length === 0 && (
-        <div className="text-sm text-gray-400 text-center py-8">{t('cityRankingEmpty')}</div>
+        <div style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', textAlign: 'center', padding: '2rem 0' }}>
+          {t('cityRankingEmpty')}
+        </div>
       )}
 
       {/* Table */}
@@ -111,22 +135,25 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-start py-2 px-3 font-medium text-gray-500 w-14">{t('rankColumn')}</th>
-                <th className="text-start py-2 px-3 font-medium text-gray-500">{t('filterCity')}</th>
-                <th className="text-end py-2 px-3 font-medium text-gray-500 w-20">{t('alertsColumn')}</th>
+              <tr style={{ borderBottom: '2px solid var(--color-border)' }}>
+                <th className="text-start py-2 px-3 w-14" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>{t('rankColumn')}</th>
+                <th className="text-start py-2 px-3" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>{t('filterCity')}</th>
+                <th className="text-end py-2 px-3 w-20" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>{t('alertsColumn')}</th>
               </tr>
             </thead>
             <tbody>
               {sortedSliced.map((city, i) => {
                 const rank = rankMap.get(city.label)
                 return (
-                  <tr key={city.label} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="py-2 px-3 text-gray-400 tabular-nums">
+                  <tr
+                    key={city.label}
+                    style={{ background: i % 2 === 0 ? 'var(--color-card)' : 'var(--color-bg)', borderBottom: '1px solid var(--color-border)' }}
+                  >
+                    <td className="py-2 px-3 tabular-nums" style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem', fontWeight: 600 }}>
                       {city.count === 0 ? '—' : `#${rank}`}
                     </td>
-                    <td className="py-2 px-3 text-gray-700">{city.label}</td>
-                    <td className="py-2 px-3 text-end text-gray-700 font-medium tabular-nums">
+                    <td className="py-2 px-3" style={{ color: 'var(--color-text)', fontWeight: 500 }}>{city.label}</td>
+                    <td className="py-2 px-3 text-end tabular-nums" style={{ color: city.count > 0 ? 'var(--color-accent)' : 'var(--color-text-muted)', fontWeight: 700 }}>
                       {city.count === 0 ? '—' : city.count}
                     </td>
                   </tr>

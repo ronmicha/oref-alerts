@@ -73,7 +73,9 @@ export function CityCombobox({ value, onChange, options, placeholder }: CityComb
   }
 
   const inputClass =
-    'block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500'
+    'block w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1' +
+    ' border-[var(--color-border)] focus:border-[var(--color-accent)] focus:ring-[var(--color-accent)]' +
+    ' text-[var(--color-text)] placeholder:text-[var(--color-text-muted)]'
 
   const listId = `${uid}-list`
 
@@ -108,7 +110,7 @@ export function CityCombobox({ value, onChange, options, placeholder }: CityComb
           type="button"
           aria-label="Clear"
           onMouseDown={(e) => { e.preventDefault(); clear() }}
-          className="absolute inset-y-0 end-0 flex items-center px-2 text-gray-400 hover:text-gray-600"
+          className="absolute inset-y-0 end-0 flex items-center px-2 text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]"
         >
           ✕
         </button>
@@ -118,7 +120,7 @@ export function CityCombobox({ value, onChange, options, placeholder }: CityComb
           ref={listRef}
           id={listId}
           role="listbox"
-          className="absolute z-50 w-full max-h-52 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg mt-1 text-sm"
+          className="absolute z-50 w-full max-h-52 overflow-auto rounded-lg border bg-white shadow-lg mt-1 text-sm border-[var(--color-border)]"
         >
           {matches.map((opt, i) => (
             <li
@@ -126,7 +128,7 @@ export function CityCombobox({ value, onChange, options, placeholder }: CityComb
               id={`${uid}-opt-${i}`}
               role="option"
               aria-selected={i === highlightedIndex}
-              className={`px-3 py-2 cursor-pointer text-gray-700 ${i === highlightedIndex ? 'bg-blue-100' : 'hover:bg-blue-50'}`}
+              className={`px-3 py-2 cursor-pointer text-[var(--color-text)] ${i === highlightedIndex ? 'bg-red-50 text-[var(--color-accent)]' : 'hover:bg-[var(--color-bg)]'}`}
               onMouseDown={(e) => {
                 e.preventDefault() // keep input focused until selection completes
                 select(opt)
@@ -168,14 +170,16 @@ export function FilterBar({
   const { t, tCategory } = useI18n()
 
   const selectClass =
-    'block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500'
+    'block w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1' +
+    ' border-[var(--color-border)] focus:border-[var(--color-accent)] focus:ring-[var(--color-accent)]' +
+    ' text-[var(--color-text)]'
 
   return (
     <div className="flex flex-wrap gap-4">
       {/* Date range + custom date pickers (stacked vertically) */}
       <div className="flex-1 min-w-[160px] flex flex-col gap-2">
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">
+          <label className="block text-xs font-semibold mb-1.5 tracking-wide uppercase text-[var(--color-text-muted)]">
             {t('filterDateRange')}
           </label>
           <select
@@ -192,7 +196,7 @@ export function FilterBar({
         {dateRange === 'custom' && (
           <div className="flex gap-2">
             <div className="flex-1">
-              <label className="block text-xs font-medium text-gray-500 mb-1">
+              <label className="block text-xs font-semibold mb-1.5 tracking-wide uppercase text-[var(--color-text-muted)]">
                 {t('filterFromDate')}
               </label>
               <input
@@ -203,7 +207,7 @@ export function FilterBar({
               />
             </div>
             <div className="flex-1">
-              <label className="block text-xs font-medium text-gray-500 mb-1">
+              <label className="block text-xs font-semibold mb-1.5 tracking-wide uppercase text-[var(--color-text-muted)]">
                 {t('filterToDate')}
               </label>
               <input

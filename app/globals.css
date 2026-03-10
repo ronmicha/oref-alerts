@@ -1,4 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+:root {
+  --font-body: 'Heebo', system-ui, -apple-system, sans-serif;
+  --color-bg: #F2F1EE;
+  --color-card: #FFFFFF;
+  --color-border: #E2DDD6;
+  --color-header: #111111;
+  --color-accent: #CC1212;
+  --color-accent-hover: #B01010;
+  --color-text: #1A1918;
+  --color-text-secondary: #6A6560;
+  --color-text-muted: #A09890;
+}
+
+html,
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 /* Remove focus outline on Recharts SVG elements (shown on click) */
 .recharts-wrapper *:focus,

@@ -8,8 +8,19 @@ export function LanguageToggle() {
   return (
     <button
       onClick={() => setLang(lang === 'he' ? 'en' : 'he')}
-      className="px-3 py-1 text-sm font-medium rounded border border-gray-300 hover:bg-gray-100 transition-colors"
       aria-label="Toggle language"
+      style={{
+        padding: '0.3rem 0.875rem',
+        fontSize: '0.8rem',
+        fontWeight: 600,
+        borderRadius: 7,
+        border: '1px solid rgba(255,255,255,0.22)',
+        color: 'rgba(255,255,255,0.82)',
+        background: 'transparent',
+        cursor: 'pointer',
+        letterSpacing: '0.01em',
+        fontFamily: 'var(--font-body)',
+      }}
     >
       {t('langToggle')}
     </button>

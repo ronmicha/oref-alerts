@@ -126,22 +126,45 @@ export default function Home() {
 
   const isLoading = alertsLoading || citiesLoading || categoriesLoading
 
+  const cardStyle = {
+    background: 'var(--color-card)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 14,
+  } as React.CSSProperties
+
+  const sectionHeadingStyle = {
+    fontSize: '0.7rem',
+    fontWeight: 700,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase' as const,
+    color: 'var(--color-text-muted)',
+    marginBottom: '0.875rem',
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ background: 'var(--color-bg)' }}>
+      {/* Accent bar */}
+      <div style={{ height: 3, background: 'var(--color-accent)' }} />
+
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <header style={{ background: 'var(--color-header)' }}>
+        <div className="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🚨</span>
-            <h1 className="text-lg font-bold text-gray-900">{t('appTitle')}</h1>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ color: 'var(--color-accent)', flexShrink: 0 }}>
+              <path d="M12 2L3 7v10l9 5 9-5V7L12 2z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+              <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+            </svg>
+            <h1 style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '1rem', letterSpacing: '-0.01em' }}>
+              {t('appTitle')}
+            </h1>
           </div>
           <LanguageToggle />
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <main className="max-w-4xl mx-auto px-4 py-5 space-y-4">
         {/* Filters */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem' }}>
           <FilterBar
             dateRange={dateRange}
             onDateRangeChange={setDateRange}
@@ -158,55 +181,88 @@ export default function Home() {
           />
         </div>
 
-        {/* Summary chips */}
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 border border-blue-100">
-            {t('alertsCount', { count: `${filteredAlerts.length}${filteredAlerts.length === 3000 ? '+' : ''}` })}
-          </span>
+        {/* Summary bar */}
+        <div className="flex items-center gap-3 px-1">
+          <div
+            className="flex items-baseline gap-1.5"
+            style={{
+              background: 'var(--color-accent)',
+              color: '#fff',
+              borderRadius: 8,
+              padding: '0.3rem 0.875rem',
+            }}
+          >
+            <span style={{ fontSize: '1.15rem', fontWeight: 800, lineHeight: 1 }}>
+              {filteredAlerts.length}{filteredAlerts.length === 3000 ? '+' : ''}
+            </span>
+            <span style={{ fontSize: '0.7rem', fontWeight: 500, opacity: 0.85, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+              {t('total')}
+            </span>
+          </div>
           {startDate && endDate && (
-            <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600" dir="ltr">
+            <span
+              dir="ltr"
+              style={{
+                fontSize: '0.8rem',
+                color: 'var(--color-text-secondary)',
+                fontWeight: 500,
+              }}
+            >
               {startDate === endDate ? startDate : `${startDate} – ${endDate}`}
             </span>
           )}
         </div>
 
-        {/* Chart area */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[360px]">
-          <h2 className="text-sm font-semibold text-gray-700 mb-3">{t('chartByDayTitle')}</h2>
-          <div dir="ltr" className="flex items-center justify-center h-full">
-          {isLoading && (
-            <div className="text-gray-400 text-sm animate-pulse">{t('loading')}</div>
-          )}
-          {alertsError && !isLoading && (
-            <div className="text-center space-y-2">
-              <p className="text-red-500 text-sm">{t('errorLoad')}</p>
-              {!isCustom && (
-                <button
-                  onClick={retry}
-                  className="px-4 py-1.5 rounded bg-blue-600 text-white text-sm hover:bg-blue-700"
-                >
-                  {t('retry')}
-                </button>
-              )}
-            </div>
-          )}
-          {!isLoading && !alertsError && <AlertChart data={chartData} categories={categories} />}
+        {/* Alerts by Day */}
+        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', minHeight: 360 }}>
+          <p style={sectionHeadingStyle}>{t('chartByDayTitle')}</p>
+          <div dir="ltr" className="flex items-center justify-center">
+            {isLoading && (
+              <div style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', padding: '4rem 0' }}>
+                {t('loading')}
+              </div>
+            )}
+            {alertsError && !isLoading && (
+              <div className="text-center space-y-3" style={{ padding: '3rem 0' }}>
+                <p style={{ color: 'var(--color-accent)', fontSize: '0.875rem' }}>{t('errorLoad')}</p>
+                {!isCustom && (
+                  <button
+                    onClick={retry}
+                    style={{
+                      padding: '0.4rem 1.25rem',
+                      borderRadius: 7,
+                      background: 'var(--color-accent)',
+                      color: '#fff',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      border: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {t('retry')}
+                  </button>
+                )}
+              </div>
+            )}
+            {!isLoading && !alertsError && <AlertChart data={chartData} categories={categories} />}
           </div>
         </div>
 
-        {/* Time-of-day chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm min-h-[320px]">
-          <h2 className="text-sm font-semibold text-gray-700 mb-3">{t('chartByTimeTitle')}</h2>
-          <div dir="ltr" className="flex items-center justify-center h-full">
-          {isLoading && (
-            <div className="text-gray-400 text-sm animate-pulse">{t('loading')}</div>
-          )}
-          {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} />}
+        {/* Alerts by Time of Day */}
+        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', minHeight: 320 }}>
+          <p style={sectionHeadingStyle}>{t('chartByTimeTitle')}</p>
+          <div dir="ltr" className="flex items-center justify-center">
+            {isLoading && (
+              <div style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', padding: '4rem 0' }}>
+                {t('loading')}
+              </div>
+            )}
+            {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} />}
           </div>
         </div>
 
-        {/* City ranking chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+        {/* City Rankings */}
+        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem' }}>
           <CityRankingChart
             cities={rankedCities}
             loading={rankLoading}
@@ -218,8 +274,13 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="max-w-4xl mx-auto px-4 py-4 text-center text-xs text-gray-400">
-        {t('footerSource')}
+      <footer style={{ borderTop: '1px solid var(--color-border)', marginTop: '1.5rem' }}>
+        <div
+          className="max-w-4xl mx-auto px-5 py-4 text-center"
+          style={{ fontSize: '0.73rem', color: 'var(--color-text-muted)', letterSpacing: '0.02em' }}
+        >
+          {t('footerSource')}
+        </div>
       </footer>
     </div>
   )
