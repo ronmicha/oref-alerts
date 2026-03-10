@@ -85,12 +85,7 @@ FUNCTION_URL=$(aws lambda create-function-url-config \
   --region "$REGION" \
   --function-name "$FUNCTION_NAME" \
   --auth-type NONE \
-  --cors '{
-    "AllowOrigins": ["*"],
-    "AllowMethods": ["GET", "OPTIONS"],
-    "AllowHeaders": ["content-type"],
-    "MaxAge": 86400
-  }' \
+  --cors '{"AllowOrigins":["*"],"AllowMethods":["GET"],"AllowHeaders":["content-type"],"MaxAge":86400}' \
   --query 'FunctionUrl' --output text)
 
 # 5. Allow public invocation
