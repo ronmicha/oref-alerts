@@ -143,10 +143,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--color-bg)' }}>
-      {/* Accent bar */}
+      {/* Sticky header + accent bar */}
+      <div className="sticky top-0 z-40">
       <div style={{ height: 3, background: 'var(--color-accent)' }} />
-
-      {/* Header */}
       <header style={{ background: 'var(--color-header)' }}>
         <div className="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -161,6 +160,7 @@ export default function Home() {
           <LanguageToggle />
         </div>
       </header>
+      </div>
 
       <main className="max-w-4xl mx-auto px-4 py-5 space-y-4">
         {/* Filters */}
