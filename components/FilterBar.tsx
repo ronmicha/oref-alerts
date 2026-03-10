@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useId } from 'react'
+import React, { useState, useEffect, useRef, useId } from 'react'
 import { useI18n } from '@/lib/i18n'
 import type { AlertCategory, DateRangeOption } from '@/types/oref'
 
@@ -159,6 +159,19 @@ interface FilterBarProps {
   onCustomToChange: (v: string) => void
 }
 
+function SelectWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative">
+      {children}
+      <span className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3 text-[var(--color-text-muted)]">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M2 4.5 L6 8.5 L10 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </span>
+    </div>
+  )
+}
+
 export function FilterBar({
   dateRange, onDateRangeChange,
   cityLabel, onCityLabelChange,
@@ -170,7 +183,7 @@ export function FilterBar({
   const { t, tCategory } = useI18n()
 
   const selectClass =
-    'block w-full rounded-lg border bg-white ps-3 pe-8 py-2 text-sm focus:outline-none focus:ring-1' +
+    'block w-full rounded-lg border bg-white ps-3 pe-9 py-2 text-sm focus:outline-none focus:ring-1 appearance-none' +
     ' border-[var(--color-border)] focus:border-[var(--color-accent)] focus:ring-[var(--color-accent)]' +
     ' text-[var(--color-text)]'
 
@@ -182,16 +195,18 @@ export function FilterBar({
           <label className="block text-xs font-semibold mb-1.5 tracking-wide uppercase text-[var(--color-text-muted)]">
             {t('filterDateRange')}
           </label>
-          <select
-            value={dateRange}
-            onChange={(e) => onDateRangeChange(e.target.value as DateRangeOption)}
-            className={selectClass}
-          >
-            <option value="today">{t('today')}</option>
-            <option value="7d">{t('last7days')}</option>
-            <option value="30d">{t('last30days')}</option>
-            <option value="custom">{t('custom')}</option>
-          </select>
+          <SelectWrapper>
+            <select
+              value={dateRange}
+              onChange={(e) => onDateRangeChange(e.target.value as DateRangeOption)}
+              className={selectClass}
+            >
+              <option value="today">{t('today')}</option>
+              <option value="7d">{t('last7days')}</option>
+              <option value="30d">{t('last30days')}</option>
+              <option value="custom">{t('custom')}</option>
+            </select>
+          </SelectWrapper>
         </div>
         {dateRange === 'custom' && (
           <div className="flex gap-2">
@@ -239,18 +254,20 @@ export function FilterBar({
         <label className="block text-xs font-medium text-gray-500 mb-1">
           {t('filterCategory')}
         </label>
-        <select
-          value={categoryId ?? ''}
-          onChange={(e) =>
-            onCategoryIdChange(e.target.value === '' ? undefined : Number(e.target.value))
-          }
-          className={selectClass}
-        >
-          <option value="">{t('all')}</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>{tCategory(c.category)}</option>
-          ))}
-        </select>
+        <SelectWrapper>
+          <select
+            value={categoryId ?? ''}
+            onChange={(e) =>
+              onCategoryIdChange(e.target.value === '' ? undefined : Number(e.target.value))
+            }
+            className={selectClass}
+          >
+            <option value="">{t('all')}</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>{tCategory(c.category)}</option>
+            ))}
+          </select>
+        </SelectWrapper>
       </div>
     </div>
   )
