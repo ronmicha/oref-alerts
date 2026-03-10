@@ -61,8 +61,9 @@ export default function Home() {
   })
 
   // When oref returns exactly 3000 results it has hit its cap — the data is partial.
-  // In that case fall back to the tzevaadom historical source, same as custom mode.
-  const isAtLimit = !isCustom && !orefLoading && orefAlerts.length === 3000
+  // Only fall back for multi-day ranges (7d/30d); for "today" oref covers all categories
+  // whereas tzevaadom only has missile+UAV, so oref is still the better source even when capped.
+  const isAtLimit = !isCustom && !orefLoading && orefAlerts.length === 3000 && dateRange !== 'today'
   const useTzevaadom = isCustom || isAtLimit
 
   const { alerts: tzevaadomAlerts, loading: tzevaadomLoading, error: tzevaadomError } = useTzevaadomAlerts({
