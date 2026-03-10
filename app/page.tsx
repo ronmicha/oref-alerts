@@ -85,21 +85,31 @@ export default function Home() {
   const alertsLoading = isCustom ? tzevaadomLoading : isAtLimit ? tzevaadomLoading : orefLoading
   const alertsError = useTzevaadom ? tzevaadomError : orefError
 
-  const { cityLabels, loading: citiesLoading } = useCities(lang)
+  const { cities, cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
   const { cities: rankedCities, loading: rankLoading, error: rankError } =
     useCityRankings(lang, CITY_RANKING_FROM_TS)
   const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
   const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
 
+  // Tzevaadom stores Hebrew city names in alert.data. In English mode the user picks an
+  // English cityLabel, so we need to map it back to Hebrew before filtering tzevaadom data.
+  const enToHe = useMemo(
+    () => lang === 'en' ? new Map(cities.map((c) => [c.label, c.label_he])) : null,
+    [cities, lang],
+  )
+  const effectiveCityLabel = useTzevaadom && lang === 'en' && cityLabel && enToHe
+    ? (enToHe.get(cityLabel) ?? cityLabel)
+    : cityLabel
+
   const filteredAlerts = useMemo(
     () => filterAlerts(alerts, {
-      cityLabel: cityLabel || undefined,
+      cityLabel: effectiveCityLabel || undefined,
       categoryId,
       startDate,
       endDate,
     }),
-    [alerts, cityLabel, categoryId, startDate, endDate]
+    [alerts, effectiveCityLabel, categoryId, startDate, endDate]
   )
 
   const chartData = useMemo(
