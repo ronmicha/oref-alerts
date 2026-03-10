@@ -22,6 +22,7 @@
   "cityRankingTop": "Top {n} of {total} cities",
   "cityRankSearchInfo": "Ranked #{rank} of {total} cities",
   "cityRankingBottom": "Bottom {n} of {total} cities",
+  "orefLimitFallback": "Alert count exceeds the API limit — showing data from historical source instead",
   "rankColumn": "Rank",
   "alertsColumn": "Alerts",
   "sortMostFirst": "Most first",

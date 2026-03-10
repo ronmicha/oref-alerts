@@ -60,13 +60,18 @@ export default function Home() {
     enabled: !isCustom,
   })
 
+  // When oref returns exactly 3000 results it has hit its cap — the data is partial.
+  // In that case fall back to the tzevaadom historical source, same as custom mode.
+  const isAtLimit = !isCustom && !orefLoading && orefAlerts.length === 3000
+  const useTzevaadom = isCustom || isAtLimit
+
   const { alerts: tzevaadomAlerts, loading: tzevaadomLoading, error: tzevaadomError } = useTzevaadomAlerts({
-    enabled: isCustom,
+    enabled: useTzevaadom,
   })
 
-  const alerts = isCustom ? tzevaadomAlerts : orefAlerts
-  const alertsLoading = isCustom ? tzevaadomLoading : orefLoading
-  const alertsError = isCustom ? tzevaadomError : orefError
+  const alerts = useTzevaadom ? tzevaadomAlerts : orefAlerts
+  const alertsLoading = isCustom ? tzevaadomLoading : isAtLimit ? tzevaadomLoading : orefLoading
+  const alertsError = useTzevaadom ? tzevaadomError : orefError
 
   const { cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
@@ -135,6 +140,13 @@ export default function Home() {
             onCustomToChange={setCustomTo}
           />
         </div>
+
+        {/* API limit fallback warning */}
+        {isAtLimit && !tzevaadomLoading && !tzevaadomError && (
+          <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-2 text-sm text-amber-800">
+            {t('orefLimitFallback')}
+          </div>
+        )}
 
         {/* Summary chips */}
         <div className="flex items-center gap-3">
