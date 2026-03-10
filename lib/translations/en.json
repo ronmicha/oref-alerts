@@ -4,7 +4,7 @@
   "filterCity": "City",
   "filterCategory": "Alert type",
   "all": "All",
-  "today": "Last 24 Hours",
+  "today": "Last 24 hours",
   "last7days": "Last 7 days",
   "last30days": "Last 30 days",
   "alertsCount": "{count} alerts",
