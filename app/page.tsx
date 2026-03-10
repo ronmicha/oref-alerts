@@ -289,7 +289,7 @@ export default function Home() {
         </div>
 
         {/* Alerts by Time of Day */}
-        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 320 }}>
+        <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 775 }}>
           <p style={sectionHeadingStyle}>{t('chartByTimeTitle')}</p>
           <div dir="ltr" className="flex items-center justify-center">
             {isLoading && (
