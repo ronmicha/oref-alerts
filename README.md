@@ -32,6 +32,57 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 
 ---
 
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         User's Browser                          │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │ HTTPS
+                            ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Vercel (Next.js)                           │
+│                                                                 │
+│  ┌─────────────────┐        ┌──────────────────────────────┐   │
+│  │   React Client  │        │     Next.js API Routes       │   │
+│  │                 │        │  /api/tzevaadom  (proxy +    │   │
+│  │  hooks/         │        │   cache headers)             │   │
+│  │  useAlerts      │        └──────────────┬───────────────┘   │
+│  │  useCityRankings│                       │                   │
+│  │  useTzevaadom   │                       │                   │
+│  └────────┬────────┘                       │                   │
+│           │ fetch (NEXT_PUBLIC_OREF_PROXY)  │                   │
+└───────────┼────────────────────────────────┼───────────────────┘
+            │                                │
+            ▼                                ▼
+┌───────────────────────┐      ┌─────────────────────────────┐
+│   AWS API Gateway     │      │      tzevaadom.co.il        │
+│   + Lambda            │      │  /static/historical/all.json│
+│   (il-central-1 🇮🇱)  │      │  (May 2021 – Dec 2024)      │
+│                       │      └─────────────────────────────┘
+│  Israeli IP ✓         │
+│  No geo-block         │
+└───────────┬───────────┘
+            │
+            ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     oref.org.il                                 │
+│          Official IDF Home Front Command API                    │
+│   /GetAlarmsHistory  ·  /GetCitiesMix  ·  /alertCategories     │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Data flow by date range:**
+
+| Range | Alert data | Why |
+|---|---|---|
+| Last 24h / 7d / 30d | Oref API (via Lambda proxy) | Live, official data |
+| Last 24h / 7d / 30d — if Oref returns 3,000 results (cap hit) | tzevaadom archive | Oref result is partial/misleading |
+| Custom date range | tzevaadom archive | Oref API only goes back 30 days |
+| City Rankings (since Feb 28 2026) | Oref API (via Lambda proxy) | Dedicated precomputed endpoint |
+
+---
+
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
@@ -40,6 +91,7 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 | Language | TypeScript |
 | Styling | Tailwind CSS |
 | Charts | Recharts |
+| Oref proxy | AWS Lambda + API Gateway (`il-central-1`) |
 | Data | [Pikud Ha'Oref API](https://www.oref.org.il) · [tzevaadom.co.il](https://www.tzevaadom.co.il) |
 | Hosting | Vercel |
 
@@ -63,5 +115,5 @@ npm run build  # production build
 
 ## 🗄️ Data Sources
 
-- 🔴 **Preset ranges (today / 7d / 30d)** — [oref.org.il](https://www.oref.org.il) official API
+- 🔴 **Preset ranges (today / 7d / 30d)** — [oref.org.il](https://www.oref.org.il) official API, routed through an AWS Lambda proxy in `il-central-1` (Israeli IP, bypasses geo-block)
 - 🗓️ **Custom date ranges** — [tzevaadom.co.il](https://www.tzevaadom.co.il) historical archive, proxied through `/api/tzevaadom` and cached client-side for instant re-filtering
