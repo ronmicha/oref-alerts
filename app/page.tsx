@@ -53,6 +53,12 @@ export default function Home() {
     setCategoryId(undefined)
   }, [lang])
 
+  // Compute date range first — needed to evaluate isAtLimit correctly
+  const { startDate, endDate } = useMemo(() => {
+    if (isCustom) return { startDate: customFrom, endDate: customTo }
+    return getPresetDateRange(dateRange as Exclude<DateRangeOption, 'custom'>)
+  }, [isCustom, customFrom, customTo, dateRange])
+
   const { alerts: orefAlerts, loading: orefLoading, error: orefError, retry } = useAlerts({
     mode: isCustom ? 1 : API_MODE[dateRange as Exclude<DateRangeOption, 'custom'>],
     city: cityLabel || undefined,
@@ -60,9 +66,15 @@ export default function Home() {
     enabled: !isCustom,
   })
 
-  // When oref returns exactly 3000 results it has hit its cap — the data is partial.
-  // In that case fall back to the tzevaadom historical source, same as custom mode.
-  const isAtLimit = !isCustom && !orefLoading && orefAlerts.length === 3000
+  // When oref hits its 3,000-alert cap the data is partial and misleading — fall back to tzevaadom.
+  // We compare against the DATE-FILTERED count, not the raw API count, because oref mode=1
+  // ("last 24 hours") returns a rolling window that crosses midnight and can hit 3,000 even
+  // though only a fraction of those alerts fall within today's calendar date.
+  const orefInDateRange = useMemo(
+    () => startDate && endDate ? filterAlerts(orefAlerts, { startDate, endDate }) : orefAlerts,
+    [orefAlerts, startDate, endDate],
+  )
+  const isAtLimit = !isCustom && !orefLoading && orefInDateRange.length === 3000
   const useTzevaadom = isCustom || isAtLimit
 
   const { alerts: tzevaadomAlerts, loading: tzevaadomLoading, error: tzevaadomError } = useTzevaadomAlerts({
@@ -79,11 +91,6 @@ export default function Home() {
     useCityRankings(lang, CITY_RANKING_FROM_TS)
   const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
   const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
-
-  const { startDate, endDate } = useMemo(() => {
-    if (isCustom) return { startDate: customFrom, endDate: customTo }
-    return getPresetDateRange(dateRange as Exclude<DateRangeOption, 'custom'>)
-  }, [isCustom, customFrom, customTo, dateRange])
 
   const filteredAlerts = useMemo(
     () => filterAlerts(alerts, {
