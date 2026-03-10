@@ -170,7 +170,7 @@ export function FilterBar({
   const { t, tCategory } = useI18n()
 
   const selectClass =
-    'block w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1' +
+    'block w-full rounded-lg border bg-white ps-3 pe-8 py-2 text-sm focus:outline-none focus:ring-1' +
     ' border-[var(--color-border)] focus:border-[var(--color-accent)] focus:ring-[var(--color-accent)]' +
     ' text-[var(--color-text)]'
 
