@@ -50,52 +50,30 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
   return (
     <div>
       {/* Header row */}
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <p style={{
-            fontSize: '0.7rem',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: 'var(--color-text-muted)',
-            marginBottom: '0.2rem',
-          }}>
-            {t('chartByCityTitle', { from: formatDateShort(fromTs, lang as 'he' | 'en') })}
+      <div className="mb-3">
+        <p style={{
+          fontSize: '0.7rem',
+          fontWeight: 700,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: 'var(--color-text-muted)',
+          marginBottom: '0.2rem',
+        }}>
+          {t('chartByCityTitle', { from: formatDateShort(fromTs, lang as 'he' | 'en') })}
+        </p>
+        {!loading && !cityLabel && withAlerts.length > 50 && (
+          <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+            {sortDesc
+              ? t('cityRankingTop', { n: '50', total: String(withAlerts.length) })
+              : t('cityRankingBottom', { n: '50', total: String(withAlerts.length) })}
           </p>
-          {!loading && !cityLabel && withAlerts.length > 50 && (
-            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-              {sortDesc
-                ? t('cityRankingTop', { n: '50', total: String(withAlerts.length) })
-                : t('cityRankingBottom', { n: '50', total: String(withAlerts.length) })}
-            </p>
-          )}
-          {!loading && cityLabel && (
-            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-              {rankMap.has(cityLabel)
-                ? t('cityRankSearchInfo', { rank: String(rankMap.get(cityLabel)), total: String(withAlerts.length) })
-                : t('cityRankingNoAlerts')}
-            </p>
-          )}
-        </div>
-        {!cityLabel && (
-          <button
-            onClick={() => setSortDesc((d) => !d)}
-            disabled={loading || withAlerts.length === 0}
-            style={{
-              fontSize: '0.75rem',
-              padding: '0.3rem 0.875rem',
-              borderRadius: 7,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-text-secondary)',
-              fontWeight: 600,
-              cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
-            }}
-          >
-            {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
-          </button>
+        )}
+        {!loading && cityLabel && (
+          <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+            {rankMap.has(cityLabel)
+              ? t('cityRankSearchInfo', { rank: String(rankMap.get(cityLabel)), total: String(withAlerts.length) })
+              : t('cityRankingNoAlerts')}
+          </p>
         )}
       </div>
 
@@ -138,7 +116,40 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
               <tr style={{ borderBottom: '2px solid var(--color-border)' }}>
                 <th className="text-start py-2 px-3 w-14" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>{t('rankColumn')}</th>
                 <th className="text-start py-2 px-3" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>{t('filterCity')}</th>
-                <th className="text-end py-2 px-3 w-20" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>{t('alertsColumn')}</th>
+                <th className="text-end py-2 px-3 w-20" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>
+                  {!cityLabel ? (
+                    <button
+                      onClick={() => setSortDesc((d) => !d)}
+                      disabled={loading || withAlerts.length === 0}
+                      className="inline-flex items-center gap-1 ms-auto"
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        cursor: withAlerts.length === 0 ? 'default' : 'pointer',
+                        font: 'inherit',
+                        fontSize: 'inherit',
+                        fontWeight: 'inherit',
+                        letterSpacing: 'inherit',
+                        textTransform: 'inherit',
+                        color: 'inherit',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.25rem',
+                      }}
+                    >
+                      {t('alertsColumn')}
+                      <svg
+                        width="10" height="12" viewBox="0 0 10 12" fill="none"
+                        aria-hidden="true"
+                        style={{ flexShrink: 0, opacity: withAlerts.length === 0 ? 0.35 : 1 }}
+                      >
+                        <path d="M5 1 L8.5 5 H1.5 Z" fill={sortDesc ? 'var(--color-text-muted)' : 'var(--color-accent)'} />
+                        <path d="M5 11 L1.5 7 H8.5 Z" fill={sortDesc ? 'var(--color-accent)' : 'var(--color-text-muted)'} />
+                      </svg>
+                    </button>
+                  ) : t('alertsColumn')}
+                </th>
               </tr>
             </thead>
             <tbody>
