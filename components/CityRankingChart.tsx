@@ -39,7 +39,13 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
         const found = withAlerts.filter((c) => c.label === cityLabel)
         return found.length > 0 ? found : [{ label: cityLabel, count: 0 }]
       })()
-    : [...withAlerts].sort((a, b) => sortDesc ? b.count - a.count : a.count - b.count).slice(0, 50)
+    : [...withAlerts].sort((a, b) => {
+        const countDiff = sortDesc ? b.count - a.count : a.count - b.count
+        if (countDiff !== 0) return countDiff
+        // For ties in "least first", higher rank number (worse) comes first
+        if (!sortDesc) return (rankMap.get(b.label) ?? 0) - (rankMap.get(a.label) ?? 0)
+        return 0
+      }).slice(0, 50)
 
   return (
     <div>
