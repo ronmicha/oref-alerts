@@ -74,7 +74,7 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
           <button
             onClick={() => setSortDesc((d) => !d)}
             disabled={loading || withAlerts.length === 0}
-            className="text-xs px-2 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="text-xs px-3 py-1.5 rounded-md border border-gray-300 bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-50 active:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {sortDesc ? t('sortLeastFirst') : t('sortMostFirst')}
           </button>
