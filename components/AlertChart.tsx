@@ -45,18 +45,15 @@ function CustomTick({ x, y, payload, dense }: { x?: number | string; y?: number 
 }
 
 export function AlertChart({ data, categories }: AlertChartProps) {
-  const { lang, t, tCategory } = useI18n()
-
-  // RTL: reverse so newest date is on the left, oldest on the right
-  const orderedData = lang === 'he' ? [...data].reverse() : data
+  const { t, tCategory } = useI18n()
 
   // Find which category IDs actually appear in this data slice
   const activeCatIds = [...new Set(
-    orderedData.flatMap((d) => Object.keys(d.byCategory).map(Number))
+    data.flatMap((d) => Object.keys(d.byCategory).map(Number))
   )]
 
   // Build chart data: flatten byCategory into cat_<id> keys for Recharts
-  const chartData = orderedData.map((d) => {
+  const chartData = data.map((d) => {
     const flat: Record<string, unknown> = {
       ...d,
       xKey: `${d.dayName}|${d.label}`,
