@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy oref-proxy Lambda to il-central-1 (Israel region)
+# Deploy oref-proxy Lambda + API Gateway to il-central-1 (Israel region)
 #
 # Prerequisites:
 #   - AWS CLI installed and configured (`aws configure`)
@@ -18,10 +18,12 @@ HANDLER="oref-proxy.handler"
 TIMEOUT=15
 ROLE_NAME="oref-proxy-lambda-role"
 ZIP_FILE="oref-proxy.zip"
+API_NAME="oref-proxy"
 
 # STS is global — use us-east-1 to avoid issues with opt-in regions
 ACCOUNT_ID=$(aws sts get-caller-identity --region us-east-1 --query Account --output text)
 ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
+FUNCTION_ARN="arn:aws:lambda:${REGION}:${ACCOUNT_ID}:function:${FUNCTION_NAME}"
 
 # ── Update path (redeploy code only) ─────────────────────────────────────────
 if [[ "${1:-}" == "--update" ]]; then
@@ -67,7 +69,7 @@ sleep 10
 echo "→ Packaging..."
 zip -j "$ZIP_FILE" oref-proxy.mjs
 
-# 3. Create function
+# 3. Create Lambda function (skip if already exists)
 echo "→ Creating Lambda function in ${REGION}..."
 aws lambda create-function \
   --region "$REGION" \
@@ -77,37 +79,67 @@ aws lambda create-function \
   --handler "$HANDLER" \
   --zip-file "fileb://${ZIP_FILE}" \
   --timeout "$TIMEOUT" \
-  --query 'FunctionArn' --output text
+  --query 'FunctionArn' --output text 2>/dev/null || echo "  (function already exists, continuing)"
 
-# 4. Function URL (public HTTPS endpoint — no API Gateway needed)
-echo "→ Creating Function URL..."
-FUNCTION_URL=$(aws lambda create-function-url-config \
+rm -f "$ZIP_FILE"
+
+# 4. API Gateway HTTP API
+echo "→ Creating API Gateway HTTP API..."
+API_ID=$(aws apigatewayv2 create-api \
   --region "$REGION" \
-  --function-name "$FUNCTION_NAME" \
-  --auth-type NONE \
-  --cors '{"AllowOrigins":["*"],"AllowMethods":["GET"],"AllowHeaders":["content-type"],"MaxAge":86400}' \
-  --query 'FunctionUrl' --output text)
+  --name "$API_NAME" \
+  --protocol-type HTTP \
+  --cors-configuration 'AllowOrigins=["*"],AllowMethods=["GET"],AllowHeaders=["content-type"],MaxAge=86400' \
+  --query 'ApiId' --output text)
 
-# 5. Allow public invocation
-echo "→ Granting public access..."
+# 5. Lambda integration
+echo "→ Creating Lambda integration..."
+INTEGRATION_ID=$(aws apigatewayv2 create-integration \
+  --region "$REGION" \
+  --api-id "$API_ID" \
+  --integration-type AWS_PROXY \
+  --integration-uri "$FUNCTION_ARN" \
+  --payload-format-version 2.0 \
+  --query 'IntegrationId' --output text)
+
+# 6. Default route (catches /history, /cities, /categories)
+echo "→ Creating default route..."
+aws apigatewayv2 create-route \
+  --region "$REGION" \
+  --api-id "$API_ID" \
+  --route-key '$default' \
+  --target "integrations/${INTEGRATION_ID}" \
+  --query 'RouteId' --output text > /dev/null
+
+# 7. Auto-deploy stage
+echo "→ Creating stage..."
+aws apigatewayv2 create-stage \
+  --region "$REGION" \
+  --api-id "$API_ID" \
+  --stage-name '$default' \
+  --auto-deploy \
+  --query 'StageName' --output text > /dev/null
+
+# 8. Allow API Gateway to invoke the Lambda
+echo "→ Granting API Gateway permission to invoke Lambda..."
 aws lambda add-permission \
   --region "$REGION" \
   --function-name "$FUNCTION_NAME" \
-  --statement-id FunctionURLAllowPublicAccess \
-  --action lambda:InvokeFunctionUrl \
-  --principal "*" \
-  --function-url-auth-type NONE \
+  --statement-id apigateway-invoke \
+  --action lambda:InvokeFunction \
+  --principal apigateway.amazonaws.com \
+  --source-arn "arn:aws:execute-api:${REGION}:${ACCOUNT_ID}:${API_ID}/*" \
   --query 'Statement' --output text > /dev/null
 
-rm -f "$ZIP_FILE"
+API_URL="https://${API_ID}.execute-api.${REGION}.amazonaws.com"
 
 echo ""
 echo "✓ Deployed successfully!"
 echo ""
-echo "  Function URL: ${FUNCTION_URL}"
+echo "  API URL: ${API_URL}"
 echo ""
 echo "  Next step — set this in Vercel:"
-echo "  NEXT_PUBLIC_OREF_PROXY=${FUNCTION_URL%/}"
+echo "  NEXT_PUBLIC_OREF_PROXY=${API_URL}"
 echo ""
 echo "  Test it:"
-echo "  curl \"${FUNCTION_URL}history?mode=1&lang=he\" | head -c 200"
+echo "  curl \"${API_URL}/history?mode=1&lang=he\" | head -c 200"
