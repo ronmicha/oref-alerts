@@ -112,9 +112,9 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
           <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left py-2 px-3 font-medium text-gray-500 w-14">{t('rankColumn')}</th>
-                <th className="text-left py-2 px-3 font-medium text-gray-500">{t('filterCity')}</th>
-                <th className="text-right py-2 px-3 font-medium text-gray-500 w-20">{t('alertsColumn')}</th>
+                <th className="text-start py-2 px-3 font-medium text-gray-500 w-14">{t('rankColumn')}</th>
+                <th className="text-start py-2 px-3 font-medium text-gray-500">{t('filterCity')}</th>
+                <th className="text-end py-2 px-3 font-medium text-gray-500 w-20">{t('alertsColumn')}</th>
               </tr>
             </thead>
             <tbody>
@@ -126,7 +126,7 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
                       {city.count === 0 ? '—' : `#${rank}`}
                     </td>
                     <td className="py-2 px-3 text-gray-700">{city.label}</td>
-                    <td className="py-2 px-3 text-right text-gray-700 font-medium tabular-nums">
+                    <td className="py-2 px-3 text-end text-gray-700 font-medium tabular-nums">
                       {city.count === 0 ? '—' : city.count}
                     </td>
                   </tr>
