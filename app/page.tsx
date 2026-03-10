@@ -37,7 +37,7 @@ function getPresetDateRange(option: Exclude<DateRangeOption, 'custom'>): { start
 export default function Home() {
   const { t, lang } = useI18n()
 
-  const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
+  const [dateRange, setDateRange] = useState<DateRangeOption>('today')
   const [cityLabel, setCityLabel] = useState('')
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined)
   const [customFrom, setCustomFrom] = useState('')
