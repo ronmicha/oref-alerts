@@ -72,15 +72,6 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**Data flow by date range:**
-
-| Range | Alert data | Why |
-|---|---|---|
-| Last 24h / 7d / 30d | Oref API (via Lambda proxy) | Live, official data |
-| Last 24h / 7d / 30d — if Oref returns 3,000 results (cap hit) | tzevaadom archive | Oref result is partial/misleading |
-| Custom date range | tzevaadom archive | Oref API only goes back 30 days |
-| City Rankings (since Feb 28 2026) | Oref API (via Lambda proxy) | Dedicated precomputed endpoint |
-
 ---
 
 ## 🛠️ Tech Stack
