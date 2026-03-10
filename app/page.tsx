@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useAlerts } from '@/hooks/useAlerts'
 import { useTzevaadomAlerts } from '@/hooks/useTzevaadomAlerts'
 import { useCities } from '@/hooks/useCities'
@@ -11,6 +11,7 @@ import { TimeOfDayChart } from '@/components/TimeOfDayChart'
 import { useCityRankings } from '@/hooks/useCityRankings'
 import { CityRankingChart } from '@/components/CityRankingChart'
 import { LanguageToggle } from '@/components/LanguageToggle'
+import { RefreshCw } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
 import type { DateRangeOption } from '@/types/oref'
@@ -77,7 +78,7 @@ export default function Home() {
   const isAtLimit = !isCustom && !orefLoading && orefInDateRange.length === 3000
   const useTzevaadom = isCustom || isAtLimit
 
-  const { alerts: tzevaadomAlerts, loading: tzevaadomLoading, error: tzevaadomError } = useTzevaadomAlerts({
+  const { alerts: tzevaadomAlerts, loading: tzevaadomLoading, error: tzevaadomError, refetch: tzevaadomRefetch } = useTzevaadomAlerts({
     enabled: useTzevaadom,
   })
 
@@ -87,7 +88,7 @@ export default function Home() {
 
   const { cities, cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
-  const { cities: rankedCities, loading: rankLoading, error: rankError } =
+  const { cities: rankedCities, loading: rankLoading, error: rankError, refetch: rankRefetch } =
     useCityRankings(lang, CITY_RANKING_FROM_TS)
   const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
   const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
@@ -126,6 +127,22 @@ export default function Home() {
 
   const isLoading = alertsLoading || citiesLoading || categoriesLoading
 
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
+  const handleRefresh = useCallback(() => {
+    setIsRefreshing(true)
+    retry()
+    if (useTzevaadom) tzevaadomRefetch()
+    rankRefetch()
+  }, [retry, tzevaadomRefetch, rankRefetch, useTzevaadom])
+
+  // Clear spinner once all fetches have settled
+  useEffect(() => {
+    if (isRefreshing && !alertsLoading && !rankLoading) {
+      setIsRefreshing(false)
+    }
+  }, [isRefreshing, alertsLoading, rankLoading])
+
   const cardStyle = {
     background: 'var(--color-card)',
     border: '1px solid var(--color-border)',
@@ -157,7 +174,30 @@ export default function Home() {
               {t('appTitle')}
             </h1>
           </div>
-          <LanguageToggle />
+          <div className="flex items-center gap-4">
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              aria-label="Refresh data"
+              style={{
+                width: 'calc(1.8rem + 2px)',
+                height: 'calc(1.8rem + 2px)',
+                flexShrink: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 7,
+                border: '1px solid rgba(255,255,255,0.22)',
+                color: 'rgba(255,255,255,0.82)',
+                background: 'transparent',
+                cursor: isRefreshing ? 'default' : 'pointer',
+                opacity: isRefreshing ? 0.6 : 1,
+              }}
+            >
+              <RefreshCw size={15} className={isRefreshing ? 'animate-spin' : ''} />
+            </button>
+            <LanguageToggle />
+          </div>
         </div>
       </header>
       </div>

@@ -14,7 +14,7 @@ import type { CityCount } from '@/types/oref'
  * English using the label_he field present in oref's English city list.
  */
 export function useCityRankings(lang: 'he' | 'en', fromTs: number) {
-  const { data: raw, isLoading: rawLoading, error: rawError } = useQuery({
+  const { data: raw, isLoading: rawLoading, error: rawError, refetch } = useQuery({
     queryKey: ['tzevaadomRaw'],
     queryFn: fetchTzevaadomRaw,
     staleTime: 30 * 60 * 1000, // 30 min — matches /api/tzevaadom s-maxage
@@ -51,5 +51,6 @@ export function useCityRankings(lang: 'he' | 'en', fromTs: number) {
     cities,
     loading: rawLoading || citiesLoading,
     error: rawError ? (rawError as Error).message : null,
+    refetch,
   }
 }
