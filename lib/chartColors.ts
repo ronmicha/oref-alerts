@@ -2,10 +2,10 @@ import type { AlertCategory } from '@/types/oref'
 
 // Fixed colors per alert type — consistent across charts, legends, and tooltips
 const CATEGORY_COLORS: Record<string, string> = {
-  missilealert: '#EF4444', // bright red
-  uav:          '#991B1B', // dark red
-  flash:        '#F97316', // orange
-  update:       '#3B82F6', // blue
+  missilealert: '#E01515', // app accent red — maximum severity (bright)
+  uav:          '#7A1010', // dark red — critical, clearly darker than missile
+  flash:        '#E07800', // vivid amber — precursor/warning, clearly orange not red
+  update:       '#ADA49C', // light warm gray — informational / all clear
 }
 
 // Fallback palette for any category not listed above
