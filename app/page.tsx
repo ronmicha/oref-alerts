@@ -148,13 +148,6 @@ export default function Home() {
           />
         </div>
 
-        {/* API limit fallback warning */}
-        {isAtLimit && !tzevaadomLoading && !tzevaadomError && (
-          <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-2 text-sm text-amber-800">
-            {t('orefLimitFallback')}
-          </div>
-        )}
-
         {/* Summary chips */}
         <div className="flex items-center gap-3">
           <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 border border-blue-100">
