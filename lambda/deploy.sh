@@ -19,7 +19,8 @@ TIMEOUT=15
 ROLE_NAME="oref-proxy-lambda-role"
 ZIP_FILE="oref-proxy.zip"
 
-ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+# STS is global — use us-east-1 to avoid issues with opt-in regions
+ACCOUNT_ID=$(aws sts get-caller-identity --region us-east-1 --query Account --output text)
 ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
 
 # ── Update path (redeploy code only) ─────────────────────────────────────────
