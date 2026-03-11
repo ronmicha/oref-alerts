@@ -43,8 +43,8 @@
     "terrorattack": "פיגוע",
     "tsunami": "צונאמי",
     "hazmat": "חומרים מסוכנים",
-    "update": "עדכון",
-    "flash": "בזק",
+    "update": "האירוע הסתיים",
+    "flash": "התרעה מקדימה",
     "missilealertdrill": "תרגיל - ירי רקטות וטילים",
     "uavdrill": "תרגיל - כלי טיס עוין",
     "memorialday1": "יום הזיכרון - צפירה ראשונה",
@@ -59,7 +59,7 @@
     "terrorattackdrill": "תרגיל - פיגוע",
     "tsunamidrill": "תרגיל - צונאמי",
     "hazmatdrill": "תרגיל - חומרים מסוכנים",
-    "updatedrill": "תרגיל - עדכון",
-    "flashdrill": "תרגיל - בזק"
+    "updatedrill": "תרגיל - האירוע הסתיים",
+    "flashdrill": "תרגיל - התרעה מקדימה"
   }
 }

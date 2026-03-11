@@ -43,8 +43,8 @@
     "terrorattack": "Terror Attack",
     "tsunami": "Tsunami",
     "hazmat": "Hazardous Materials",
-    "update": "Update",
-    "flash": "Flash",
+    "update": "All Clear",
+    "flash": "Early Warning",
     "missilealertdrill": "Drill – Missile Alert",
     "uavdrill": "Drill – Hostile UAV",
     "memorialday1": "Memorial Day – First Siren",
@@ -59,7 +59,7 @@
     "terrorattackdrill": "Drill – Terror Attack",
     "tsunamidrill": "Drill – Tsunami",
     "hazmatdrill": "Drill – Hazardous Materials",
-    "updatedrill": "Drill – Update",
-    "flashdrill": "Drill – Flash"
+    "updatedrill": "Drill – All Clear",
+    "flashdrill": "Drill – Early Warning"
   }
 }
