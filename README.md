@@ -106,5 +106,5 @@ npm run build  # production build
 
 ## 🗄️ Data Sources
 
-- 🔴 **Preset ranges (today / 7d / 30d)** — [oref.org.il](https://www.oref.org.il) official API, routed through an AWS Lambda proxy in `il-central-1` (Israeli IP, bypasses geo-block)
+- 🔴 **Preset ranges (24h / 7d / 30d)** — [oref.org.il](https://www.oref.org.il) official API, routed through an AWS Lambda proxy in `il-central-1` (Israeli IP, bypasses geo-block)
 - 🗓️ **Custom date ranges** — [tzevaadom.co.il](https://www.tzevaadom.co.il) historical archive, proxied through `/api/tzevaadom` and cached client-side for instant re-filtering
