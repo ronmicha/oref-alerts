@@ -187,6 +187,11 @@ export function FilterBar({
     ' border-[var(--color-border)] focus:border-[var(--color-accent)] focus:ring-[var(--color-accent)]' +
     ' text-[var(--color-text)]'
 
+  const dateInputClass =
+    'block w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1' +
+    ' border-[var(--color-border)] focus:border-[var(--color-accent)] focus:ring-[var(--color-accent)]' +
+    ' text-[var(--color-text)]'
+
   return (
     <div className="flex flex-wrap gap-4">
       {/* Date range + custom date pickers (stacked vertically) */}
@@ -218,7 +223,7 @@ export function FilterBar({
                 type="date"
                 value={customFrom}
                 onChange={(e) => onCustomFromChange(e.target.value)}
-                className={`${selectClass}${customFrom ? '' : ' text-transparent'}`}
+                className={dateInputClass}
               />
             </div>
             <div className="flex-1">
@@ -229,7 +234,7 @@ export function FilterBar({
                 type="date"
                 value={customTo}
                 onChange={(e) => onCustomToChange(e.target.value)}
-                className={`${selectClass}${customTo ? '' : ' text-transparent'}`}
+                className={dateInputClass}
               />
             </div>
           </div>
