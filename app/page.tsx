@@ -11,7 +11,7 @@ import { TimeOfDayChart } from '@/components/TimeOfDayChart'
 import { useCityRankings } from '@/hooks/useCityRankings'
 import { CityRankingChart } from '@/components/CityRankingChart'
 import { LanguageToggle } from '@/components/LanguageToggle'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, Loader2 } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
 import { getPresetDateRange } from '@/lib/dateRange'
@@ -250,8 +250,9 @@ export default function Home() {
           <p style={sectionHeadingStyle}>{t('chartByDayTitle')}</p>
           <div dir="ltr" className="flex items-center justify-center">
             {isLoading && (
-              <div style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', padding: '4rem 0' }}>
-                {t('loading')}
+              <div dir="auto" style={{ color: 'var(--color-text-muted)', padding: '4rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}>
+                <Loader2 size={22} className="animate-spin" style={{ opacity: 0.5 }} />
+                <span style={{ fontSize: '0.78rem', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600, opacity: 0.5 }}>{t('loading')}</span>
               </div>
             )}
             {alertsError && !isLoading && (
@@ -285,8 +286,9 @@ export default function Home() {
           <p style={sectionHeadingStyle}>{t('chartByTimeTitle')}</p>
           <div dir="ltr" className="flex items-center justify-center">
             {isLoading && (
-              <div style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', padding: '4rem 0' }}>
-                {t('loading')}
+              <div dir="auto" style={{ color: 'var(--color-text-muted)', padding: '4rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}>
+                <Loader2 size={22} className="animate-spin" style={{ opacity: 0.5 }} />
+                <span style={{ fontSize: '0.78rem', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600, opacity: 0.5 }}>{t('loading')}</span>
               </div>
             )}
             {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} />}

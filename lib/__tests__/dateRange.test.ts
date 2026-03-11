@@ -13,19 +13,18 @@ afterEach(() => {
 })
 
 describe('getPresetDateRange', () => {
-  it('"24h" returns the last 24 hours (startDate = yesterday, endDate = today)', () => {
+  it('"24h" returns a rolling 24-hour window ending now', () => {
     const result = getPresetDateRange('24h')
-    // At 2026-03-11T10:00Z, "last 24 hours" should cover 2026-03-10 through 2026-03-11
-    expect(result).toEqual({ startDate: '2026-03-10', endDate: '2026-03-11' })
+    expect(result).toEqual({ startDate: '2026-03-10T10:00', endDate: '2026-03-11T10:00' })
   })
 
-  it('"7d" returns a 7-day window ending today', () => {
+  it('"7d" returns a rolling 7-day window ending now', () => {
     const result = getPresetDateRange('7d')
-    expect(result).toEqual({ startDate: '2026-03-05', endDate: '2026-03-11' })
+    expect(result).toEqual({ startDate: '2026-03-04T10:00', endDate: '2026-03-11T10:00' })
   })
 
-  it('"30d" returns a 30-day window ending today', () => {
+  it('"30d" returns a rolling 30-day window ending now', () => {
     const result = getPresetDateRange('30d')
-    expect(result).toEqual({ startDate: '2026-02-10', endDate: '2026-03-11' })
+    expect(result).toEqual({ startDate: '2026-02-09T10:00', endDate: '2026-03-11T10:00' })
   })
 })

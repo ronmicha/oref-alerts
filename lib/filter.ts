@@ -11,6 +11,15 @@ function toDateKey(alertDate: string): string {
   return alertDate.slice(0, 10) // fallback
 }
 
+// Normalize alertDate to "YYYY-MM-DDTHH:MM" for timestamp comparison.
+function toDateTimeKey(alertDate: string): string {
+  if (alertDate.charAt(4) === '-') return alertDate.slice(0, 16)   // YYYY-MM-DDTHH:MM
+  if (alertDate.charAt(2) === '/') {                                // DD/MM/YYYY HH:MM:SS
+    return `${alertDate.slice(6, 10)}-${alertDate.slice(3, 5)}-${alertDate.slice(0, 2)}T${alertDate.slice(11, 16)}`
+  }
+  return alertDate.slice(0, 16) // fallback
+}
+
 interface FilterOptions {
   cityLabel?: string  // exact city name — matches alert.data
   categoryId?: number
@@ -30,10 +39,12 @@ export function filterAlerts(
       if (alert.category !== options.categoryId) return false
     }
     if (options.startDate) {
-      if (toDateKey(alert.alertDate) < options.startDate) return false
+      const key = options.startDate.includes('T') ? toDateTimeKey(alert.alertDate) : toDateKey(alert.alertDate)
+      if (key < options.startDate) return false
     }
     if (options.endDate) {
-      if (toDateKey(alert.alertDate) > options.endDate) return false
+      const key = options.endDate.includes('T') ? toDateTimeKey(alert.alertDate) : toDateKey(alert.alertDate)
+      if (key > options.endDate) return false
     }
     return true
   })
@@ -72,8 +83,8 @@ export function aggregateByDay(
   }
 
   const days: DayCount[] = []
-  const cursor = new Date(startDate + 'T00:00:00')
-  const end = new Date(endDate + 'T00:00:00')
+  const cursor = new Date(startDate.slice(0, 10) + 'T00:00:00')
+  const end = new Date(endDate.slice(0, 10) + 'T00:00:00')
   const days_arr = lang === 'he' ? HE_DAYS : EN_DAYS
 
   while (cursor <= end) {
