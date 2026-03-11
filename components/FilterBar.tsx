@@ -201,7 +201,7 @@ export function FilterBar({
               onChange={(e) => onDateRangeChange(e.target.value as DateRangeOption)}
               className={selectClass}
             >
-              <option value="today">{t('today')}</option>
+              <option value="24h">{t('24h')}</option>
               <option value="7d">{t('last7days')}</option>
               <option value="30d">{t('last30days')}</option>
               <option value="custom">{t('custom')}</option>

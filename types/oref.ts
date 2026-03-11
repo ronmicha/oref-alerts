@@ -44,7 +44,7 @@ export interface TimeSlotCount {
   byCategory: Record<number, number>
 }
 
-export type DateRangeOption = 'today' | '7d' | '30d' | 'custom'
+export type DateRangeOption = '24h' | '7d' | '30d' | 'custom'
 
 export interface CityCount {
   label: string

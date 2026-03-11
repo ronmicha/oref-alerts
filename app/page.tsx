@@ -14,6 +14,7 @@ import { LanguageToggle } from '@/components/LanguageToggle'
 import { RefreshCw } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
+import { getPresetDateRange } from '@/lib/dateRange'
 import type { DateRangeOption } from '@/types/oref'
 
 // Start of the city ranking window: 28 Feb 2026 00:00:00 Israel time (UTC+2)
@@ -21,24 +22,15 @@ const CITY_RANKING_FROM_TS = new Date('2026-02-28T00:00:00+02:00').getTime() / 1
 
 // Maps UI date range to oref API mode: 1=day, 2=week, 3=month
 const API_MODE: Record<Exclude<DateRangeOption, 'custom'>, 1 | 2 | 3> = {
-  today: 1,
+  '24h': 1,
   '7d':  2,
   '30d': 3,
-}
-
-function getPresetDateRange(option: Exclude<DateRangeOption, 'custom'>): { startDate: string; endDate: string } {
-  const today = new Date()
-  const end = today.toISOString().slice(0, 10)
-  const start = new Date(today)
-  if (option === '7d') start.setDate(start.getDate() - 6)
-  else if (option === '30d') start.setDate(start.getDate() - 29)
-  return { startDate: start.toISOString().slice(0, 10), endDate: end }
 }
 
 export default function Home() {
   const { t, lang } = useI18n()
 
-  const [dateRange, setDateRange] = useState<DateRangeOption>('today')
+  const [dateRange, setDateRange] = useState<DateRangeOption>('24h')
   const [cityLabel, setCityLabel] = useState('')
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined)
   const [customFrom, setCustomFrom] = useState('')
