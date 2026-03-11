@@ -7,7 +7,7 @@ import type { DayCount, AlertCategory } from '@/types/oref'
 import { useI18n } from '@/lib/i18n'
 import { getCategoryColor } from '@/lib/chartColors'
 
-interface AlertChartProps {
+interface ByDayChartProps {
   data: DayCount[]
   categories: AlertCategory[]
 }
@@ -44,7 +44,7 @@ function CustomTick({ x, y, payload, dense }: { x?: number | string; y?: number 
   )
 }
 
-export function AlertChart({ data, categories }: AlertChartProps) {
+export function ByDayChart({ data, categories }: ByDayChartProps) {
   const { t, tCategory } = useI18n()
 
   // Find which category IDs actually appear in this data slice

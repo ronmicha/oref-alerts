@@ -9,6 +9,8 @@
   "last30days": "30 ימים אחרונים",
   "alertsCount": "{count} התרעות",
   "total": "סה״כ",
+  "todayLabel": "היום",
+  "yesterdayLabel": "אתמול",
   "chartByDayTitle": "התרעות לפי יום",
   "chartByTimeTitle": "התרעות לפי שעה ביום",
   "loading": "טוען...",

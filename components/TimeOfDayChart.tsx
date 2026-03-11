@@ -1,8 +1,9 @@
 'use client'
 
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine
 } from 'recharts'
+import { ArrowUp, ArrowDown } from 'lucide-react'
 import type { TimeSlotCount, AlertCategory } from '@/types/oref'
 import { useI18n } from '@/lib/i18n'
 import { getCategoryColor } from '@/lib/chartColors'
@@ -10,6 +11,7 @@ import { getCategoryColor } from '@/lib/chartColors'
 interface TimeOfDayChartProps {
   data: TimeSlotCount[]
   categories: AlertCategory[]
+  showNowLine?: boolean
 }
 
 // Only render y-axis labels on the hour (HH:00)
@@ -24,8 +26,51 @@ function TimeAxisTick({ x, y, payload }: { x?: number; y?: number; payload?: { v
   )
 }
 
-export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
+interface NowLabelProps {
+  viewBox?: { x: number; y: number; width: number; height: number }
+  todayLabel?: string
+  yesterdayLabel?: string
+}
+
+function NowLabel({ viewBox, todayLabel, yesterdayLabel }: NowLabelProps) {
+  if (!viewBox) return null
+  const { x, y, width } = viewBox
+  const iconSize = 13
+  // Anchor group to the right edge of the plot area
+  const iconX = x + width - 48
+  const textX = iconX + iconSize + 4
+  const todayY = y - 9
+  const yestY  = y + 17
+
+  return (
+    <g>
+      <g transform={`translate(${iconX}, ${todayY - 10})`}>
+        <ArrowUp size={iconSize} color="#9CA3AF" strokeWidth={2.5} />
+      </g>
+      <text x={textX} y={todayY} fontSize={10} fontWeight={600} fill="#9CA3AF" textAnchor="start">
+        {todayLabel}
+      </text>
+      <g transform={`translate(${iconX}, ${yestY - 10})`}>
+        <ArrowDown size={iconSize} color="#9CA3AF" strokeWidth={2.5} />
+      </g>
+      <text x={textX} y={yestY} fontSize={10} fontWeight={600} fill="#9CA3AF" textAnchor="start">
+        {yesterdayLabel}
+      </text>
+    </g>
+  )
+}
+
+function getNowSlot(): string {
+  const now = new Date()
+  const h = now.getHours()
+  const m = Math.floor(now.getMinutes() / 15) * 15
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+}
+
+export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChartProps) {
   const { t, tCategory } = useI18n()
+
+  const nowSlot = getNowSlot()
 
   const activeCatIds = [...new Set(
     data.flatMap((d) => Object.keys(d.byCategory).map(Number))
@@ -110,6 +155,15 @@ export function TimeOfDayChart({ data, categories }: TimeOfDayChartProps) {
             tabIndex={-1}
           />
         ))}
+        {showNowLine && (
+          <ReferenceLine
+            y={nowSlot}
+            stroke="#9CA3AF"
+            strokeDasharray="5 3"
+            strokeWidth={1.5}
+            label={<NowLabel todayLabel={t('todayLabel')} yesterdayLabel={t('yesterdayLabel')} />}
+          />
+        )}
       </BarChart>
     </ResponsiveContainer>
   )

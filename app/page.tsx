@@ -6,7 +6,7 @@ import { useTzevaadomAlerts } from '@/hooks/useTzevaadomAlerts'
 import { useCities } from '@/hooks/useCities'
 import { useCategories } from '@/hooks/useCategories'
 import { FilterBar } from '@/components/FilterBar'
-import { AlertChart } from '@/components/AlertChart'
+import { ByDayChart } from '@/components/ByDayChart'
 import { TimeOfDayChart } from '@/components/TimeOfDayChart'
 import { useCityRankings } from '@/hooks/useCityRankings'
 import { CityRankingChart } from '@/components/CityRankingChart'
@@ -277,7 +277,7 @@ export default function Home() {
                 )}
               </div>
             )}
-            {!isLoading && !alertsError && <AlertChart data={chartData} categories={categories} />}
+            {!isLoading && !alertsError && <ByDayChart data={chartData} categories={categories} />}
           </div>
         </div>
 
@@ -291,7 +291,7 @@ export default function Home() {
                 <span style={{ fontSize: '0.78rem', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600, opacity: 0.5 }}>{t('loading')}</span>
               </div>
             )}
-            {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} />}
+            {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} showNowLine={dateRange === '24h'} />}
           </div>
         </div>
 

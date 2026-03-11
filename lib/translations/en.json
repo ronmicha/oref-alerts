@@ -9,6 +9,8 @@
   "last30days": "Last 30 days",
   "alertsCount": "{count} alerts",
   "total": "Total",
+  "todayLabel": "Today",
+  "yesterdayLabel": "Yesterday",
   "chartByDayTitle": "Alerts by Day",
   "chartByTimeTitle": "Alerts by Time of Day",
   "loading": "Loading...",
