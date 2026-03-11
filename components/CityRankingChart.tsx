@@ -81,7 +81,7 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
       {/* City search */}
       <div className="mb-4">
         <label className="block text-xs font-medium text-gray-500 mb-1">
-          {t('filterCity')}
+          {t('compareSearchLabel')}
         </label>
         <CityCombobox
           value=""

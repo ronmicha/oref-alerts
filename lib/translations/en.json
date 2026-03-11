@@ -2,6 +2,7 @@
   "appTitle": "Lion's Roar - Alerts",
   "filterDateRange": "Date range",
   "filterCity": "City",
+  "compareSearchLabel": "Select cities to compare",
   "filterCategory": "Alert type",
   "all": "All",
   "24h": "Last 24 hours",
