@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchTzevaadomRaw, TZEVAADOM_ALLOWED_CODES } from '@/lib/tzevaadom'
+import { fetchTzevaadomRaw, TZEVAADOM_ALLOWED_CODES, normalizeTzevaadomCity } from '@/lib/tzevaadom'
 import { fetchCities } from '@/lib/oref'
 import type { CityCount } from '@/types/oref'
 
@@ -39,7 +39,8 @@ export function useCityRankings(lang: 'he' | 'en', fromTs: number) {
     for (const [, code, cityArr, ts] of raw) {
       if (!TZEVAADOM_ALLOWED_CODES.has(code)) continue
       if (ts < fromTs) continue
-      for (const heCity of cityArr) {
+      for (const rawCity of cityArr) {
+        const heCity = normalizeTzevaadomCity(rawCity)
         const label = lang === 'en' ? (heToEn.get(heCity) ?? heCity) : heCity
         counts.set(label, (counts.get(label) ?? 0) + 1)
       }

@@ -9,6 +9,16 @@ const TZEVAADOM_CATEGORY_MAP: Record<number, { category: number; category_desc: 
 
 export const TZEVAADOM_ALLOWED_CODES = new Set(Object.keys(TZEVAADOM_CATEGORY_MAP).map(Number))
 
+// TzevaAdom uses slightly different city name spellings than the Oref cities API.
+// Map TzevaAdom names → Oref names so filters stay consistent across both sources.
+const CITY_NAME_MAP: Record<string, string> = {
+  'אשדוד -יא,יב,טו,יז,מרינה,סיט': 'אשדוד -יא,יב,טו,יז,מרינה,סיטי',
+}
+
+export function normalizeTzevaadomCity(city: string): string {
+  return CITY_NAME_MAP[city] ?? city
+}
+
 function toIsraelDateTime(ts: number): { alertDate: string; date: string; time: string } {
   const formatter = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Jerusalem',
@@ -43,7 +53,7 @@ export async function fetchTzevaadomHistory(): Promise<AlarmHistoryItem[]> {
     const { alertDate, date, time } = toIsraelDateTime(ts)
     for (const city of cities) {
       expanded.push({
-        data: city,
+        data: normalizeTzevaadomCity(city),
         date,
         time,
         alertDate,
