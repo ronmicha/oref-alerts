@@ -24,7 +24,16 @@ function formatDateShort(ts: number, lang: 'he' | 'en'): string {
 export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }: CityRankingChartProps) {
   const { t, lang } = useI18n()
   const [sortDesc, setSortDesc] = useState(true)
-  const [cityLabel, setCityLabel] = useState('')
+  const [selectedCities, setSelectedCities] = useState<string[]>([])
+
+  const addCity = (label: string) => {
+    if (label && !selectedCities.includes(label)) {
+      setSelectedCities((prev) => [...prev, label])
+    }
+  }
+  const removeCity = (label: string) => {
+    setSelectedCities((prev) => prev.filter((c) => c !== label))
+  }
 
   const withAlerts = cities.filter((c) => c.count > 0)
 
@@ -34,11 +43,10 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
     [withAlerts],
   )
 
-  const sortedSliced = cityLabel
-    ? (() => {
-        const found = withAlerts.filter((c) => c.label === cityLabel)
-        return found.length > 0 ? found : [{ label: cityLabel, count: 0 }]
-      })()
+  const sortedSliced = selectedCities.length > 0
+    ? selectedCities
+        .map((label) => withAlerts.find((c) => c.label === label) ?? { label, count: 0 })
+        .sort((a, b) => b.count - a.count)
     : [...withAlerts].sort((a, b) => {
         const countDiff = sortDesc ? b.count - a.count : a.count - b.count
         if (countDiff !== 0) return countDiff
@@ -61,18 +69,11 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
         }}>
           {t('chartByCityTitle', { from: formatDateShort(fromTs, lang as 'he' | 'en') })}
         </p>
-        {!loading && !cityLabel && withAlerts.length > 50 && (
+        {!loading && selectedCities.length === 0 && withAlerts.length > 50 && (
           <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
             {sortDesc
               ? t('cityRankingTop', { n: '50', total: String(withAlerts.length) })
               : t('cityRankingBottom', { n: '50', total: String(withAlerts.length) })}
-          </p>
-        )}
-        {!loading && cityLabel && (
-          <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-            {rankMap.has(cityLabel)
-              ? t('cityRankSearchInfo', { rank: String(rankMap.get(cityLabel)), total: String(withAlerts.length) })
-              : t('cityRankingNoAlerts')}
           </p>
         )}
       </div>
@@ -83,12 +84,52 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
           {t('filterCity')}
         </label>
         <CityCombobox
-          value={cityLabel}
-          onChange={setCityLabel}
-          options={cityLabels}
+          value=""
+          onChange={addCity}
+          options={cityLabels.filter((l) => !selectedCities.includes(l))}
           placeholder={t('all')}
         />
       </div>
+      {selectedCities.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.5rem' }}>
+          {selectedCities.map((label) => (
+            <span
+              key={label}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                padding: '0.2rem 0.5rem',
+                borderRadius: 999,
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                background: 'var(--color-border)',
+                color: 'var(--color-text)',
+              }}
+            >
+              {label}
+              <button
+                onClick={() => removeCity(label)}
+                aria-label={`Remove ${label}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                  color: 'var(--color-text-muted)',
+                  lineHeight: 1,
+                  fontSize: '0.85rem',
+                }}
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
 
       {/* Loading */}
       {loading && (
@@ -120,7 +161,7 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
                 <th className="text-start py-2 px-3 w-14" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>{t('rankColumn')}</th>
                 <th className="text-start py-2 px-3" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>{t('filterCity')}</th>
                 <th className="text-end py-2 px-3 w-20" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>
-                  {!cityLabel ? (
+                  {selectedCities.length === 0 ? (
                     <button
                       onClick={() => setSortDesc((d) => !d)}
                       disabled={loading || withAlerts.length === 0}

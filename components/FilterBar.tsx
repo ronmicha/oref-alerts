@@ -49,8 +49,8 @@ export function CityCombobox({ value, onChange, options, placeholder }: CityComb
   }, [input, value, options])
 
   function select(opt: string) {
-    setInput(opt)
     onChange(opt)
+    setInput(value)
     setOpen(false)
     setHighlightedIndex(-1)
   }
