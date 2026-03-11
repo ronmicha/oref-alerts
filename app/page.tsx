@@ -240,7 +240,9 @@ export default function Home() {
                 fontWeight: 500,
               }}
             >
-              {startDate === endDate ? startDate : `${startDate} – ${endDate}`}
+              {startDate.slice(0, 10) === endDate.slice(0, 10)
+                ? startDate.slice(0, 10)
+                : `${startDate.slice(0, 10)} – ${endDate.slice(0, 10)}`}
             </span>
           )}
         </div>
