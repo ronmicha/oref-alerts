@@ -221,6 +221,7 @@ export function FilterBar({
               </label>
               <input
                 type="date"
+                dir="ltr"
                 value={customFrom}
                 onChange={(e) => onCustomFromChange(e.target.value)}
                 className={dateInputClass}
@@ -232,6 +233,7 @@ export function FilterBar({
               </label>
               <input
                 type="date"
+                dir="ltr"
                 value={customTo}
                 onChange={(e) => onCustomToChange(e.target.value)}
                 className={dateInputClass}
