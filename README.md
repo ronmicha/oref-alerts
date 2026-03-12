@@ -10,9 +10,9 @@
 
 ## 📖 Overview
 
-Lion's Roar visualizes the full history of Israeli home front alerts — missile fire, hostile UAV infiltrations, and more. Filter by city and alert type across multiple time ranges, and explore patterns by day and time of day.
+Lion's Roar visualizes the full history of Israeli home front alerts — missile fire, hostile UAV infiltrations, and more. Filter by city and alert type across multiple time ranges, and explore patterns by day, time of day, and city.
 
-For recent data (up to 30 days), the app pulls live from the official Oref API. For historical analysis, it draws on the tzevaadom.co.il dataset covering **May 2021 – December 2024**, enabling deep exploration of major events like October 7th and beyond.
+For recent data (up to 30 days), the app pulls live from the official Oref API. For historical analysis, it draws on the tzevaadom.co.il dataset covering **May 2021 – present**, enabling deep exploration of major events like October 7th and beyond.
 
 ---
 
@@ -22,10 +22,10 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 |---|---|
 | 📅 **Live & historical data** | Last 24h, 7 days, 30 days, or any custom date range |
 | 🏙️ **Filter by city** | Searchable combobox across all Israeli localities |
-| 🎯 **Filter by alert type** | Missiles, UAVs, flash alerts, and more |
+| 🎯 **Filter by alert type** | Missiles, UAVs, early warnings, and more |
 | 📊 **Alerts by Day** | Stacked bar chart (always oldest→newest, left to right) |
 | 🕐 **Alerts by Time of Day** | 15-minute resolution across the full 24-hour cycle |
-| 🥇 **City Rankings** | Sortable table ranking every city by alert count since Feb 28 2026, with city search |
+| 🥇 **City Rankings** | Sortable table ranking every city by alert count, filtered by the selected date range, with city search and compare mode |
 | 🔁 **Automatic API fallback** | Seamlessly switches to tzevaadom when the Oref API cap is reached |
 | 🌐 **Hebrew / English** | Full RTL/LTR layout switching |
 | 📱 **Mobile-friendly** | Responsive layout built with Tailwind CSS |
