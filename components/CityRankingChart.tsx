@@ -72,8 +72,8 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
         {!loading && selectedCities.length === 0 && withAlerts.length > 50 && (
           <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
             {sortDesc
-              ? t('cityRankingTop', { n: '50', total: String(withAlerts.length) })
-              : t('cityRankingBottom', { n: '50', total: String(withAlerts.length) })}
+              ? t('cityRankingTop', { n: '50', total: withAlerts.length.toLocaleString() })
+              : t('cityRankingBottom', { n: '50', total: withAlerts.length.toLocaleString() })}
           </p>
         )}
       </div>

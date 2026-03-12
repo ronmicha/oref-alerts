@@ -101,6 +101,7 @@ export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChart
           tickLine={false}
           axisLine={false}
           tick={{ fontSize: 11, fill: '#9CA3AF' }}
+          tickFormatter={(v: number) => v.toLocaleString()}
         />
         <YAxis
           type="category"

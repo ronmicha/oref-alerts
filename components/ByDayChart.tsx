@@ -89,6 +89,7 @@ export function ByDayChart({ data, categories }: ByDayChartProps) {
           tickLine={false}
           axisLine={false}
           tick={{ fontSize: 11, fill: '#9CA3AF' }}
+          tickFormatter={(v: number) => v.toLocaleString()}
           width={48}
         />
         <Tooltip
