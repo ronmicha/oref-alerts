@@ -21,7 +21,7 @@
   "custom": "אחר",
   "filterFromDate": "מתאריך",
   "filterToDate": "עד תאריך",
-  "chartByCityTitle": "דירוג ערים ({from} – היום)",
+  "chartByCityTitle": "דירוג ערים לפי התרעות",
   "cityRankingTop": "{n} ראשונות מתוך {total} ערים",
   "cityRankSearchInfo": "מקום {rank} מתוך {total} ערים",
   "cityRankingBottom": "{n} אחרונות מתוך {total} ערים",

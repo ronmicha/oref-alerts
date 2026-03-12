@@ -9,20 +9,12 @@ interface CityRankingChartProps {
   cities: CityCount[]
   loading: boolean
   error: string | null
-  fromTs: number
+  subtitle: string
   cityLabels: string[]
 }
 
-function formatDateShort(ts: number, lang: 'he' | 'en'): string {
-  return new Intl.DateTimeFormat(lang === 'he' ? 'he-IL' : 'en-GB', {
-    timeZone: 'Asia/Jerusalem',
-    day: 'numeric',
-    month: 'short',
-  }).format(new Date(ts * 1000))
-}
-
-export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }: CityRankingChartProps) {
-  const { t, lang } = useI18n()
+export function CityRankingChart({ cities, loading, error, subtitle, cityLabels }: CityRankingChartProps) {
+  const { t } = useI18n()
   const [sortDesc, setSortDesc] = useState(true)
   const [selectedCities, setSelectedCities] = useState<string[]>([])
 
@@ -65,17 +57,21 @@ export function CityRankingChart({ cities, loading, error, fromTs, cityLabels }:
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           color: 'var(--color-text-muted)',
-          marginBottom: '0.2rem',
+          marginBottom: '0.1rem',
         }}>
-          {t('chartByCityTitle', { from: formatDateShort(fromTs, lang as 'he' | 'en') })}
+          {t('chartByCityTitle')}
         </p>
-        {!loading && selectedCities.length === 0 && withAlerts.length > 50 && (
-          <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-            {sortDesc
-              ? t('cityRankingTop', { n: '50', total: withAlerts.length.toLocaleString() })
-              : t('cityRankingBottom', { n: '50', total: withAlerts.length.toLocaleString() })}
-          </p>
-        )}
+        {(() => {
+          const rankPart = !loading && selectedCities.length === 0 && withAlerts.length > 50
+            ? (sortDesc
+                ? t('cityRankingTop', { n: '50', total: withAlerts.length.toLocaleString() })
+                : t('cityRankingBottom', { n: '50', total: withAlerts.length.toLocaleString() }))
+            : ''
+          const full = [subtitle, rankPart].filter(Boolean).join(' · ')
+          return full ? (
+            <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem', opacity: 0.75 }}>{full}</p>
+          ) : null
+        })()}
       </div>
 
       {/* City search */}

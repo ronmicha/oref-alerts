@@ -13,7 +13,7 @@ import type { CityCount } from '@/types/oref'
  * For English mode the Hebrew city names from tzevaadom are mapped to
  * English using the label_he field present in oref's English city list.
  */
-export function useCityRankings(lang: 'he' | 'en', fromTs: number) {
+export function useCityRankings(lang: 'he' | 'en', fromTs: number, toTs: number) {
   const { data: raw, isLoading: rawLoading, error: rawError, refetch } = useQuery({
     queryKey: ['tzevaadomRaw'],
     queryFn: fetchTzevaadomRaw,
@@ -38,7 +38,7 @@ export function useCityRankings(lang: 'he' | 'en', fromTs: number) {
     const counts = new Map<string, number>()
     for (const [, code, cityArr, ts] of raw) {
       if (!TZEVAADOM_ALLOWED_CODES.has(code)) continue
-      if (ts < fromTs) continue
+      if (ts < fromTs || ts > toTs) continue
       for (const rawCity of cityArr) {
         const heCity = normalizeTzevaadomCity(rawCity)
         const label = lang === 'en' ? (heToEn.get(heCity) ?? heCity) : heCity
@@ -46,7 +46,7 @@ export function useCityRankings(lang: 'he' | 'en', fromTs: number) {
       }
     }
     return Array.from(counts.entries()).map(([label, count]) => ({ label, count }))
-  }, [raw, heToEn, lang, fromTs])
+  }, [raw, heToEn, lang, fromTs, toTs])
 
   return {
     cities,

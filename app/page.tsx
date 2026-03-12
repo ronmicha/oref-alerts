@@ -17,9 +17,6 @@ import { useI18n } from '@/lib/i18n'
 import { getPresetDateRange } from '@/lib/dateRange'
 import type { DateRangeOption } from '@/types/oref'
 
-// Start of the city ranking window: 28 Feb 2026 00:00:00 Israel time (UTC+2)
-const CITY_RANKING_FROM_TS = new Date('2026-02-28T00:00:00+02:00').getTime() / 1000
-
 // Maps UI date range to oref API mode: 1=day, 2=week, 3=month
 const API_MODE: Record<Exclude<DateRangeOption, 'custom'>, 1 | 2 | 3> = {
   '24h': 1,
@@ -80,8 +77,17 @@ export default function Home() {
 
   const { cities, cityLabels, loading: citiesLoading } = useCities(lang)
   const { categories, loading: categoriesLoading } = useCategories()
+  const { rankFromTs, rankToTs } = useMemo(() => {
+    const fromStr = startDate ? (startDate.includes('T') ? startDate : startDate + 'T00:00') : null
+    const toStr = endDate ? (endDate.includes('T') ? endDate : endDate + 'T23:59:59') : null
+    return {
+      rankFromTs: fromStr ? new Date(fromStr).getTime() / 1000 : 0,
+      rankToTs: toStr ? new Date(toStr).getTime() / 1000 : Date.now() / 1000,
+    }
+  }, [startDate, endDate])
+
   const { cities: rankedCities, loading: rankLoading, error: rankError, refetch: rankRefetch } =
-    useCityRankings(lang, CITY_RANKING_FROM_TS)
+    useCityRankings(lang, rankFromTs, rankToTs)
   const ALLOWED_CATEGORY_SLUGS = ['missilealert', 'uav', 'flash', 'update']
   const filterableCategories = categories.filter((c) => ALLOWED_CATEGORY_SLUGS.includes(c.category))
 
@@ -117,23 +123,24 @@ export default function Home() {
     [filteredAlerts, startDate, endDate]
   )
 
-  const chartSubtitle = useMemo(() => {
-    let rangeLabel: string
+  const chartRangeLabel = useMemo(() => {
     if (isCustom) {
-      rangeLabel = startDate && endDate
+      return startDate && endDate
         ? `${startDate.slice(0, 10)} – ${endDate.slice(0, 10)}`
         : ''
-    } else {
-      const map: Record<string, string> = {
-        '24h': t('24h'),
-        '7d': t('last7days'),
-        '30d': t('last30days'),
-      }
-      rangeLabel = map[dateRange] ?? ''
     }
+    const map: Record<string, string> = {
+      '24h': t('24h'),
+      '7d': t('last7days'),
+      '30d': t('last30days'),
+    }
+    return map[dateRange] ?? ''
+  }, [isCustom, startDate, endDate, dateRange, t])
+
+  const chartSubtitle = useMemo(() => {
     const cityPart = cityLabel || t('allCities')
-    return `${rangeLabel} · ${cityPart}`
-  }, [isCustom, startDate, endDate, dateRange, cityLabel, t])
+    return chartRangeLabel ? `${chartRangeLabel} · ${cityPart}` : ''
+  }, [chartRangeLabel, cityLabel, t])
 
   const isLoading = alertsLoading || citiesLoading || categoriesLoading
 
@@ -327,7 +334,7 @@ export default function Home() {
             cities={rankedCities}
             loading={rankLoading}
             error={rankError}
-            fromTs={CITY_RANKING_FROM_TS}
+            subtitle={chartRangeLabel}
             cityLabels={cityLabels}
           />
         </div>
