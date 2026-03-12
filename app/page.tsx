@@ -117,6 +117,24 @@ export default function Home() {
     [filteredAlerts, startDate, endDate]
   )
 
+  const chartSubtitle = useMemo(() => {
+    let rangeLabel: string
+    if (isCustom) {
+      rangeLabel = startDate && endDate
+        ? `${startDate.slice(0, 10)} – ${endDate.slice(0, 10)}`
+        : ''
+    } else {
+      const map: Record<string, string> = {
+        '24h': t('24h'),
+        '7d': t('last7days'),
+        '30d': t('last30days'),
+      }
+      rangeLabel = map[dateRange] ?? ''
+    }
+    const cityPart = cityLabel || t('allCities')
+    return `${rangeLabel} · ${cityPart}`
+  }, [isCustom, startDate, endDate, dateRange, cityLabel, t])
+
   const isLoading = alertsLoading || citiesLoading || categoriesLoading
 
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -249,7 +267,10 @@ export default function Home() {
 
         {/* Alerts by Day */}
         <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 360 }}>
-          <p style={sectionHeadingStyle}>{t('chartByDayTitle')}</p>
+          <p style={{ ...sectionHeadingStyle, marginBottom: chartSubtitle ? '0.1rem' : sectionHeadingStyle.marginBottom }}>{t('chartByDayTitle')}</p>
+          {chartSubtitle && (
+            <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75 }}>{chartSubtitle}</p>
+          )}
           <div dir="ltr" className="flex items-center justify-center">
             {isLoading && (
               <div dir="auto" style={{ color: 'var(--color-text-muted)', padding: '4rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}>
@@ -285,7 +306,10 @@ export default function Home() {
 
         {/* Alerts by Time of Day */}
         <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 775 }}>
-          <p style={sectionHeadingStyle}>{t('chartByTimeTitle')}</p>
+          <p style={{ ...sectionHeadingStyle, marginBottom: chartSubtitle ? '0.1rem' : sectionHeadingStyle.marginBottom }}>{t('chartByTimeTitle')}</p>
+          {chartSubtitle && (
+            <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75 }}>{chartSubtitle}</p>
+          )}
           <div dir="ltr" className="flex items-center justify-center">
             {isLoading && (
               <div dir="auto" style={{ color: 'var(--color-text-muted)', padding: '4rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}>

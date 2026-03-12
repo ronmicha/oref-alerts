@@ -33,6 +33,7 @@
   "cityRankingEmpty": "No cities with alerts in this period",
   "footerDeveloper": "Developed by",
   "developerName": "Ron Michaeli",
+  "allCities": "All cities",
   "langToggle": "עברית",
   "categories": {
     "missilealert": "Missile Alert",
