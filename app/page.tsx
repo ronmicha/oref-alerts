@@ -316,6 +316,16 @@ export default function Home() {
           style={{ fontSize: '0.73rem', color: 'var(--color-text-muted)', letterSpacing: '0.02em' }}
         >
           {t('footerSource')}
+          <br />
+          {t('footerDeveloper')}{' '}
+          <a
+            href="https://www.linkedin.com/in/ron-michaeli-a60798115"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'inherit', textDecoration: 'underline' }}
+          >
+            {t('developerName')}
+          </a>
         </div>
       </footer>
     </div>

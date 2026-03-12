@@ -17,7 +17,7 @@
   "loading": "Loading...",
   "errorLoad": "Failed to load data",
   "retry": "Retry",
-  "footerSource": "Data from oref.org.il",
+  "footerSource": "Data from oref.org.il and tzevaadom.co.il",
   "custom": "Custom",
   "filterFromDate": "From date",
   "filterToDate": "To date",
@@ -31,6 +31,8 @@
   "sortLeastFirst": "Least first",
   "cityRankingNoAlerts": "No alerts in this period",
   "cityRankingEmpty": "No cities with alerts in this period",
+  "footerDeveloper": "Developed by",
+  "developerName": "Ron Michaeli",
   "langToggle": "עברית",
   "categories": {
     "missilealert": "Missile Alert",

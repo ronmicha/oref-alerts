@@ -17,7 +17,7 @@
   "loading": "טוען...",
   "errorLoad": "שגיאה בטעינת הנתונים",
   "retry": "נסה שוב",
-  "footerSource": "נתונים מ-oref.org.il",
+  "footerSource": "נתונים מ-oref.org.il ו-tzevaadom.co.il",
   "custom": "אחר",
   "filterFromDate": "מתאריך",
   "filterToDate": "עד תאריך",
@@ -31,6 +31,8 @@
   "sortLeastFirst": "הכי מעט קודם",
   "cityRankingNoAlerts": "אין התרעות בתקופה זו",
   "cityRankingEmpty": "אין ערים עם התרעות בתקופה זו",
+  "footerDeveloper": "פותח ע״י",
+  "developerName": "רון מיכאלי",
   "langToggle": "English",
   "categories": {
     "missilealert": "ירי רקטות וטילים",
