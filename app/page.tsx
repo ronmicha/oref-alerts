@@ -24,6 +24,11 @@ const API_MODE: Record<Exclude<DateRangeOption, 'custom'>, 1 | 2 | 3> = {
   '30d': 3,
 }
 
+function formatDate(isoDate: string): string {
+  const [yyyy, mm, dd] = isoDate.slice(0, 10).split('-')
+  return `${dd}/${mm}/${yyyy}`
+}
+
 export default function Home() {
   const { t, lang } = useI18n()
 
@@ -126,7 +131,7 @@ export default function Home() {
   const chartRangeLabel = useMemo(() => {
     if (isCustom) {
       return startDate && endDate
-        ? `${startDate.slice(0, 10)} – ${endDate.slice(0, 10)}`
+        ? `${formatDate(startDate)} – ${formatDate(endDate)}`
         : ''
     }
     const map: Record<string, string> = {
@@ -266,8 +271,8 @@ export default function Home() {
               }}
             >
               {startDate.slice(0, 10) === endDate.slice(0, 10)
-                ? startDate.slice(0, 10)
-                : `${startDate.slice(0, 10)} – ${endDate.slice(0, 10)}`}
+                ? formatDate(startDate)
+                : `${formatDate(startDate)} – ${formatDate(endDate)}`}
             </span>
           )}
         </div>
