@@ -36,8 +36,8 @@ function NowLabel({ viewBox, todayLabel, yesterdayLabel }: NowLabelProps) {
   if (!viewBox) return null
   const { x, y, width } = viewBox
   const iconSize = 13
-  // Anchor group to the right edge of the plot area
-  const iconX = x + width - 48
+  // Anchor group just outside the right edge of the plot area
+  const iconX = x + width - 6
   const textX = iconX + iconSize + 4
   const todayY = y - 9
   const yestY  = y + 17
@@ -92,7 +92,7 @@ export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChart
       <BarChart
         data={chartData}
         layout="vertical"
-        margin={{ top: 8, right: 16, left: 0, bottom: 24 }}
+        margin={{ top: 8, right: 60, left: 0, bottom: 24 }}
       >
         <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
         <XAxis
@@ -156,15 +156,13 @@ export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChart
             tabIndex={-1}
           />
         ))}
-        {showNowLine && (
-          <ReferenceLine
-            y={nowSlot}
-            stroke="#9CA3AF"
-            strokeDasharray="5 3"
-            strokeWidth={1.5}
-            label={<NowLabel todayLabel={t('todayLabel')} yesterdayLabel={t('yesterdayLabel')} />}
-          />
-        )}
+        <ReferenceLine
+          y={nowSlot}
+          stroke="#9CA3AF"
+          strokeDasharray="5 3"
+          strokeWidth={1.5}
+          label={showNowLine ? <NowLabel todayLabel={t('todayLabel')} yesterdayLabel={t('yesterdayLabel')} /> : undefined}
+        />
       </BarChart>
     </ResponsiveContainer>
   )
