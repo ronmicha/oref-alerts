@@ -11,7 +11,7 @@ import { getCategoryColor } from '@/lib/chartColors'
 interface TimeOfDayChartProps {
   data: TimeSlotCount[]
   categories: AlertCategory[]
-  showNowLine?: boolean
+  showNowLabels?: boolean
 }
 
 // Only render y-axis labels on the hour (HH:00)
@@ -67,7 +67,7 @@ function getNowSlot(): string {
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
 }
 
-export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChartProps) {
+export function TimeOfDayChart({ data, categories, showNowLabels }: TimeOfDayChartProps) {
   const { t, tCategory } = useI18n()
 
   const nowSlot = getNowSlot()
@@ -161,7 +161,7 @@ export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChart
           stroke="#9CA3AF"
           strokeDasharray="5 3"
           strokeWidth={1.5}
-          label={showNowLine ? <NowLabel todayLabel={t('todayLabel')} yesterdayLabel={t('yesterdayLabel')} /> : undefined}
+          label={showNowLabels ? <NowLabel todayLabel={t('todayLabel')} yesterdayLabel={t('yesterdayLabel')} /> : undefined}
         />
       </BarChart>
     </ResponsiveContainer>
