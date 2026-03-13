@@ -1,7 +1,6 @@
 import React from 'react'
 import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { I18nProvider } from '@/lib/i18n'
 import { useCityRankings } from '../useCityRankings'
 import { tzevaadomRaw as FIXTURE_TZEVAADOM_RAW } from '@/tests/fixtures/tzevaadomRaw'
 import { cities as FIXTURE_CITIES } from '@/tests/fixtures/cities'
@@ -10,7 +9,7 @@ function makeWrapper() {
   return function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-        <I18nProvider>{children}</I18nProvider>
+        {children}
       </QueryClientProvider>
     )
   }
@@ -61,15 +60,15 @@ describe('useCityRankings', () => {
   // Test 2: fromTs boundary is inclusive
   it('fromTs boundary is inclusive — entry at exactly fromTs is counted', async () => {
     setupFetch()
-    const { result } = renderHook(() => useCityRankings('he', 2000, 3000), {
+    const { result } = renderHook(() => useCityRankings('he', 2000, 2000), {
       wrapper: makeWrapper(),
     })
 
     await waitFor(() => expect(result.current.loading).toBe(false))
 
     const { cities } = result.current
-    // ts=2000 should be included (fromTs=2000, ts=2000 → ts >= fromTs)
-    expect(getCount(cities, 'ירושלים')).toBeGreaterThanOrEqual(1)
+    // ts=2000 should be included (fromTs=2000, toTs=2000 → exactly the boundary entry)
+    expect(getCount(cities, 'ירושלים')).toBe(1)
   })
 
   // Test 3: toTs boundary is inclusive
