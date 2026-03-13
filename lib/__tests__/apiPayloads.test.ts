@@ -25,31 +25,31 @@ describe('fetchAlertHistory API payload snapshots', () => {
   it('mode=1, lang=he', async () => {
     const fetchSpy = mockHistoryFetch()
     await fetchAlertHistory({ mode: 1, lang: 'he' })
-    expect(fetchSpy.mock.calls[0][0]).toMatchSnapshot()
+    expect(fetchSpy.mock.calls[0]).toMatchSnapshot()
   })
 
   it('mode=2, lang=he', async () => {
     const fetchSpy = mockHistoryFetch()
     await fetchAlertHistory({ mode: 2, lang: 'he' })
-    expect(fetchSpy.mock.calls[0][0]).toMatchSnapshot()
+    expect(fetchSpy.mock.calls[0]).toMatchSnapshot()
   })
 
   it('mode=3, lang=en', async () => {
     const fetchSpy = mockHistoryFetch()
     await fetchAlertHistory({ mode: 3, lang: 'en' })
-    expect(fetchSpy.mock.calls[0][0]).toMatchSnapshot()
+    expect(fetchSpy.mock.calls[0]).toMatchSnapshot()
   })
 
   it('mode=1, lang=he, city=תל אביב', async () => {
     const fetchSpy = mockHistoryFetch()
     await fetchAlertHistory({ mode: 1, lang: 'he', city: 'תל אביב' })
-    expect(fetchSpy.mock.calls[0][0]).toMatchSnapshot()
+    expect(fetchSpy.mock.calls[0]).toMatchSnapshot()
   })
 
   it('mode=0, fromDate=01.03.2026, toDate=12.03.2026', async () => {
     const fetchSpy = mockHistoryFetch()
     await fetchAlertHistory({ mode: 0, fromDate: '01.03.2026', toDate: '12.03.2026' })
-    expect(fetchSpy.mock.calls[0][0]).toMatchSnapshot()
+    expect(fetchSpy.mock.calls[0]).toMatchSnapshot()
   })
 })
 
@@ -72,6 +72,12 @@ describe('fetchCities API payload snapshots', () => {
   it('lang=en', async () => {
     const fetchSpy = mockJsonFetch()
     await fetchCities('en')
+    expect(fetchSpy.mock.calls[0][0]).toMatchSnapshot()
+  })
+
+  it('uses default lang (he) when no argument passed', async () => {
+    const fetchSpy = mockJsonFetch()
+    await fetchCities()
     expect(fetchSpy.mock.calls[0][0]).toMatchSnapshot()
   })
 })
