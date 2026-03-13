@@ -79,6 +79,42 @@ describe('filterAlerts', () => {
     const result = filterAlerts(alerts, { cityLabel: 'תל אביב', categoryId: 1 })
     expect(result).toHaveLength(1)
   })
+
+  it('handles DD/MM/YYYY alertDate format: included when startDate matches', () => {
+    const alert = makeAlert({ alertDate: '01/03/2026 10:00:00' })
+    const result = filterAlerts([alert], { startDate: '2026-03-01' })
+    expect(result).toHaveLength(1)
+  })
+
+  it('handles DD/MM/YYYY alertDate format: excluded when endDate is before the alert', () => {
+    const alert = makeAlert({ alertDate: '01/03/2026 10:00:00' })
+    const result = filterAlerts([alert], { endDate: '2026-02-28' })
+    expect(result).toHaveLength(0)
+  })
+
+  it('handles startDate with time component: alert before start time is excluded', () => {
+    const alert = makeAlert({ alertDate: '2026-03-01T09:59:00' })
+    const result = filterAlerts([alert], { startDate: '2026-03-01T10:00' })
+    expect(result).toHaveLength(0)
+  })
+
+  it('handles startDate with time component: alert at exact start time is included', () => {
+    const alert = makeAlert({ alertDate: '2026-03-01T10:00:00' })
+    const result = filterAlerts([alert], { startDate: '2026-03-01T10:00' })
+    expect(result).toHaveLength(1)
+  })
+
+  it('handles endDate with time component: alert after end time is excluded', () => {
+    const alert = makeAlert({ alertDate: '2026-03-01T10:01:00' })
+    const result = filterAlerts([alert], { endDate: '2026-03-01T10:00' })
+    expect(result).toHaveLength(0)
+  })
+
+  it('handles endDate with time component: alert at exact end time is included', () => {
+    const alert = makeAlert({ alertDate: '2026-03-01T10:00:00' })
+    const result = filterAlerts([alert], { endDate: '2026-03-01T10:00' })
+    expect(result).toHaveLength(1)
+  })
 })
 
 describe('aggregateByDay', () => {
@@ -121,6 +157,34 @@ describe('aggregateByDay', () => {
     const alerts = [makeAlert({ alertDate: '2026-03-02T10:00:00' })] // Monday
     const result = aggregateByDay(alerts, { startDate: '2026-03-02', endDate: '2026-03-02', lang: 'he' })
     expect(result[0].dayName).toBe("'ב")
+  })
+
+  it('populates byCategory correctly for alerts with different categories on same day', () => {
+    const alerts = [
+      makeAlert({ alertDate: '2026-03-01T10:00:00', category: 1 }),
+      makeAlert({ alertDate: '2026-03-01T11:00:00', category: 2 }),
+    ]
+    const result = aggregateByDay(alerts, { startDate: '2026-03-01', endDate: '2026-03-01', lang: 'en' })
+    expect(result).toHaveLength(1)
+    expect(result[0].byCategory[1]).toBe(1)
+    expect(result[0].byCategory[2]).toBe(1)
+  })
+
+  it('returns exactly 1 entry for a single-day range', () => {
+    const alerts = [makeAlert({ alertDate: '2026-03-05T10:00:00' })]
+    const result = aggregateByDay(alerts, { startDate: '2026-03-05', endDate: '2026-03-05', lang: 'en' })
+    expect(result).toHaveLength(1)
+  })
+
+  it('captures earliest startTime and latest endTime from alerts on the same day', () => {
+    const alerts = [
+      makeAlert({ alertDate: '2026-03-01T08:00:00' }),
+      makeAlert({ alertDate: '2026-03-01T14:00:00' }),
+      makeAlert({ alertDate: '2026-03-01T22:00:00' }),
+    ]
+    const result = aggregateByDay(alerts, { startDate: '2026-03-01', endDate: '2026-03-01', lang: 'en' })
+    expect(result[0].startTime).toBe('08:00')
+    expect(result[0].endTime).toBe('22:00')
   })
 })
 
