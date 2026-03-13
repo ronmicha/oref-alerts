@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`fetchAlertHistory API payload snapshots mode=0, fromDate=01.03.2026, toDate=12.03.2026 1`] = `"/api/history?mode=0&lang=he&fromDate=01.03.2026&toDate=12.03.2026"`;
+
+exports[`fetchAlertHistory API payload snapshots mode=1, lang=he 1`] = `"/api/history?mode=1&lang=he"`;
+
+exports[`fetchAlertHistory API payload snapshots mode=1, lang=he, city=תל אביב 1`] = `"/api/history?mode=1&lang=he&city=%D7%AA%D7%9C+%D7%90%D7%91%D7%99%D7%91"`;
+
+exports[`fetchAlertHistory API payload snapshots mode=2, lang=he 1`] = `"/api/history?mode=2&lang=he"`;
+
+exports[`fetchAlertHistory API payload snapshots mode=3, lang=en 1`] = `"/api/history?mode=3&lang=en"`;
+
+exports[`fetchCategories API payload snapshots no params 1`] = `"/api/categories"`;
+
+exports[`fetchCities API payload snapshots lang=en 1`] = `"/api/cities?lang=en"`;
+
+exports[`fetchCities API payload snapshots lang=he 1`] = `"/api/cities?lang=he"`;
+
+exports[`fetchTzevaadomRaw API payload snapshots no params 1`] = `"/api/tzevaadom"`;
