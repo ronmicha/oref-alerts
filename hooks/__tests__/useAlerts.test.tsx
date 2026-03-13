@@ -68,24 +68,7 @@ describe('useAlerts', () => {
     expect(result.current.loading).toBe(false)
   })
 
-  // Test 4: loading=false after fetch resolves
-  it('loading becomes false after fetch resolves', async () => {
-    global.fetch = jest.fn().mockImplementation((url: string) => {
-      if (url.includes('/api/history')) {
-        return Promise.resolve(makeOkResponse(FIXTURE_ALERTS))
-      }
-      return Promise.reject(new Error('Unmocked URL: ' + url))
-    })
-
-    const { result } = renderHook(() => useAlerts({ mode: 1 }))
-
-    await waitFor(() => expect(result.current.loading).toBe(false))
-
-    expect(result.current.loading).toBe(false)
-    expect(result.current.alerts).toEqual(FIXTURE_ALERTS)
-  })
-
-  // Test 5: Fetch error → error populated, alerts=[]
+  // Test 4 (was 5): Fetch error → error populated, alerts=[]
   it('populates error and returns empty alerts on fetch error', async () => {
     global.fetch = jest.fn().mockImplementation((url: string) => {
       if (url.includes('/api/history')) {

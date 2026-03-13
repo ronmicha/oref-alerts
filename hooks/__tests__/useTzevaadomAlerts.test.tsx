@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderHook, waitFor } from '@testing-library/react'
+import { renderHook, act, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useTzevaadomAlerts } from '../useTzevaadomAlerts'
 import { tzevaadomRaw as FIXTURE_TZEVAADOM_RAW } from '@/tests/fixtures/tzevaadomRaw'
@@ -21,13 +21,13 @@ afterEach(() => {
 
 describe('useTzevaadomAlerts', () => {
   // Test 1: enabled=false → fetch not called
-  it('does not call fetch when enabled=false', () => {
+  it('does not fetch when disabled', async () => {
     global.fetch = jest.fn()
 
     renderHook(() => useTzevaadomAlerts({ enabled: false }), {
       wrapper: makeWrapper(),
     })
-
+    await act(async () => {})
     expect(global.fetch).not.toHaveBeenCalled()
   })
 
@@ -108,5 +108,21 @@ describe('useTzevaadomAlerts', () => {
     expect(result.current.error).toBeTruthy()
     expect(result.current.error).toContain('500')
     expect(result.current.alerts).toEqual([])
+  })
+
+  // Test 5: refetch triggers another fetch call
+  it('refetch triggers another fetch call', async () => {
+    global.fetch = jest.fn().mockImplementation((url: string) => {
+      if (url.includes('/api/tzevaadom'))
+        return Promise.resolve({ ok: true, json: () => Promise.resolve(FIXTURE_TZEVAADOM_RAW) } as Response)
+      return Promise.reject(new Error(`Unmocked URL: ${url}`))
+    })
+    const { result } = renderHook(() => useTzevaadomAlerts({ enabled: true }), {
+      wrapper: makeWrapper(),
+    })
+    await waitFor(() => expect(result.current.loading).toBe(false))
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+    await act(async () => { await result.current.refetch() })
+    expect(global.fetch).toHaveBeenCalledTimes(2)
   })
 })
