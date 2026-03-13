@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterBar } from '../FilterBar'
-import { I18nProvider } from '@/lib/i18n'
+import { I18nProvider, useI18n } from '@/lib/i18n'
 
 const defaultProps = {
   dateRange: '7d' as const,
@@ -41,7 +41,7 @@ function renderFilterBarEn(props = {}) {
 
 // A helper component that switches the language to English on mount
 function LangSwitcher() {
-  const { setLang } = require('@/lib/i18n').useI18n()
+  const { setLang } = useI18n()
   // Use a button to trigger the switch so we can fire it after render
   return (
     <button data-testid="switch-to-en" onClick={() => setLang('en')}>
@@ -51,6 +51,8 @@ function LangSwitcher() {
 }
 
 describe('FilterBar', () => {
+  beforeEach(() => jest.resetAllMocks())
+
   it('renders date range select with default value', () => {
     renderFilterBar()
     expect(screen.getByDisplayValue('7 ימים אחרונים')).toBeInTheDocument()
@@ -58,15 +60,15 @@ describe('FilterBar', () => {
 
   it('renders city input with empty value', () => {
     renderFilterBar()
-    // City input has role="combobox"; it is the second combobox (after date range select)
-    const cityInput = screen.getAllByRole('combobox')[1]
+    // City combobox input is the only element with role="combobox" that is a text input
+    const cityInput = screen.getByPlaceholderText('הכל')
     expect(cityInput).toHaveValue('')
   })
 
   it('calls onDateRangeChange when date range changes', () => {
     const onDateRangeChange = jest.fn()
     renderFilterBar({ onDateRangeChange })
-    const select = screen.getAllByRole('combobox')[0]
+    const select = screen.getByDisplayValue('7 ימים אחרונים')
     fireEvent.change(select, { target: { value: '30d' } })
     expect(onDateRangeChange).toHaveBeenCalledWith('30d')
   })
@@ -74,7 +76,7 @@ describe('FilterBar', () => {
   it('calls onCityLabelChange when city input is cleared', () => {
     const onCityLabelChange = jest.fn()
     renderFilterBar({ cityLabel: 'תל אביב | גוש דן', onCityLabelChange })
-    const input = screen.getAllByRole('combobox')[1]
+    const input = screen.getByDisplayValue('תל אביב | גוש דן')
     fireEvent.change(input, { target: { value: '' } })
     expect(onCityLabelChange).toHaveBeenCalledWith('')
   })
@@ -82,15 +84,12 @@ describe('FilterBar', () => {
   // --- Custom date pickers ---
 
   it('shows From-date and To-date inputs when dateRange is "custom"', () => {
-    renderFilterBar({ dateRange: 'custom' })
+    const { container } = renderFilterBar({ dateRange: 'custom' })
     // Labels are not associated via htmlFor, use getByText + check for date inputs
     expect(screen.getByText('מתאריך')).toBeInTheDocument()
     expect(screen.getByText('עד תאריך')).toBeInTheDocument()
-    const dateInputs = screen.getAllByDisplayValue('')
-    // At least two date inputs should be present (customFrom and customTo)
-    const dateTypeInputs = dateInputs.filter(
-      (el) => el.getAttribute('type') === 'date'
-    )
+    const dateTypeInputs = container.querySelectorAll('input[type="date"]')
+    // Exactly two date inputs should be present (customFrom and customTo)
     expect(dateTypeInputs).toHaveLength(2)
   })
 
@@ -107,7 +106,9 @@ describe('FilterBar', () => {
 
   it('renders all provided categories as options', () => {
     renderFilterBar()
-    const categorySelect = screen.getAllByRole('combobox')[2]
+    // Category select is the only select whose default value is '' (all) and contains category options
+    const categoryLabel = screen.getByText('סוג התרעה')
+    const categorySelect = categoryLabel.closest('div')!.querySelector('select')!
     // Hebrew translations for the two categories in defaultProps
     expect(within(categorySelect).getByText('ירי רקטות וטילים')).toBeInTheDocument()
     expect(within(categorySelect).getByText('חדירת כלי טיס עוין')).toBeInTheDocument()
@@ -116,7 +117,8 @@ describe('FilterBar', () => {
   it('calls onCategoryIdChange with a number when a category is selected', () => {
     const onCategoryIdChange = jest.fn()
     renderFilterBar({ onCategoryIdChange })
-    const categorySelect = screen.getAllByRole('combobox')[2]
+    const categoryLabel = screen.getByText('סוג התרעה')
+    const categorySelect = categoryLabel.closest('div')!.querySelector('select')!
     fireEvent.change(categorySelect, { target: { value: '1' } })
     expect(onCategoryIdChange).toHaveBeenCalledWith(1)
     expect(typeof onCategoryIdChange.mock.calls[0][0]).toBe('number')
@@ -125,7 +127,8 @@ describe('FilterBar', () => {
   it('calls onCategoryIdChange with undefined when "All" option is selected', () => {
     const onCategoryIdChange = jest.fn()
     renderFilterBar({ categoryId: 1, onCategoryIdChange })
-    const categorySelect = screen.getAllByRole('combobox')[2]
+    const categoryLabel = screen.getByText('סוג התרעה')
+    const categorySelect = categoryLabel.closest('div')!.querySelector('select')!
     fireEvent.change(categorySelect, { target: { value: '' } })
     expect(onCategoryIdChange).toHaveBeenCalledWith(undefined)
   })
@@ -134,7 +137,7 @@ describe('FilterBar', () => {
 
   it('filters city options by typed input', async () => {
     renderFilterBar()
-    const cityInput = screen.getAllByRole('combobox')[1]
+    const cityInput = screen.getByPlaceholderText('הכל')
     fireEvent.change(cityInput, { target: { value: 'ירושלים' } })
     // Only "ירושלים | ירושלים" should appear; "תל אביב | גוש דן" should not
     expect(await screen.findByRole('option', { name: 'ירושלים | ירושלים' })).toBeInTheDocument()
@@ -144,7 +147,7 @@ describe('FilterBar', () => {
   it('calls onCityLabelChange with the city name when an option is selected', async () => {
     const onCityLabelChange = jest.fn()
     renderFilterBar({ onCityLabelChange })
-    const cityInput = screen.getAllByRole('combobox')[1]
+    const cityInput = screen.getByPlaceholderText('הכל')
     // Open the dropdown by focusing
     fireEvent.focus(cityInput)
     // Click on the first option
@@ -166,7 +169,7 @@ describe('FilterBar', () => {
     // Committed value (prop) is '' (no city selected). User types a partial search
     // that still matches options so the dropdown stays open.
     renderFilterBar({ cityLabel: '', onCityLabelChange })
-    const cityInput = screen.getAllByRole('combobox')[1]
+    const cityInput = screen.getByPlaceholderText('הכל')
     // Focus opens the dropdown (matches all cities)
     fireEvent.focus(cityInput)
     // Type a partial query — still matches 'תל אביב | גוש דן', so matches.length > 0
