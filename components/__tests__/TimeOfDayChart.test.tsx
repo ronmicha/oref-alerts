@@ -97,8 +97,8 @@ function renderChart(props: {
 
 describe('TimeOfDayChart', () => {
   it('renders without crashing with 96 empty slots', () => {
-    const { container } = renderChart({ data: emptySlots, categories })
-    expect(container).toBeInTheDocument()
+    renderChart({ data: emptySlots, categories })
+    expect(screen.getByTestId('barchart')).toBeInTheDocument()
   })
 
   it('legend renders each category translated name', () => {

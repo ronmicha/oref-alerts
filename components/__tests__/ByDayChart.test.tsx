@@ -77,8 +77,8 @@ function renderChart(props: { data: DayCount[]; categories: typeof categories })
 
 describe('ByDayChart', () => {
   it('renders without crashing with data=[]', () => {
-    const { container } = renderChart({ data: [], categories })
-    expect(container).toBeInTheDocument()
+    renderChart({ data: [], categories })
+    expect(screen.getByTestId('barchart')).toBeInTheDocument()
   })
 
   it('renders one legend item per active category', () => {
