@@ -11,7 +11,7 @@ import { getCategoryColor } from '@/lib/chartColors'
 interface TimeOfDayChartProps {
   data: TimeSlotCount[]
   categories: AlertCategory[]
-  showNowLine?: boolean
+  showNowLabels?: boolean
 }
 
 // Only render y-axis labels on the hour (HH:00)
@@ -36,8 +36,8 @@ function NowLabel({ viewBox, todayLabel, yesterdayLabel }: NowLabelProps) {
   if (!viewBox) return null
   const { x, y, width } = viewBox
   const iconSize = 13
-  // Anchor group to the right edge of the plot area
-  const iconX = x + width - 48
+  // Anchor group just outside the right edge of the plot area
+  const iconX = x + width - 6
   const textX = iconX + iconSize + 4
   const todayY = y - 9
   const yestY  = y + 17
@@ -67,7 +67,7 @@ function getNowSlot(): string {
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
 }
 
-export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChartProps) {
+export function TimeOfDayChart({ data, categories, showNowLabels }: TimeOfDayChartProps) {
   const { t, tCategory } = useI18n()
 
   const nowSlot = getNowSlot()
@@ -92,7 +92,7 @@ export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChart
       <BarChart
         data={chartData}
         layout="vertical"
-        margin={{ top: 8, right: 16, left: 0, bottom: 24 }}
+        margin={{ top: 8, right: 60, left: 0, bottom: 24 }}
       >
         <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
         <XAxis
@@ -156,15 +156,13 @@ export function TimeOfDayChart({ data, categories, showNowLine }: TimeOfDayChart
             tabIndex={-1}
           />
         ))}
-        {showNowLine && (
-          <ReferenceLine
-            y={nowSlot}
-            stroke="#9CA3AF"
-            strokeDasharray="5 3"
-            strokeWidth={1.5}
-            label={<NowLabel todayLabel={t('todayLabel')} yesterdayLabel={t('yesterdayLabel')} />}
-          />
-        )}
+        <ReferenceLine
+          y={nowSlot}
+          stroke="#9CA3AF"
+          strokeDasharray="5 3"
+          strokeWidth={1.5}
+          label={showNowLabels ? <NowLabel todayLabel={t('todayLabel')} yesterdayLabel={t('yesterdayLabel')} /> : undefined}
+        />
       </BarChart>
     </ResponsiveContainer>
   )

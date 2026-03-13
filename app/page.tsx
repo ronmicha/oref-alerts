@@ -324,7 +324,7 @@ export default function Home() {
                 <span style={{ fontSize: '0.78rem', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600, opacity: 0.5 }}>{t('loading')}</span>
               </div>
             )}
-            {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} showNowLine={dateRange === '24h'} />}
+            {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} showNowLabels={dateRange === '24h'} />}
           </div>
         </div>
 
