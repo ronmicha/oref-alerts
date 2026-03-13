@@ -115,6 +115,18 @@ describe('filterAlerts', () => {
     const result = filterAlerts([alert], { endDate: '2026-03-01T10:00' })
     expect(result).toHaveLength(1)
   })
+
+  it('handles DD/MM/YYYY alertDate format with time-component startDate', () => {
+    const alert = makeAlert({ alertDate: '01/03/2026 10:00:00' })
+    const result = filterAlerts([alert], { startDate: '2026-03-01T09:59' })
+    expect(result).toHaveLength(1)
+  })
+
+  it('excludes DD/MM/YYYY alert before time-component startDate', () => {
+    const alert = makeAlert({ alertDate: '01/03/2026 09:58:00' })
+    const result = filterAlerts([alert], { startDate: '2026-03-01T09:59' })
+    expect(result).toHaveLength(0)
+  })
 })
 
 describe('aggregateByDay', () => {

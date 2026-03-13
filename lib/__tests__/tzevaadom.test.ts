@@ -1,4 +1,5 @@
-import { normalizeTzevaadomCity, TZEVAADOM_ALLOWED_CODES, fetchTzevaadomHistory } from '../tzevaadom'
+import { normalizeTzevaadomCity, TZEVAADOM_ALLOWED_CODES, fetchTzevaadomHistory, fetchTzevaadomRaw } from '../tzevaadom'
+import type { TzevaadomEntry } from '../tzevaadom'
 import { tzevaadomRaw } from '@/tests/fixtures/tzevaadomRaw'
 
 beforeAll(() => {
@@ -33,6 +34,18 @@ describe('TZEVAADOM_ALLOWED_CODES', () => {
 
   it('does NOT contain code 99', () => {
     expect(TZEVAADOM_ALLOWED_CODES.has(99)).toBe(false)
+  })
+})
+
+describe('fetchTzevaadomRaw', () => {
+  it('returns the raw array from fetch as-is', async () => {
+    const mockData: TzevaadomEntry[] = [[101, 0, ['תל אביב'], 1000000000]]
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockData,
+    } as Response)
+    const result = await fetchTzevaadomRaw()
+    expect(result).toEqual(mockData)
   })
 })
 
