@@ -11,6 +11,7 @@ import { TimeOfDayChart } from '@/components/TimeOfDayChart'
 import { useCityRankings } from '@/hooks/useCityRankings'
 import { CityRankingChart } from '@/components/CityRankingChart'
 import { LanguageToggle } from '@/components/LanguageToggle'
+import { DonateFAB } from '@/components/DonateFAB'
 import { RefreshCw, Loader2 } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
@@ -344,6 +345,8 @@ export default function Home() {
           />
         </div>
       </main>
+
+      <DonateFAB />
 
       {/* Footer */}
       <footer style={{ borderTop: '1px solid var(--color-border)', marginTop: '1.5rem' }}>
