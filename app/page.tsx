@@ -254,7 +254,7 @@ export default function Home() {
               padding: '0.3rem 0.875rem',
             }}
           >
-            <span style={{ fontSize: '1.15rem', fontWeight: 800, lineHeight: 1 }}>
+            <span data-testid="alert-count" style={{ fontSize: '1.15rem', fontWeight: 800, lineHeight: 1 }}>
               {filteredAlerts.length.toLocaleString()}{filteredAlerts.length === 3000 ? '+' : ''}
             </span>
             <span style={{ fontSize: '0.7rem', fontWeight: 500, opacity: 0.85, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
