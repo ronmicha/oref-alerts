@@ -16,6 +16,7 @@ import { RefreshCw, Loader2 } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
 import { getPresetDateRange } from '@/lib/dateRange'
+import { TAB_BAR_HEIGHT } from '@/lib/layout'
 import type { DateRangeOption } from '@/types/oref'
 
 // Maps UI date range to oref API mode: 1=day, 2=week, 3=month
@@ -30,8 +31,6 @@ function formatDate(isoDate: string): string {
   return `${dd}/${mm}/${yyyy}`
 }
 
-// TAB BAR HEIGHT used for padding — keep in sync with the nav height below
-const TAB_BAR_HEIGHT = 56
 
 export default function Home() {
   const { t, lang } = useI18n()
