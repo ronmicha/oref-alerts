@@ -44,21 +44,22 @@ export function useRealtimeAlerts({ lang = 'he' }: UseRealtimeAlertsOptions = {}
 
   const rawAlerts = data ?? []
 
-  const cityAlerts = new Map<string, RealtimeAlert>()
+  // Internal accumulator uses mutable Set; public interface exposes ReadonlySet
+  const mutableAlerts = new Map<string, { city: string; categories: Set<number> }>()
 
-  if (rawAlerts.length > 0) {
-    const cutoff = Date.now() - TEN_MINUTES_MS
-    for (const alert of rawAlerts) {
-      const alertTs = new Date(alert.alertDate).getTime()
-      if (alertTs < cutoff) continue
-      const existing = cityAlerts.get(alert.data)
-      if (existing) {
-        existing.categories.add(alert.category)
-      } else {
-        cityAlerts.set(alert.data, { city: alert.data, categories: new Set([alert.category]) })
-      }
+  const cutoff = Date.now() - TEN_MINUTES_MS
+  for (const alert of rawAlerts) {
+    const alertTs = new Date(alert.alertDate).getTime()
+    if (alertTs < cutoff) continue
+    const existing = mutableAlerts.get(alert.data)
+    if (existing) {
+      existing.categories.add(alert.category)
+    } else {
+      mutableAlerts.set(alert.data, { city: alert.data, categories: new Set([alert.category]) })
     }
   }
+
+  const cityAlerts: Map<string, RealtimeAlert> = mutableAlerts
 
   return {
     cityAlerts,
