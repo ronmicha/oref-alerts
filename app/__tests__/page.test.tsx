@@ -13,6 +13,7 @@
 
 import React from 'react'
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { I18nProvider } from '@/lib/i18n'
 import Page from '../page'
@@ -28,6 +29,12 @@ jest.mock('@/hooks/useTzevaadomAlerts')
 jest.mock('@/hooks/useCities')
 jest.mock('@/hooks/useCategories')
 jest.mock('@/hooks/useCityRankings')
+
+// ─── Mock MapView (uses dynamic imports / Leaflet which are unavailable in jsdom) ──
+
+jest.mock('@/components/MapView', () => ({
+  MapView: () => <div data-testid="map-view">Map View</div>,
+}))
 
 // ─── Mock heavy chart components to avoid recharts/canvas issues ─────────────
 
@@ -581,7 +588,18 @@ describe('Page user-flow tests', () => {
     expect(loadingTexts.length).toBeGreaterThan(0)
   })
 
-  // 16. Error state shows retry button
+  // 16. Tab bar — switching to Map tab renders MapView
+  it('switches to map tab when Map button is clicked', async () => {
+    renderPage()
+
+    // Find the Map tab button — in Hebrew (default locale) tabMap = 'מפה'
+    const mapTabButton = screen.getByRole('button', { name: /מפה/i })
+    await userEvent.click(mapTabButton)
+
+    expect(screen.getByTestId('map-view')).toBeInTheDocument()
+  })
+
+  // 17. Error state shows retry button
   it('error state shows retry button for non-custom ranges', () => {
     mockUseAlerts.mockReturnValue({
       alerts: [],

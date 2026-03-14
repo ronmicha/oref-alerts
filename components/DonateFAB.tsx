@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useI18n } from '@/lib/i18n'
+import { TAB_BAR_HEIGHT } from '@/lib/layout'
 
 const BITPAY_URL = 'https://www.bitpay.co.il/app/me/05921C5E-8748-4635-48C0-CA76D1DE67145239'
 
@@ -56,7 +57,7 @@ export function DonateFAB() {
           aria-label="Support this project"
           style={{
             position: 'fixed',
-            bottom: '8.5rem',
+            bottom: TAB_BAR_HEIGHT + 64 + 'px',
             insetInlineEnd: '1.25rem',
             width: '17rem',
             background: 'var(--color-card)',
@@ -118,7 +119,7 @@ export function DonateFAB() {
         aria-expanded={open}
         style={{
           position: 'fixed',
-          bottom: '4.75rem',
+          bottom: TAB_BAR_HEIGHT + 20 + 'px',
           insetInlineEnd: '1.25rem',
           width: '2rem',
           height: '2rem',

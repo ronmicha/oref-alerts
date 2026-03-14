@@ -99,7 +99,8 @@ function CityMarker({ cityName: _cityName, categories, lat, lng }: CityMarkerPro
 function MapResizer() {
   const map = useMap()
   useEffect(() => {
-    setTimeout(() => map.invalidateSize(), 100)
+    const timer = setTimeout(() => map.invalidateSize(), 100)
+    return () => clearTimeout(timer)
   }, [map])
   return null
 }
