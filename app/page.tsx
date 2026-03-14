@@ -12,6 +12,7 @@ import { useCityRankings } from '@/hooks/useCityRankings'
 import { CityRankingChart } from '@/components/CityRankingChart'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { DonateFAB } from '@/components/DonateFAB'
+import { MapView } from '@/components/MapView'
 import { RefreshCw, Loader2 } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
@@ -371,24 +372,7 @@ export default function Home() {
         </>
       )}
 
-      {/* ── MAP TAB (placeholder until Task 11) ── */}
-      {activeTab === 'map' && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            bottom: TAB_BAR_HEIGHT,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'var(--color-bg)',
-            color: 'var(--color-text-muted)',
-            fontSize: '0.9rem',
-          }}
-        >
-          Map coming soon
-        </div>
-      )}
+      {activeTab === 'map' && <MapView />}
 
       {/* ── BOTTOM TAB BAR ── */}
       <nav
