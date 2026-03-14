@@ -7438,5 +7438,311 @@
     "label_en": "Hemed",
     "lat": 31.6629483,
     "lng": 34.5673052
+  },
+  {
+    "label_he": "מענית, גבעת חביבה",
+    "label_en": "Maanit, Givat Haviva",
+    "lat": 32.4560127,
+    "lng": 35.0280805
+  },
+  {
+    "label_he": "עכו - כל האזורים",
+    "label_en": "Acre - all areas",
+    "lat": 32.9281731,
+    "lng": 35.0756378
+  },
+  {
+    "label_he": "צפת - כל האזורים",
+    "label_en": "Safed - all areas",
+    "lat": 32.9700297,
+    "lng": 35.4916374
+  },
+  {
+    "label_he": "באר שבע - כל האזורים",
+    "label_en": "Beer Sheva - all areas",
+    "lat": 31.238572,
+    "lng": 34.6952959
+  },
+  {
+    "label_he": "ראשון לציון - כל האזורים",
+    "label_en": "Rishon Lezion - all areas",
+    "lat": 31.9494326,
+    "lng": 34.7608535
+  },
+  {
+    "label_he": "אשקלון - כל האזורים",
+    "label_en": "Ashkelon - all areas",
+    "lat": 31.6795952,
+    "lng": 34.5581923
+  },
+  {
+    "label_he": "חיפה - כל האזורים",
+    "label_en": "Haifa - all areas",
+    "lat": 32.7878529,
+    "lng": 34.9656527
+  },
+  {
+    "label_he": "עוזייר, רומאנה",
+    "label_en": "Uzeir, Romana",
+    "lat": 32.8076327,
+    "lng": 35.2649953
+  },
+  {
+    "label_he": "שדרות, איבים",
+    "label_en": "Sderot, Ibim",
+    "lat": 31.5312634,
+    "lng": 34.5942807
+  },
+  {
+    "label_he": "צפת - נוף כנרת",
+    "label_en": "Safed - Nof ha-Kinneret",
+    "lat": 32.9700297,
+    "lng": 35.4916374
+  },
+  {
+    "label_he": "צפת - עכברה",
+    "label_en": "Safed - 'Akbara",
+    "lat": 32.9700297,
+    "lng": 35.4916374
+  },
+  {
+    "label_he": "דור, נחשולים",
+    "label_en": "Dor, Nachsholim",
+    "lat": 32.6075668,
+    "lng": 34.9230461
+  },
+  {
+    "label_he": "מודיעין - ליגד סנטר",
+    "label_en": "Modi'in - Ligad Center",
+    "lat": 31.8952781,
+    "lng": 34.9892311
+  },
+  {
+    "label_he": "באר שבע - מזרח",
+    "label_en": "Beer Sheva - East",
+    "lat": 31.238572,
+    "lng": 34.6952959
+  },
+  {
+    "label_he": "באר שבע - מערב",
+    "label_en": "Beer Sheva - West",
+    "lat": 31.238572,
+    "lng": 34.6952959
+  },
+  {
+    "label_he": "עכו - רמות ים",
+    "label_en": "Acre - Ramot Yam",
+    "lat": 32.9281731,
+    "lng": 35.0756378
+  },
+  {
+    "label_he": "ירושלים - כל האזורים",
+    "label_en": "Jerusalem - all areas",
+    "lat": 31.527823,
+    "lng": 34.606785
+  },
+  {
+    "label_he": "אשדוד - כל האזורים",
+    "label_en": "Ashdod - all areas",
+    "lat": 31.7957411,
+    "lng": 34.6488659
+  },
+  {
+    "label_he": "ניר עציון, ימין אורד",
+    "label_en": "Nir Etsion, Yamin Orde",
+    "lat": 32.6975838,
+    "lng": 34.9936059
+  },
+  {
+    "label_he": "נוף איילון, שעלבים",
+    "label_en": "Nof Ayalon, Sha'alvim",
+    "lat": 31.8705213,
+    "lng": 34.9896581
+  },
+  {
+    "label_he": "מעגלים, גבעולים, מלילות",
+    "label_en": "Ma'galim, Giv'olim, M'lilot",
+    "lat": 31.3974042,
+    "lng": 34.5983178
+  },
+  {
+    "label_he": "עין חרוד, תל יוסף",
+    "label_en": "Ein Harod, Tel Yosef",
+    "lat": 32.5585341,
+    "lng": 35.3919499
+  },
+  {
+    "label_he": "מודיעין - ישפרו סנטר",
+    "label_en": "Modi'in - Ishpro Center",
+    "lat": 31.8952781,
+    "lng": 34.9892311
+  },
+  {
+    "label_he": "מבטחים, עמיעוז, ישע",
+    "label_en": "Mivtahim, Ami'oz, Yesha",
+    "lat": 31.2417561,
+    "lng": 34.4072666
+  },
+  {
+    "label_he": "רשפים, שלוחות, שלפים",
+    "label_en": "Reshafim, Shluchot, Shlafim",
+    "lat": 32.4818532,
+    "lng": 35.4775438
+  },
+  {
+    "label_he": "קצרין - אזור תעשייה",
+    "label_en": "Katzrin - Industrial Area",
+    "lat": 32.9920262,
+    "lng": 35.6877004
+  },
+  {
+    "label_he": "אשדוד - א,ב,ד,ה",
+    "label_en": "Ashdod - Alef, Bet, Dalet, Heh",
+    "lat": 31.7957411,
+    "lng": 34.6488659
+  },
+  {
+    "label_he": "אשדוד - איזור תעשייה צפוני",
+    "label_en": "Ashdod - Northen Industrial Zone",
+    "lat": 31.7957411,
+    "lng": 34.6488659
+  },
+  {
+    "label_he": "אשדוד - ג,ו,ז",
+    "label_en": "Ashdod - Gimmel, Vav, Zain",
+    "lat": 31.803549,
+    "lng": 34.66358
+  },
+  {
+    "label_he": "אשדוד - ח,ט,י,יג,יד,טז",
+    "label_en": "Ashdod - Het, Tet, Yod, Yod Gimmel, Yod Dalet, Te*",
+    "lat": 32.3255163,
+    "lng": 35.0060999
+  },
+  {
+    "label_he": "אשדוד -יא,יב,טו,יז,מרינה,סיטי",
+    "label_en": "Ashdod-11,12,15,17,Marine,City",
+    "lat": 31.7833125,
+    "lng": 34.6501379
+  },
+  {
+    "label_he": "רמת גן - כל האזורים",
+    "label_en": "Ramat Gan - all areas",
+    "lat": 32.0686867,
+    "lng": 34.8246812
+  },
+  {
+    "label_he": "תל אביב - כל האזורים",
+    "label_en": "Tel Aviv - all areas",
+    "lat": 32.0518101,
+    "lng": 34.807247
+  },
+  {
+    "label_he": "רמת גן - מזרח",
+    "label_en": "Ramat Gan - East",
+    "lat": 32.0686867,
+    "lng": 34.8246812
+  },
+  {
+    "label_he": "רמת גן - מערב",
+    "label_en": "Ramat Gan - West",
+    "lat": 32.0686867,
+    "lng": 34.8246812
+  },
+  {
+    "label_he": "הרצליה - כל האזורים",
+    "label_en": "Herzliya - all areas",
+    "lat": 32.180322,
+    "lng": 34.851367
+  },
+  {
+    "label_he": "נתניה - כל האזורים",
+    "label_en": "Netanya - all areas",
+    "lat": 32.3325361,
+    "lng": 34.8612319
+  },
+  {
+    "label_he": "יעבץ, יעף",
+    "label_en": "Yavetz, Ye'af",
+    "lat": 32.089128,
+    "lng": 34.8422369
+  },
+  {
+    "label_he": "ראשון לציון - מזרח",
+    "label_en": "Rishon LeZion - East",
+    "lat": 31.9494326,
+    "lng": 34.7608535
+  },
+  {
+    "label_he": "מיני ישראל - נחשון",
+    "label_en": "Mini Israel - Nachshon",
+    "lat": 31.8422517,
+    "lng": 34.9689726
+  },
+  {
+    "label_he": "חדרה כל - האזורים",
+    "label_en": "Hadera - all areas",
+    "lat": 32.4446675,
+    "lng": 34.9502384
+  },
+  {
+    "label_he": "אזור תעשייה הר טוב - צרעה",
+    "label_en": "Har Tuv - Tzora Industrial Zone",
+    "lat": 31.7472835,
+    "lng": 34.994682
+  },
+  {
+    "label_he": "תחנת רכבת קריית מלאכי - יואב",
+    "label_en": "Kiryat Mal'akhi-Yoav train station",
+    "lat": 31.7311777,
+    "lng": 34.7448072
+  },
+  {
+    "label_he": "תל אביב - דרום העיר ויפו",
+    "label_en": "Tel Aviv - South and Jaffa",
+    "lat": 32.0518101,
+    "lng": 34.807247
+  },
+  {
+    "label_he": "גבים, מכללת ספיר",
+    "label_en": "Gavim, Sapir College",
+    "lat": 31.5067391,
+    "lng": 34.5991766
+  },
+  {
+    "label_he": "חיפה - בת גלים ק.אליעזר",
+    "label_en": "Haifa - Bat Galim, Kiryat Eliezer",
+    "lat": 32.7878529,
+    "lng": 34.9656527
+  },
+  {
+    "label_he": "חיפה - כרמל, הדר ועיר תחתית",
+    "label_en": "Haifa - Carmel, Hadar and Downtown Lower City",
+    "lat": 32.7878529,
+    "lng": 34.9656527
+  },
+  {
+    "label_he": "חיפה - נווה שאנן ורמות כרמל",
+    "label_en": "Haifa - Ramot HaCarmel and Neveh Sha'anan",
+    "lat": 32.7878529,
+    "lng": 34.9656527
+  },
+  {
+    "label_he": "מכמנים - כמאנה מערבית",
+    "label_en": "Mikhmanim - Kamane West",
+    "lat": 32.9061108,
+    "lng": 35.3287602
+  },
+  {
+    "label_he": "אל עמארני, אל מסק",
+    "label_en": "El Amrani, El Masaq",
+    "lat": 31.1678803,
+    "lng": 34.9685077
+  },
+  {
+    "label_he": "הרצליה - מרכז וגליל ים",
+    "label_en": "Herzeliya - Center and Glil Yam",
+    "lat": 32.180322,
+    "lng": 34.851367
   }
 ]
