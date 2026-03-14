@@ -286,7 +286,7 @@ export default function Home() {
             <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 360 }}>
               <p style={{ ...sectionHeadingStyle, marginBottom: chartSubtitle ? '0.1rem' : sectionHeadingStyle.marginBottom }}>{t('chartByDayTitle')}</p>
               {chartSubtitle && (
-                <p dir="ltr" style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75 }}>{chartSubtitle}</p>
+                <p dir="ltr" style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75, textAlign: lang === 'he' ? 'right' : 'left' }}>{chartSubtitle}</p>
               )}
               <div dir="ltr" className="flex items-center justify-center">
                 {isLoading && (
@@ -325,7 +325,7 @@ export default function Home() {
             <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 775 }}>
               <p style={{ ...sectionHeadingStyle, marginBottom: chartSubtitle ? '0.1rem' : sectionHeadingStyle.marginBottom }}>{t('chartByTimeTitle')}</p>
               {chartSubtitle && (
-                <p dir="ltr" style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75 }}>{chartSubtitle}</p>
+                <p dir="ltr" style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75, textAlign: lang === 'he' ? 'right' : 'left' }}>{chartSubtitle}</p>
               )}
               <div dir="ltr" className="flex items-center justify-center">
                 {isLoading && (
