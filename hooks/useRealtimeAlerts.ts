@@ -12,7 +12,7 @@ interface UseRealtimeAlertsOptions {
 
 interface RealtimeAlert {
   city: string
-  categories: Set<number>
+  categories: ReadonlySet<number>
 }
 
 export interface UseRealtimeAlertsResult {

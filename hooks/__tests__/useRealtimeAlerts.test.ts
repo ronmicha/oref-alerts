@@ -52,8 +52,8 @@ describe('useRealtimeAlerts', () => {
 
   it('filters out alerts older than 10 minutes', async () => {
     // 5 min ago = within window; 15 min ago = outside window
-    const fiveMinsAgo = new Date(NOW - 5 * 60 * 1000).toISOString().slice(0, 19).replace('T', 'T')
-    const fifteenMinsAgo = new Date(NOW - 15 * 60 * 1000).toISOString().slice(0, 19).replace('T', 'T')
+    const fiveMinsAgo = new Date(NOW - 5 * 60 * 1000).toISOString().slice(0, 19)
+    const fifteenMinsAgo = new Date(NOW - 15 * 60 * 1000).toISOString().slice(0, 19)
 
     mockFetch.mockResolvedValue([
       {
