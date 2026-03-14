@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import { useI18n } from '@/lib/i18n'
 
 const BITPAY_URL = 'https://www.bitpay.co.il/app/me/05921C5E-8748-4635-48C0-CA76D1DE67145239'
 
 export function DonateFAB() {
+  const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const popoverRef = useRef<HTMLDivElement>(null)
@@ -66,11 +68,10 @@ export function DonateFAB() {
           }}
         >
           <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text)', marginBottom: '0.9rem' }}>
-            I built this dashboard to help people in Israel stay safe and informed during the ongoing war. I maintain it
-            entirely on my own free time.
+            {t('donateText1')}
           </p>
           <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text)', marginBottom: '1rem' }}>
-            If this tool has been useful to you, consider buying me a coffee ☕
+            {t('donateText2')}
           </p>
 
           {isMobile ? (
@@ -90,12 +91,12 @@ export function DonateFAB() {
                 textDecoration: 'none',
               }}
             >
-              Donate via Bit ❤️
+              {t('donateCta')}
             </a>
           ) : (
             <div style={{ textAlign: 'center' }}>
               <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>
-                Scan to donate via Bit
+                {t('donateQrLabel')}
               </p>
               <Image
                 src="/donate-qr.jpeg"

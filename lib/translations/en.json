@@ -35,6 +35,10 @@
   "developerName": "Ron Michaeli",
   "allCities": "All cities",
   "langToggle": "עברית",
+  "donateText1": "I built this dashboard to help people in Israel stay safe and informed during the ongoing war. I maintain it entirely on my own free time.",
+  "donateText2": "If this tool has been useful to you, consider buying me a coffee ☕",
+  "donateCta": "Donate via Bit ❤️",
+  "donateQrLabel": "Scan to donate via Bit",
   "categories": {
     "missilealert": "Missile Alert",
     "uav": "Hostile UAV",
