@@ -86,7 +86,7 @@ const emptySlots: TimeSlotCount[] = Array.from({ length: 96 }, (_, i) => {
 function renderChart(props: {
   data: TimeSlotCount[]
   categories: typeof categories
-  showNowLine?: boolean
+  showNowLabels?: boolean
 }) {
   return render(
     <I18nProvider>
@@ -115,11 +115,11 @@ describe('TimeOfDayChart', () => {
     expect(screen.getByText('חדירת כלי טיס עוין')).toBeInTheDocument()
   })
 
-  it('"Today" / "Yesterday" labels absent when showNowLine=false', () => {
-    renderChart({ data: emptySlots, categories, showNowLine: false })
+  it('"Today" / "Yesterday" labels absent when showNowLabels=false', () => {
+    renderChart({ data: emptySlots, categories, showNowLabels: false })
 
     // He translations: todayLabel → "היום", yesterdayLabel → "אתמול"
-    // ReferenceLine is only rendered when showNowLine=true, so these labels should not appear
+    // ReferenceLine always renders but label prop is undefined when showNowLabels=false
     expect(screen.queryByText('היום')).toBeNull()
     expect(screen.queryByText('אתמול')).toBeNull()
   })

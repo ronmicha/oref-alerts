@@ -542,7 +542,7 @@ describe('Page user-flow tests', () => {
   })
 
   // 14. Custom date range shows date subtitle
-  it('custom date range subtitle shows YYYY-MM-DD – YYYY-MM-DD', () => {
+  it('custom date range subtitle shows DD/MM/YYYY – DD/MM/YYYY', () => {
     mockUseTzevaadomAlerts.mockReturnValue({
       alerts: [],
       loading: false,
@@ -560,8 +560,8 @@ describe('Page user-flow tests', () => {
     fireEvent.change(dateInputs[0], { target: { value: '2026-03-01' } })
     fireEvent.change(dateInputs[1], { target: { value: '2026-03-07' } })
 
-    // Subtitle should show '2026-03-01 – 2026-03-07'
-    const subtitles = screen.getAllByText(/2026-03-01 – 2026-03-07/)
+    // Subtitle should show '01/03/2026 – 07/03/2026' (formatDate produces DD/MM/YYYY)
+    const subtitles = screen.getAllByText(/01\/03\/2026 – 07\/03\/2026/)
     expect(subtitles.length).toBeGreaterThanOrEqual(1)
   })
 
