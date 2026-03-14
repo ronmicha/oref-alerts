@@ -461,6 +461,32 @@ describe('Page user-flow tests', () => {
     expect(mockRankRefetch).toHaveBeenCalledTimes(1)
   })
 
+  // 11b. Refresh button calls tzevaadomRefetch when in custom (tzevaadom) mode
+  it('refresh button calls tzevaadomRefetch when in custom date range mode', () => {
+    renderPage()
+
+    // Switch to custom date range — this sets isCustom=true which makes useTzevaadom=true
+    const dateRangeSelect = screen.getByDisplayValue('24 שעות אחרונות')
+    fireEvent.change(dateRangeSelect, { target: { value: 'custom' } })
+
+    // Enter valid custom dates so the page is in a meaningful state
+    const dateInputs = document.querySelectorAll('input[type="date"]')
+    fireEvent.change(dateInputs[0], { target: { value: '2026-03-01' } })
+    fireEvent.change(dateInputs[1], { target: { value: '2026-03-07' } })
+
+    // Clear call counts from state-change re-renders
+    mockTzevaadomRefetch.mockClear()
+    mockRankRefetch.mockClear()
+    mockRetry.mockClear()
+
+    // Click refresh — handleRefresh calls tzevaadomRefetch() because useTzevaadom=true
+    const refreshBtn = screen.getByRole('button', { name: /refresh data/i })
+    fireEvent.click(refreshBtn)
+
+    expect(mockTzevaadomRefetch).toHaveBeenCalledTimes(1)
+    expect(mockRankRefetch).toHaveBeenCalledTimes(1)
+  })
+
   // 12. "Last 24 hours · All cities" subtitle visible on charts
   it('"Last 24 hours · כל הערים" subtitle visible on charts', () => {
     const today = new Date()

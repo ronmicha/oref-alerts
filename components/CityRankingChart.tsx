@@ -205,7 +205,7 @@ export function CityRankingChart({ cities, loading, error, subtitle, cityLabels 
                     </td>
                     <td className="py-2 px-3" style={{ color: 'var(--color-text)', fontWeight: 500 }}>{city.label}</td>
                     <td className="py-2 px-3 text-end tabular-nums" style={{ color: city.count > 0 ? 'var(--color-accent)' : 'var(--color-text-muted)', fontWeight: 700 }}>
-                      {city.count === 0 ? '—' : city.count}
+                      {city.count === 0 ? '—' : city.count.toLocaleString()}
                     </td>
                   </tr>
                 )

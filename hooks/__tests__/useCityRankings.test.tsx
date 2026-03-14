@@ -29,7 +29,7 @@ function setupFetch() {
 }
 
 afterEach(() => {
-  jest.restoreAllMocks()
+  jest.resetAllMocks()
 })
 
 // Helper to get city count from results

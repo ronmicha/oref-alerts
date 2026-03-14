@@ -67,12 +67,18 @@ describe('CityRankingChart', () => {
     expect(screen.getByText('#3')).toBeInTheDocument()
   })
 
-  it('renders alert counts as raw numbers (not toLocaleString)', () => {
-    renderChart()
-    // JSX renders {city.count} directly
-    expect(screen.getByText('10')).toBeInTheDocument()
-    expect(screen.getByText('7')).toBeInTheDocument()
-    expect(screen.getByText('3')).toBeInTheDocument()
+  it('renders alert counts formatted with commas', () => {
+    renderChart({
+      cities: [
+        { label: 'תל אביב', count: 1234 },
+        { label: 'ירושלים', count: 7 },
+        { label: 'חיפה', count: 3 },
+      ],
+    })
+    // city.count.toLocaleString() formats numbers with locale separators
+    expect(screen.getByText((1234).toLocaleString())).toBeInTheDocument()
+    expect(screen.getByText((7).toLocaleString())).toBeInTheDocument()
+    expect(screen.getByText((3).toLocaleString())).toBeInTheDocument()
   })
 
   it('sort toggle reverses row order (least first after click)', () => {

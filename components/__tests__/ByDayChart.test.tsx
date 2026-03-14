@@ -100,6 +100,25 @@ describe('ByDayChart', () => {
     expect(screen.getByText('חדירת כלי טיס עוין')).toBeInTheDocument()
   })
 
+  it('renders one bar group per category', () => {
+    // Data includes both categories (id 1 and 2)
+    const data: DayCount[] = [
+      {
+        dateKey: '2024-01-01',
+        label: '01/01',
+        dayName: 'Mon',
+        count: 5,
+        byCategory: { 1: 3, 2: 2 },
+      },
+    ]
+    renderChart({ data, categories })
+
+    // The mock renders data-testid="bar-{name}" for each <Bar />.
+    // There should be one Bar per active category (2 in this dataset).
+    const barElements = screen.getAllByTestId(/^bar-/)
+    expect(barElements).toHaveLength(2)
+  })
+
   it('legend renders each category translated name', () => {
     const data: DayCount[] = [
       {
