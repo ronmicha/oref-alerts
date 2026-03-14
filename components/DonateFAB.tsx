@@ -56,7 +56,7 @@ export function DonateFAB() {
           aria-label="Support this project"
           style={{
             position: 'fixed',
-            bottom: '5rem',
+            bottom: '8.5rem',
             insetInlineEnd: '1.25rem',
             width: '17rem',
             background: 'var(--color-card)',
@@ -118,7 +118,7 @@ export function DonateFAB() {
         aria-expanded={open}
         style={{
           position: 'fixed',
-          bottom: '1.25rem',
+          bottom: '4.75rem',
           insetInlineEnd: '1.25rem',
           width: '2rem',
           height: '2rem',
