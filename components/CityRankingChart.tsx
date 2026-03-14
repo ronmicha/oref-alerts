@@ -67,9 +67,13 @@ export function CityRankingChart({ cities, loading, error, subtitle, cityLabels 
                 ? t('cityRankingTop', { n: '50', total: withAlerts.length.toLocaleString() })
                 : t('cityRankingBottom', { n: '50', total: withAlerts.length.toLocaleString() }))
             : ''
-          const full = [subtitle, rankPart].filter(Boolean).join(' · ')
-          return full ? (
-            <p dir={lang === 'he' ? 'rtl' : 'ltr'} style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem', opacity: 0.75, textAlign: lang === 'he' ? 'right' : 'left' }}>{full}</p>
+          const hasBoth = !!subtitle && !!rankPart
+          return (subtitle || rankPart) ? (
+            <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem', opacity: 0.75, textAlign: lang === 'he' ? 'right' : 'left' }}>
+              {subtitle && <span dir="ltr">{subtitle}</span>}
+              {hasBoth && ' · '}
+              {rankPart && <span dir={lang === 'he' ? 'rtl' : 'ltr'}>{rankPart}</span>}
+            </p>
           ) : null
         })()}
       </div>
