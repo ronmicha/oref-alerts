@@ -256,7 +256,7 @@ export function HistoryMap() {
             padding: '6px 14px',
             fontSize: '0.78rem',
             fontWeight: 600,
-            zIndex: 1000,
+            zIndex: 1001,
           }}
         >
           {t('errorLoad')}
