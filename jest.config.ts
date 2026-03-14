@@ -9,7 +9,7 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
-  testPathIgnorePatterns: ['/node_modules/', '/.worktrees/'],
+  testPathIgnorePatterns: ['/node_modules/'],
 }
 
 export default createJestConfig(config)
