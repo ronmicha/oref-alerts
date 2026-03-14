@@ -69,7 +69,7 @@ export function CityRankingChart({ cities, loading, error, subtitle, cityLabels 
             : ''
           const full = [subtitle, rankPart].filter(Boolean).join(' · ')
           return full ? (
-            <p dir="ltr" style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem', opacity: 0.75, textAlign: lang === 'he' ? 'right' : 'left' }}>{full}</p>
+            <p dir={lang === 'he' ? 'rtl' : 'ltr'} style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem', opacity: 0.75 }}>{full}</p>
           ) : null
         })()}
       </div>

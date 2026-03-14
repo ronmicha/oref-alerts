@@ -131,7 +131,7 @@ export default function Home() {
   const chartRangeLabel = useMemo(() => {
     if (isCustom) {
       return startDate && endDate
-        ? `${formatDate(startDate)} – ${formatDate(endDate)}`
+        ? `\u202A${formatDate(startDate)} – ${formatDate(endDate)}\u202C`
         : ''
     }
     const map: Record<string, string> = {
@@ -286,7 +286,7 @@ export default function Home() {
             <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 360 }}>
               <p style={{ ...sectionHeadingStyle, marginBottom: chartSubtitle ? '0.1rem' : sectionHeadingStyle.marginBottom }}>{t('chartByDayTitle')}</p>
               {chartSubtitle && (
-                <p dir="ltr" style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75, textAlign: lang === 'he' ? 'right' : 'left' }}>{chartSubtitle}</p>
+                <p dir={lang === 'he' ? 'rtl' : 'ltr'} style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75 }}>{chartSubtitle}</p>
               )}
               <div dir="ltr" className="flex items-center justify-center">
                 {isLoading && (
@@ -325,7 +325,7 @@ export default function Home() {
             <div style={{ ...cardStyle, padding: '1.25rem 1.5rem', height: 775 }}>
               <p style={{ ...sectionHeadingStyle, marginBottom: chartSubtitle ? '0.1rem' : sectionHeadingStyle.marginBottom }}>{t('chartByTimeTitle')}</p>
               {chartSubtitle && (
-                <p dir="ltr" style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75, textAlign: lang === 'he' ? 'right' : 'left' }}>{chartSubtitle}</p>
+                <p dir={lang === 'he' ? 'rtl' : 'ltr'} style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', opacity: 0.75 }}>{chartSubtitle}</p>
               )}
               <div dir="ltr" className="flex items-center justify-center">
                 {isLoading && (
