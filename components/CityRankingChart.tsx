@@ -70,7 +70,7 @@ export function CityRankingChart({ cities, loading, error, subtitle, cityLabels 
           const hasBoth = !!subtitle && !!rankPart
           return (subtitle || rankPart) ? (
             <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem', opacity: 0.75, textAlign: lang === 'he' ? 'right' : 'left' }}>
-              {subtitle && <span dir="ltr">{subtitle}</span>}
+              {subtitle && <span dir={lang === 'he' ? 'rtl' : 'ltr'}>{subtitle}</span>}
               {hasBoth && ' · '}
               {rankPart && <span dir={lang === 'he' ? 'rtl' : 'ltr'}>{rankPart}</span>}
             </p>
