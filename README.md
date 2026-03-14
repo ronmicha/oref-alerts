@@ -5,6 +5,7 @@
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-oref--alerts.vercel.app-blue?style=for-the-badge&logo=vercel)](https://oref-alerts.vercel.app/)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white)
+[![codecov](https://codecov.io/gh/ronmicha/oref-alerts/graph/badge.svg)](https://codecov.io/gh/ronmicha/oref-alerts)
 
 ---
 
