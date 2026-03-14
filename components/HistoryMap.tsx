@@ -2,11 +2,11 @@
 
 import 'leaflet/dist/leaflet.css'
 
-import { useState, useMemo, useEffect } from 'react'
-import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet'
+import { useState, useMemo, useEffect, useCallback } from 'react'
+import { MapContainer, TileLayer, CircleMarker, Tooltip, Popup, useMap, useMapEvents } from 'react-leaflet'
 import { useQuery } from '@tanstack/react-query'
 import { fetchTzevaadomRaw, TZEVAADOM_ALLOWED_CODES, normalizeTzevaadomCity } from '@/lib/tzevaadom'
-import { getCityCoords } from '@/lib/citiesGeo'
+import { getCityEntry } from '@/lib/citiesGeo'
 import { getPresetDateRange } from '@/lib/dateRange'
 import { useI18n } from '@/lib/i18n'
 import type { DateRangeOption } from '@/types/oref'
@@ -68,17 +68,53 @@ function MapResizer() {
   return null
 }
 
+// ── Map state tracker ────────────────────────────────────────────────────────
+
+interface MapBounds {
+  north: number; south: number; east: number; west: number
+}
+interface MapViewState { zoom: number; bounds: MapBounds }
+
+function MapStateTracker({ onChange }: { onChange: (s: MapViewState) => void }) {
+  const map = useMapEvents({
+    zoom: () => sync(),
+    moveend: () => sync(),
+  })
+
+  function sync() {
+    const b = map.getBounds()
+    onChange({
+      zoom: map.getZoom(),
+      bounds: { north: b.getNorth(), south: b.getSouth(), east: b.getEast(), west: b.getWest() },
+    })
+  }
+
+  // Initialise on mount so labels are correct before any interaction
+  useEffect(() => { sync() }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null
+}
+
+/** How many top cities (within the viewport) get a label at a given zoom level. */
+function labelCountForZoom(zoom: number): number {
+  if (zoom <= 7) return 10
+  if (zoom === 8) return 15
+  if (zoom === 9) return 25
+  return 40
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 interface CityCount {
   cityName: string
+  label_en: string
   count: number
   lat: number
   lng: number
 }
 
 export function HistoryMap() {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
   const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
   const [customFrom, setCustomFrom] = useState('')
   const [customTo, setCustomTo] = useState('')
@@ -116,10 +152,10 @@ export function HistoryMap() {
       }
     }
     return Array.from(counts.entries())
-      .filter(([cityName]) => getCityCoords(cityName) !== null)
+      .filter(([cityName]) => getCityEntry(cityName) !== null)
       .map(([cityName, count]) => {
-        const coords = getCityCoords(cityName)!
-        return { cityName, count, lat: coords.lat, lng: coords.lng }
+        const entry = getCityEntry(cityName)!
+        return { cityName, label_en: entry.label_en, count, lat: entry.lat, lng: entry.lng }
       })
   }, [raw, startTs, endTs])
 
@@ -127,6 +163,21 @@ export function HistoryMap() {
     () => cityCounts.reduce((m, c) => Math.max(m, c.count), 0),
     [cityCounts],
   )
+
+  const [mapState, setMapState] = useState<MapViewState>({ zoom: 8, bounds: null as unknown as MapBounds })
+  const handleMapState = useCallback((s: MapViewState) => setMapState(s), [])
+
+  const labeledCityNames = useMemo(() => {
+    const { zoom, bounds } = mapState
+    const visible = bounds
+      ? cityCounts.filter(c =>
+          c.lat >= bounds.south && c.lat <= bounds.north &&
+          c.lng >= bounds.west  && c.lng <= bounds.east
+        )
+      : cityCounts
+    const limit = labelCountForZoom(zoom)
+    return new Set(visible.slice(0, limit).map((c) => c.cityName))
+  }, [cityCounts, mapState])
 
   const selectClass =
     'rounded-lg border bg-white ps-3 pe-3 py-1.5 text-sm focus:outline-none focus:ring-1 appearance-none' +
@@ -202,11 +253,13 @@ export function HistoryMap() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapResizer />
+        <MapStateTracker onChange={handleMapState} />
 
-        {cityCounts.map(({ cityName, count, lat, lng }) => {
+        {cityCounts.map(({ cityName, label_en, count, lat, lng }) => {
           const ratio = maxCount > 0 ? count / maxCount : 0
           const color = interpolateColor(ratio)
           const radius = scaleRadius(count, maxCount)
+          const displayName = lang === 'en' ? label_en : cityName
           return (
             <CircleMarker
               key={cityName}
@@ -218,7 +271,20 @@ export function HistoryMap() {
                 fillOpacity: 0.75,
                 weight: 1,
               }}
-            />
+            >
+              {labeledCityNames.has(cityName) && (
+                <Tooltip permanent direction="top" className="city-label">
+                  {displayName}
+                </Tooltip>
+              )}
+              <Popup closeButton={false}>
+                <div dir={lang === 'he' ? 'rtl' : 'ltr'} style={lang === 'he' ? { textAlign: 'right' } : undefined}>
+                  <strong style={{ fontSize: '0.9rem' }}>{displayName}</strong>
+                  <br />
+                  <span style={{ fontSize: '0.82rem', color: '#CC1212', fontWeight: 600 }}>{t('alertsCount', { count: count.toLocaleString() })}</span>
+                </div>
+              </Popup>
+            </CircleMarker>
           )
         })}
       </MapContainer>

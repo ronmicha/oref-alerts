@@ -382,10 +382,11 @@ export default function Home() {
           left: 0,
           right: 0,
           height: TAB_BAR_HEIGHT,
-          background: 'var(--color-header)',
-          borderTop: '1px solid rgba(255,255,255,0.08)',
+          background: '#111111',
+          borderTop: '2px solid var(--color-accent)',
           display: 'flex',
           zIndex: 50,
+          paddingBottom: 'env(safe-area-inset-bottom)',
         }}
       >
         {(['charts', 'map'] as const).map((tab) => {
@@ -401,27 +402,27 @@ export default function Home() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 3,
+                gap: 4,
                 border: 'none',
-                background: 'transparent',
+                background: isActive ? 'rgba(204,18,18,0.15)' : 'transparent',
                 cursor: 'pointer',
-                color: isActive ? 'var(--color-accent)' : 'rgba(255,255,255,0.5)',
-                fontSize: '0.7rem',
-                fontWeight: isActive ? 700 : 400,
-                letterSpacing: '0.04em',
-                transition: 'color 0.15s',
+                color: isActive ? 'var(--color-accent)' : 'rgba(255,255,255,0.75)',
+                fontSize: '0.72rem',
+                fontWeight: isActive ? 700 : 500,
+                letterSpacing: '0.05em',
+                transition: 'background 0.15s, color 0.15s',
               }}
               aria-current={isActive ? 'page' : undefined}
             >
               {/* Icon */}
               {tab === 'charts' ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={isActive ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="20" x2="18" y2="10" />
                   <line x1="12" y1="20" x2="12" y2="4" />
                   <line x1="6" y1="20" x2="6" y2="14" />
                 </svg>
               ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={isActive ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
                   <line x1="9" y1="3" x2="9" y2="18" />
                   <line x1="15" y1="6" x2="15" y2="21" />

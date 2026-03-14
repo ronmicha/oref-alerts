@@ -28,4 +28,13 @@ export function getCityCoords(name: string): { lat: number; lng: number } | null
   return entry ? { lat: entry.lat, lng: entry.lng } : null
 }
 
+/**
+ * Returns the full CityGeoEntry for a city by name.
+ * Tries Hebrew name first (exact match), then English name (exact match).
+ * Returns null if not found.
+ */
+export function getCityEntry(name: string): CityGeoEntry | null {
+  return byHe.get(name) ?? byEn.get(name) ?? null
+}
+
 export { citiesGeo }
