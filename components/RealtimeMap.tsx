@@ -91,14 +91,8 @@ function CityMarker({ cityName: _cityName, categories, lat, lng }: CityMarkerPro
     )
   }
 
-  // Fallback for any other category
-  return (
-    <CircleMarker
-      center={[lat, lng]}
-      radius={RADIUS_SINGLE}
-      pathOptions={{ fillColor: '#CC1212', color: '#CC1212', fillOpacity: 0.85, weight: 1.5 }}
-    />
-  )
+  // Unknown category — skip rendering
+  return null
 }
 
 /** Forces the map to invalidate its size after mounting — prevents grey tile areas. */
@@ -133,19 +127,20 @@ export function RealtimeMap() {
         />
         <MapResizer />
 
-        {Array.from(cityAlerts.entries()).map(([cityName, data]) => {
-          const coords = getCityCoords(cityName)
-          if (!coords) return null
-          return (
-            <CityMarker
-              key={cityName}
-              cityName={cityName}
-              categories={data.categories}
-              lat={coords.lat}
-              lng={coords.lng}
-            />
-          )
-        })}
+        {Array.from(cityAlerts.entries())
+          .filter(([cityName]) => getCityCoords(cityName) !== null)
+          .map(([cityName, data]) => {
+            const coords = getCityCoords(cityName)!
+            return (
+              <CityMarker
+                key={cityName}
+                cityName={cityName}
+                categories={data.categories}
+                lat={coords.lat}
+                lng={coords.lng}
+              />
+            )
+          })}
       </MapContainer>
 
       {/* Last updated badge */}
