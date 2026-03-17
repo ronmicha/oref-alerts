@@ -183,7 +183,7 @@ export default function Home() {
                 {t('appTitle')}
               </h1>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-5">
               {activeTab === 'map' && (
                 <div style={{ display: 'flex', gap: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 20, padding: '2px 3px' }}>
                   {(['realtime', 'history'] as MapMode[]).map((m) => {
