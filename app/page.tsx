@@ -17,7 +17,8 @@ import { Loader2 } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
 import { getPresetDateRange } from '@/lib/dateRange'
-import { TAB_BAR_HEIGHT } from '@/lib/layout'
+import { TAB_BAR_HEIGHT, HEADER_HEIGHT } from '@/lib/layout'
+import type { MapMode } from '@/components/MapView'
 import type { DateRangeOption } from '@/types/oref'
 
 // Maps UI date range to oref API mode: 1=day, 2=week, 3=month
@@ -37,6 +38,7 @@ export default function Home() {
   const { t, lang } = useI18n()
 
   const [activeTab, setActiveTab] = useState<'charts' | 'map'>('map')
+  const [mapMode, setMapMode] = useState<MapMode>('realtime')
 
   const [dateRange, setDateRange] = useState<DateRangeOption>('24h')
   const [cityLabel, setCityLabel] = useState('')
@@ -167,28 +169,57 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--color-bg)' }}>
+      {/* ── SHARED HEADER ── */}
+      <div className="sticky top-0 z-40">
+        <div style={{ height: 2, background: 'var(--color-accent)' }} />
+        <header style={{ background: 'var(--color-header)', height: HEADER_HEIGHT - 2 }}>
+          <div className="max-w-4xl mx-auto px-4 h-full flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ color: 'var(--color-accent)', flexShrink: 0 }}>
+                <path d="M12 2L3 7v10l9 5 9-5V7L12 2z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+              </svg>
+              <h1 style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '-0.01em' }}>
+                {t('appTitle')}
+              </h1>
+            </div>
+            <div className="flex items-center gap-3">
+              {activeTab === 'map' && (
+                <div style={{ display: 'flex', gap: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 20, padding: '2px 3px' }}>
+                  {(['realtime', 'history'] as MapMode[]).map((m) => {
+                    const isActive = mapMode === m
+                    return (
+                      <button
+                        key={m}
+                        onClick={() => setMapMode(m)}
+                        style={{
+                          padding: '3px 12px',
+                          borderRadius: 16,
+                          border: 'none',
+                          background: isActive ? 'var(--color-accent)' : 'transparent',
+                          color: isActive ? '#fff' : 'rgba(255,255,255,0.6)',
+                          fontSize: '0.72rem',
+                          fontWeight: isActive ? 700 : 400,
+                          cursor: 'pointer',
+                          transition: 'all 0.15s',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {m === 'realtime' ? t('mapModeRealtime') : t('mapModeHistory')}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+              <LanguageToggle />
+            </div>
+          </div>
+        </header>
+      </div>
+
       {/* ── CHARTS TAB ── */}
       {activeTab === 'charts' && (
         <>
-          {/* Sticky header + accent bar */}
-          <div className="sticky top-0 z-40">
-            <div style={{ height: 3, background: 'var(--color-accent)' }} />
-            <header style={{ background: 'var(--color-header)' }}>
-              <div className="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ color: 'var(--color-accent)', flexShrink: 0 }}>
-                    <path d="M12 2L3 7v10l9 5 9-5V7L12 2z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-                    <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
-                  </svg>
-                  <h1 style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '1rem', letterSpacing: '-0.01em' }}>
-                    {t('appTitle')}
-                  </h1>
-                </div>
-                <LanguageToggle />
-              </div>
-            </header>
-          </div>
-
           <main
             className="max-w-4xl mx-auto px-4 py-5 space-y-4"
             style={{ paddingBottom: TAB_BAR_HEIGHT + 20 }}
@@ -263,7 +294,7 @@ export default function Home() {
                     <p style={{ color: 'var(--color-accent)', fontSize: '0.875rem' }}>{t('errorLoad')}</p>
                     {!isCustom && (
                       <button
-                        onClick={retry}
+                        onClick={() => retry()}
                         style={{
                           padding: '0.4rem 1.25rem',
                           borderRadius: 7,
@@ -335,7 +366,7 @@ export default function Home() {
         </>
       )}
 
-      {activeTab === 'map' && <MapView />}
+      {activeTab === 'map' && <MapView mode={mapMode} />}
 
       {/* ── BOTTOM TAB BAR ── */}
       <nav

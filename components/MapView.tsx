@@ -1,9 +1,8 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
 import { useI18n } from '@/lib/i18n'
-import { TAB_BAR_HEIGHT } from '@/lib/layout'
+import { TAB_BAR_HEIGHT, HEADER_HEIGHT } from '@/lib/layout'
 
 // Dynamic imports — Leaflet crashes in SSR. ssr: false guarantees client-only rendering.
 const RealtimeMap = dynamic(
@@ -42,68 +41,24 @@ function MapLoadingPlaceholder() {
   )
 }
 
-type MapMode = 'realtime' | 'history'
+export type MapMode = 'realtime' | 'history'
 
-const TOP_BAR_HEIGHT = 48
+interface MapViewProps {
+  mode: MapMode
+}
 
-export function MapView() {
-  const { t } = useI18n()
-  const [mode, setMode] = useState<MapMode>('realtime')
-
+export function MapView({ mode }: MapViewProps) {
   return (
     <div
       style={{
         position: 'fixed',
-        top: 0,
+        top: HEADER_HEIGHT,
         left: 0,
         right: 0,
         bottom: TAB_BAR_HEIGHT,
-        display: 'flex',
-        flexDirection: 'column',
       }}
     >
-      {/* Mode toggle bar */}
-      <div
-        style={{
-          height: TOP_BAR_HEIGHT,
-          background: 'var(--color-header)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-          gap: 4,
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
-        }}
-      >
-        {(['realtime', 'history'] as MapMode[]).map((m) => {
-          const isActive = mode === m
-          const label = m === 'realtime' ? t('mapModeRealtime') : t('mapModeHistory')
-          return (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              style={{
-                padding: '5px 18px',
-                borderRadius: 20,
-                border: isActive ? 'none' : '1px solid rgba(255,255,255,0.2)',
-                background: isActive ? 'var(--color-accent)' : 'transparent',
-                color: isActive ? '#fff' : 'rgba(255,255,255,0.65)',
-                fontSize: '0.8rem',
-                fontWeight: isActive ? 700 : 400,
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-              }}
-            >
-              {label}
-            </button>
-          )
-        })}
-      </div>
-
-      {/* Map area — fills remaining space above tab bar */}
-      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-        {mode === 'realtime' ? <RealtimeMap /> : <HistoryMap />}
-      </div>
+      {mode === 'realtime' ? <RealtimeMap /> : <HistoryMap />}
     </div>
   )
 }
