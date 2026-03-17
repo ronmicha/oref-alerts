@@ -115,7 +115,7 @@ interface CityCount {
 
 export function HistoryMap() {
   const { t, lang } = useI18n()
-  const [dateRange, setDateRange] = useState<DateRangeOption>('7d')
+  const [dateRange, setDateRange] = useState<DateRangeOption>('30d')
   const [customFrom, setCustomFrom] = useState('')
   const [customTo, setCustomTo] = useState('')
   const isCustom = dateRange === 'custom'
@@ -180,14 +180,16 @@ export function HistoryMap() {
   }, [cityCounts, mapState])
 
   const selectClass =
-    'rounded-lg border bg-white ps-3 pe-3 py-1.5 text-sm focus:outline-none focus:ring-1 appearance-none' +
+    'rounded-lg border bg-white ps-3 pe-3 py-1 focus:outline-none focus:ring-1 appearance-none' +
     ' border-[var(--color-border)] focus:border-[var(--color-accent)] focus:ring-[var(--color-accent)]' +
-    ' text-[var(--color-text)]'
+    ' text-[var(--color-text)]' +
+    ' text-[0.78rem]'
 
   const dateInputClass =
-    'rounded-lg border bg-white px-3 py-1.5 text-sm focus:outline-none focus:ring-1' +
+    'rounded-lg border bg-white px-3 py-1 focus:outline-none focus:ring-1' +
     ' border-[var(--color-border)] focus:border-[var(--color-accent)] focus:ring-[var(--color-accent)]' +
-    ' text-[var(--color-text)]'
+    ' text-[var(--color-text)]' +
+    ' text-[0.78rem]'
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -195,13 +197,13 @@ export function HistoryMap() {
       <div
         style={{
           position: 'absolute',
-          top: 12,
+          top: 52,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 1000,
           background: 'rgba(255,255,255,0.95)',
           borderRadius: 10,
-          padding: '8px 14px',
+          padding: '4px',
           boxShadow: '0 2px 12px rgba(0,0,0,0.12)',
           display: 'flex',
           alignItems: 'center',
@@ -209,16 +211,32 @@ export function HistoryMap() {
           backdropFilter: 'blur(6px)',
         }}
       >
-        <select
-          value={isCustom ? 'custom' : dateRange}
-          onChange={(e) => setDateRange(e.target.value as DateRangeOption)}
-          className={selectClass}
-        >
-          <option value="24h">{t('24h')}</option>
-          <option value="7d">{t('last7days')}</option>
-          <option value="30d">{t('last30days')}</option>
-          <option value="custom">{t('custom')}</option>
-        </select>
+        <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+          <select
+            value={isCustom ? 'custom' : dateRange}
+            onChange={(e) => setDateRange(e.target.value as DateRangeOption)}
+            className={selectClass}
+            style={{ paddingInlineEnd: '1.4rem' }}
+          >
+            <option value="24h">{t('24h')}</option>
+            <option value="7d">{t('last7days')}</option>
+            <option value="30d">{t('last30days')}</option>
+            <option value="custom">{t('custom')}</option>
+          </select>
+          <svg
+            viewBox="0 0 10 6"
+            width="10"
+            height="10"
+            style={{ position: 'absolute', insetInlineEnd: '0.4rem', pointerEvents: 'none', color: 'var(--color-text-muted)' }}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M1 1l4 4 4-4" />
+          </svg>
+        </div>
 
         {isCustom && (
           <>

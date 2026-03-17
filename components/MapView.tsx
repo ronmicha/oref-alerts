@@ -45,9 +45,12 @@ export type MapMode = 'realtime' | 'history'
 
 interface MapViewProps {
   mode: MapMode
+  onModeChange: (mode: MapMode) => void
 }
 
-export function MapView({ mode }: MapViewProps) {
+export function MapView({ mode, onModeChange }: MapViewProps) {
+  const { t } = useI18n()
+
   return (
     <div
       style={{
@@ -58,6 +61,48 @@ export function MapView({ mode }: MapViewProps) {
         bottom: TAB_BAR_HEIGHT,
       }}
     >
+      {/* Floating mode toggle — overlaid on the map */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 12,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+          display: 'flex',
+          gap: 2,
+          background: 'rgba(255,255,255,0.95)',
+          borderRadius: 10,
+          padding: '3px 4px',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.12)',
+          backdropFilter: 'blur(6px)',
+        }}
+      >
+        {(['realtime', 'history'] as MapMode[]).map((m) => {
+          const isActive = mode === m
+          return (
+            <button
+              key={m}
+              onClick={() => onModeChange(m)}
+              style={{
+                padding: '4px 16px',
+                borderRadius: 7,
+                border: 'none',
+                background: isActive ? '#111111' : 'transparent',
+                color: isActive ? '#ffffff' : 'var(--color-text-secondary)',
+                fontSize: '0.78rem',
+                fontWeight: isActive ? 700 : 400,
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {m === 'realtime' ? t('mapModeRealtime') : t('mapModeHistory')}
+            </button>
+          )
+        })}
+      </div>
+
       {mode === 'realtime' ? <RealtimeMap /> : <HistoryMap />}
     </div>
   )

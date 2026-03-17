@@ -183,36 +183,7 @@ export default function Home() {
                 {t('appTitle')}
               </h1>
             </div>
-            <div className="flex items-center gap-5">
-              {activeTab === 'map' && (
-                <div style={{ display: 'flex', gap: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 20, padding: '2px 3px' }}>
-                  {(['realtime', 'history'] as MapMode[]).map((m) => {
-                    const isActive = mapMode === m
-                    return (
-                      <button
-                        key={m}
-                        onClick={() => setMapMode(m)}
-                        style={{
-                          padding: '3px 12px',
-                          borderRadius: 16,
-                          border: 'none',
-                          background: isActive ? 'var(--color-accent)' : 'transparent',
-                          color: isActive ? '#fff' : 'rgba(255,255,255,0.6)',
-                          fontSize: '0.72rem',
-                          fontWeight: isActive ? 700 : 400,
-                          cursor: 'pointer',
-                          transition: 'all 0.15s',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {m === 'realtime' ? t('mapModeRealtime') : t('mapModeHistory')}
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
-              <LanguageToggle />
-            </div>
+            <LanguageToggle />
           </div>
         </header>
       </div>
@@ -366,7 +337,7 @@ export default function Home() {
         </>
       )}
 
-      {activeTab === 'map' && <MapView mode={mapMode} />}
+      {activeTab === 'map' && <MapView mode={mapMode} onModeChange={setMapMode} />}
 
       {/* ── BOTTOM TAB BAR ── */}
       <nav
