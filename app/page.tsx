@@ -389,7 +389,7 @@ export default function Home() {
           paddingBottom: 'env(safe-area-inset-bottom)',
         }}
       >
-        {(['charts', 'map'] as const).map((tab) => {
+        {(['map', 'charts'] as const).map((tab) => {
           const label = tab === 'charts' ? t('tabCharts') : t('tabMap')
           const isActive = activeTab === tab
           return (
