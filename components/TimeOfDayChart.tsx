@@ -92,7 +92,7 @@ export function TimeOfDayChart({ data, categories, showNowLabels }: TimeOfDayCha
       <BarChart
         data={chartData}
         layout="vertical"
-        margin={{ top: 8, right: 60, left: 0, bottom: 24 }}
+        margin={{ top: 8, right: showNowLabels ? 60 : 16, left: 0, bottom: 24 }}
       >
         <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
         <XAxis
