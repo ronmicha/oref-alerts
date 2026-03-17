@@ -36,7 +36,7 @@ function formatDate(isoDate: string): string {
 export default function Home() {
   const { t, lang } = useI18n()
 
-  const [activeTab, setActiveTab] = useState<'charts' | 'map'>('charts')
+  const [activeTab, setActiveTab] = useState<'charts' | 'map'>('map')
 
   const [dateRange, setDateRange] = useState<DateRangeOption>('24h')
   const [cityLabel, setCityLabel] = useState('')
@@ -389,7 +389,7 @@ export default function Home() {
           paddingBottom: 'env(safe-area-inset-bottom)',
         }}
       >
-        {(['charts', 'map'] as const).map((tab) => {
+        {(lang === 'he' ? (['charts', 'map'] as const) : (['map', 'charts'] as const)).map((tab) => {
           const label = tab === 'charts' ? t('tabCharts') : t('tabMap')
           const isActive = activeTab === tab
           return (
