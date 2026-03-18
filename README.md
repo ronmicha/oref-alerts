@@ -64,7 +64,7 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 ┌───────────────────────┐      ┌─────────────────────────────┐
 │   AWS API Gateway     │      │      tzevaadom.co.il        │
 │   + Lambda            │      │  /static/historical/all.json│
-│   (il-central-1 🇮🇱)   │      │  (May 2021 – present)      │
+│   (il-central-1 🇮🇱)   │      │  (May 2021 – present)       │
 │                       │      └─────────────────────────────┘
 │  Israeli IP ✓         │
 │  No geo-block         │
