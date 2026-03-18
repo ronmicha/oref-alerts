@@ -12,10 +12,10 @@ import { getCityCoords } from '@/lib/citiesGeo'
 import { useI18n } from '@/lib/i18n'
 
 // Oref category IDs — must stay in sync with oref API
-// These values are confirmed via the categories fixture and lib/chartColors.ts
+// These values are confirmed via GET /api/categories and lib/chartColors.ts
 const CATEGORY_MISSILE = 1   // missilealert
 const CATEGORY_UAV = 2       // uav
-const CATEGORY_FLASH = 3     // flash
+const CATEGORY_FLASH = 14    // flash
 
 // Colors verified against lib/chartColors.ts CATEGORY_COLORS:
 //   missilealert: '#E01515'

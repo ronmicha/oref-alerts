@@ -9,6 +9,8 @@ export function useTzevaadomAlerts({ enabled = false } = {}) {
     queryKey: ['tzevaadom'],
     queryFn: fetchTzevaadomHistory,
     enabled,
+    refetchInterval: 30_000,
+    staleTime: 0,
   })
 
   return { alerts, loading: isLoading, error: error?.message ?? null, refetch }
