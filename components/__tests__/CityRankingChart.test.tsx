@@ -14,7 +14,7 @@ const defaultCities: CityCount[] = [
 const defaultProps = {
   cities: defaultCities,
   loading: false,
-  error: null,
+  error: null as string | null,
   subtitle: '01/01 - 31/01',
   cityLabels: ['תל אביב', 'ירושלים', 'חיפה', 'באר שבע'],
 }

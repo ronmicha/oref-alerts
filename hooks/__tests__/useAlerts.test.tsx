@@ -119,7 +119,7 @@ describe('useAlerts', () => {
 
     const { result, rerender } = renderHook(
       ({ mode }: { mode: 0 | 1 | 2 | 3 }) => useAlerts({ mode }),
-      { initialProps: { mode: 1 as const } }
+      { initialProps: { mode: 1 as 0 | 1 | 2 | 3 } }
     )
 
     await waitFor(() => expect(result.current.loading).toBe(false))
@@ -152,7 +152,7 @@ describe('useAlerts', () => {
 
     const { result, rerender } = renderHook(
       ({ mode }: { mode: 0 | 1 | 2 | 3 }) => useAlerts({ mode }),
-      { initialProps: { mode: 1 as const } }
+      { initialProps: { mode: 1 as 0 | 1 | 2 | 3 } }
     )
 
     // Wait for the first fetch to settle with data

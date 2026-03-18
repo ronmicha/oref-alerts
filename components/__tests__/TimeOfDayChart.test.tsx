@@ -35,7 +35,7 @@ jest.mock('recharts', () => {
     const childArray = React.Children.toArray(children)
     const barNames: string[] = []
     childArray.forEach((child: unknown) => {
-      const c = child as React.ReactElement
+      const c = child as React.ReactElement<{ name?: string }>
       if (c && c.props && c.props.name) {
         barNames.push(c.props.name)
       }
