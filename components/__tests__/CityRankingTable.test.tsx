@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, within } from '@testing-library/react'
-import { CityRankingChart } from '../CityRankingChart'
+import { CityRankingTable } from '../CityRankingTable'
 import { I18nProvider } from '@/lib/i18n'
 import type { CityCount } from '@/types/oref'
 
@@ -22,12 +22,12 @@ const defaultProps = {
 function renderChart(props: Partial<typeof defaultProps> = {}) {
   return render(
     <I18nProvider>
-      <CityRankingChart {...defaultProps} {...props} />
+      <CityRankingTable {...defaultProps} {...props} />
     </I18nProvider>
   )
 }
 
-describe('CityRankingChart', () => {
+describe('CityRankingTable', () => {
   it('shows loading text while loading=true', () => {
     renderChart({ loading: true })
     // Hebrew: "טוען..."

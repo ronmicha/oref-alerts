@@ -50,9 +50,9 @@ jest.mock('@/components/TimeOfDayChart', () => ({
   ),
 }))
 
-jest.mock('@/components/CityRankingChart', () => ({
-  CityRankingChart: ({ cities: c }: { cities: unknown[] }) => (
-    <div data-testid="city-ranking-chart" data-count={c.length} />
+jest.mock('@/components/CityRankingTable', () => ({
+  CityRankingTable: ({ cities: c }: { cities: unknown[] }) => (
+    <div data-testid="city-ranking-table" data-count={c.length} />
   ),
 }))
 

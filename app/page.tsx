@@ -9,7 +9,7 @@ import { FilterBar } from '@/components/FilterBar'
 import { ByDayChart } from '@/components/ByDayChart'
 import { TimeOfDayChart } from '@/components/TimeOfDayChart'
 import { useCityRankings } from '@/hooks/useCityRankings'
-import { CityRankingChart } from '@/components/CityRankingChart'
+import { CityRankingTable } from '@/components/CityRankingTable'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { DonateFAB } from '@/components/DonateFAB'
 import { MapView } from '@/components/MapView'
@@ -307,7 +307,7 @@ export default function Home() {
 
             {/* City Rankings */}
             <div style={{ ...cardStyle, padding: '1.25rem 1.5rem' }}>
-              <CityRankingChart
+              <CityRankingTable
                 cities={rankedCities}
                 loading={rankLoading}
                 error={rankError}

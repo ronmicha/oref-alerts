@@ -5,7 +5,7 @@ import type { CityCount } from '@/types/oref'
 import { CityCombobox } from '@/components/FilterBar'
 import { useI18n } from '@/lib/i18n'
 
-interface CityRankingChartProps {
+interface CityRankingTableProps {
   cities: CityCount[]
   loading: boolean
   error: string | null
@@ -13,7 +13,7 @@ interface CityRankingChartProps {
   cityLabels: string[]
 }
 
-export function CityRankingChart({ cities, loading, error, subtitle, cityLabels }: CityRankingChartProps) {
+export function CityRankingTable({ cities, loading, error, subtitle, cityLabels }: CityRankingTableProps) {
   const { t, lang } = useI18n()
   const [sortDesc, setSortDesc] = useState(true)
   const [selectedCities, setSelectedCities] = useState<string[]>([])
