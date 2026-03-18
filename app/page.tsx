@@ -56,11 +56,12 @@ export default function Home() {
     setCategoryId(undefined)
   }, [lang])
 
-  // Compute date range first — needed to evaluate isAtLimit correctly
-  const { startDate, endDate } = useMemo(() => {
-    if (isCustom) return { startDate: customFrom, endDate: customTo }
-    return getPresetDateRange(dateRange as Exclude<DateRangeOption, 'custom'>)
-  }, [isCustom, customFrom, customTo, dateRange])
+  // For preset ranges, compute fresh on every render so endDate is always "now".
+  // Memoizing caused newly polled alerts (timestamped after the frozen endDate) to
+  // be silently excluded by filterAlerts. Custom range values are stable by nature.
+  const { startDate, endDate } = isCustom
+    ? { startDate: customFrom, endDate: customTo }
+    : getPresetDateRange(dateRange as Exclude<DateRangeOption, 'custom'>)
 
   const { alerts: orefAlerts, loading: orefLoading, error: orefError, retry } = useAlerts({
     mode: isCustom ? 1 : API_MODE[dateRange as Exclude<DateRangeOption, 'custom'>],
