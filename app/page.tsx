@@ -13,6 +13,7 @@ import { CityRankingChart } from '@/components/CityRankingChart'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { DonateFAB } from '@/components/DonateFAB'
 import { MapView } from '@/components/MapView'
+import { ChartTouchWrapper } from '@/components/ChartTouchWrapper'
 import { Loader2 } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
@@ -283,7 +284,7 @@ export default function Home() {
                     )}
                   </div>
                 )}
-                {!isLoading && !alertsError && <ByDayChart data={chartData} categories={categories} />}
+                {!isLoading && !alertsError && <ChartTouchWrapper><ByDayChart data={chartData} categories={categories} /></ChartTouchWrapper>}
               </div>
             </div>
 
@@ -300,7 +301,7 @@ export default function Home() {
                     <span style={{ fontSize: '0.78rem', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600, opacity: 0.5 }}>{t('loading')}</span>
                   </div>
                 )}
-                {!isLoading && !alertsError && <TimeOfDayChart data={timeOfDayData} categories={categories} showNowLabels={dateRange === '24h'} />}
+                {!isLoading && !alertsError && <ChartTouchWrapper><TimeOfDayChart data={timeOfDayData} categories={categories} showNowLabels={dateRange === '24h'} /></ChartTouchWrapper>}
               </div>
             </div>
 
