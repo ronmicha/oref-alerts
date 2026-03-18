@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { useI18n } from '@/lib/i18n'
 import { TAB_BAR_HEIGHT } from '@/lib/layout'
 
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=523857444'
-const WHATSAPP_LOGO = 'https://www.citypng.com/public/uploads/preview/hd-official-whatsapp-text-logo-with-symbol-png-701751694789269wmuzedvtmg.png'
 
 export function FeedbackFAB() {
   const { t } = useI18n()
@@ -73,11 +73,11 @@ export function FeedbackFAB() {
               aria-label={t('fabWhatsAppLabel')}
               style={{ display: 'inline-block' }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={WHATSAPP_LOGO}
+              <Image
+                src="/whatsapp.png"
                 alt={t('fabWhatsAppLabel')}
-                height={36}
+                width={120}
+                height={25}
                 style={{ display: 'block' }}
               />
             </a>
