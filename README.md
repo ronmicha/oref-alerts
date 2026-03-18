@@ -92,6 +92,7 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 | Oref proxy | AWS Lambda + API Gateway (`il-central-1`) |
 | Data | [Pikud Ha'Oref API](https://www.oref.org.il) · [tzevaadom.co.il](https://www.tzevaadom.co.il) |
 | Hosting | Vercel |
+| Analytics | Vercel Web Analytics (`@vercel/analytics`) |
 
 ---
 
