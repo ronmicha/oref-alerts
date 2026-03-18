@@ -11,7 +11,7 @@ import { TimeOfDayChart } from '@/components/TimeOfDayChart'
 import { useCityRankings } from '@/hooks/useCityRankings'
 import { CityRankingTable } from '@/components/CityRankingTable'
 import { LanguageToggle } from '@/components/LanguageToggle'
-import { DonateFAB } from '@/components/DonateFAB'
+import { FeedbackFAB } from '@/components/FeedbackFAB'
 import { MapView } from '@/components/MapView'
 import { ChartTouchWrapper } from '@/components/ChartTouchWrapper'
 import { Loader2 } from 'lucide-react'
@@ -401,8 +401,8 @@ export default function Home() {
         })}
       </nav>
 
-      {/* DonateFAB is always visible on both tabs */}
-      <DonateFAB />
+      {/* FeedbackFAB is always visible on both tabs */}
+      <FeedbackFAB />
     </div>
   )
 }

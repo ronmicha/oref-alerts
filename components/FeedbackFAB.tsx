@@ -27,7 +27,7 @@ function WhatsAppIcon() {
   )
 }
 
-export function DonateFAB() {
+export function FeedbackFAB() {
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const popoverRef = useRef<HTMLDivElement>(null)
@@ -79,8 +79,11 @@ export function DonateFAB() {
             zIndex: 50,
           }}
         >
+          <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text)', marginBottom: '0.9rem' }}>
+            {t('fabText1')}
+          </p>
           <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text)', marginBottom: '0.75rem' }}>
-            {t('fabText')}
+            {t('fabText2')}
           </p>
           <a
             href={WHATSAPP_URL}
