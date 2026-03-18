@@ -1,6 +1,17 @@
 import { renderHook, act, waitFor } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import React from 'react'
 import { useAlerts } from '../useAlerts'
 import { alertHistory as FIXTURE_ALERTS } from '@/tests/fixtures/alertHistory'
+
+function makeWrapper() {
+  const qc = new QueryClient({
+    defaultOptions: { queries: { retry: false, gcTime: 0 } },
+  })
+  return function Wrapper({ children }: { children: React.ReactNode }) {
+    return React.createElement(QueryClientProvider, { client: qc }, children)
+  }
+}
 
 function makeOkResponse(data: unknown): Response {
   return {
@@ -18,7 +29,7 @@ describe('useAlerts', () => {
   it('does not call fetch when enabled=false', () => {
     global.fetch = jest.fn()
 
-    const { result } = renderHook(() => useAlerts({ mode: 1, enabled: false }))
+    const { result } = renderHook(() => useAlerts({ mode: 1, enabled: false }), { wrapper: makeWrapper() })
 
     expect(global.fetch).not.toHaveBeenCalled()
     expect(result.current.alerts).toEqual([])
@@ -34,7 +45,7 @@ describe('useAlerts', () => {
       return Promise.reject(new Error('Unmocked URL: ' + url))
     })
 
-    const { result } = renderHook(() => useAlerts({ mode: 1 }))
+    const { result } = renderHook(() => useAlerts({ mode: 1 }), { wrapper: makeWrapper() })
 
     await waitFor(() => expect(result.current.loading).toBe(false))
 
@@ -56,7 +67,7 @@ describe('useAlerts', () => {
 
     global.fetch = jest.fn().mockReturnValue(deferred)
 
-    const { result } = renderHook(() => useAlerts({ mode: 1 }))
+    const { result } = renderHook(() => useAlerts({ mode: 1 }), { wrapper: makeWrapper() })
 
     expect(result.current.loading).toBe(true)
 
@@ -65,7 +76,7 @@ describe('useAlerts', () => {
       resolvePromise(makeOkResponse(FIXTURE_ALERTS))
     })
 
-    expect(result.current.loading).toBe(false)
+    await waitFor(() => expect(result.current.loading).toBe(false))
   })
 
   // Test 4 (was 5): Fetch error → error populated, alerts=[]
@@ -77,7 +88,7 @@ describe('useAlerts', () => {
       return Promise.reject(new Error('Unmocked URL: ' + url))
     })
 
-    const { result } = renderHook(() => useAlerts({ mode: 1 }))
+    const { result } = renderHook(() => useAlerts({ mode: 1 }), { wrapper: makeWrapper() })
 
     await waitFor(() => expect(result.current.loading).toBe(false))
 
@@ -95,7 +106,7 @@ describe('useAlerts', () => {
       return Promise.reject(new Error('Unmocked URL: ' + url))
     })
 
-    const { result } = renderHook(() => useAlerts({ mode: 1 }))
+    const { result } = renderHook(() => useAlerts({ mode: 1 }), { wrapper: makeWrapper() })
 
     await waitFor(() => expect(result.current.loading).toBe(false))
     expect(global.fetch).toHaveBeenCalledTimes(1)
@@ -119,7 +130,7 @@ describe('useAlerts', () => {
 
     const { result, rerender } = renderHook(
       ({ mode }: { mode: 0 | 1 | 2 | 3 }) => useAlerts({ mode }),
-      { initialProps: { mode: 1 as 0 | 1 | 2 | 3 } }
+      { initialProps: { mode: 1 as 0 | 1 | 2 | 3 }, wrapper: makeWrapper() }
     )
 
     await waitFor(() => expect(result.current.loading).toBe(false))
@@ -152,7 +163,7 @@ describe('useAlerts', () => {
 
     const { result, rerender } = renderHook(
       ({ mode }: { mode: 0 | 1 | 2 | 3 }) => useAlerts({ mode }),
-      { initialProps: { mode: 1 as 0 | 1 | 2 | 3 } }
+      { initialProps: { mode: 1 as 0 | 1 | 2 | 3 }, wrapper: makeWrapper() }
     )
 
     // Wait for the first fetch to settle with data

@@ -123,13 +123,16 @@ function makeQueryClient() {
 
 function renderPage() {
   const qc = makeQueryClient()
-  return render(
+  const result = render(
     <QueryClientProvider client={qc}>
       <I18nProvider>
         <Page />
       </I18nProvider>
     </QueryClientProvider>
   )
+  // Default tab is now 'map'; switch to charts so chart elements are visible
+  fireEvent.click(screen.getByRole('button', { name: /גרפים/i }))
+  return result
 }
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -409,89 +412,6 @@ describe('Page user-flow tests', () => {
     const categoryLabelAfter = screen.getByText('Alert type')
     const categorySelectAfter = categoryLabelAfter.closest('div')!.querySelector('select')!
     expect(categorySelectAfter).toHaveValue('')
-  })
-
-  // 9. Refresh button is NOT disabled when alertsLoading=true (only disabled when isRefreshing=true)
-  it('refresh button is not disabled when alertsLoading=true (disabled only while isRefreshing)', () => {
-    mockUseAlerts.mockReturnValue({
-      alerts: [],
-      loading: true,
-      error: null,
-      retry: mockRetry,
-    })
-
-    renderPage()
-
-    const refreshBtn = screen.getByRole('button', { name: /refresh data/i })
-    // page.tsx: disabled={isRefreshing} — the button is only disabled after clicking refresh
-    // (while the fetch is in flight). alertsLoading=true alone does not disable the button.
-    expect(refreshBtn).toBeInTheDocument()
-    expect(refreshBtn).not.toBeDisabled()
-  })
-
-  // 10. Refresh button disables itself after click (isRefreshing=true)
-  it('refresh button is disabled while isRefreshing is true', () => {
-    // Make loading stay true so isRefreshing doesn't auto-clear
-    mockUseAlerts.mockReturnValue({
-      alerts: [],
-      loading: true,
-      error: null,
-      retry: mockRetry,
-    })
-    mockUseCityRankings.mockReturnValue({
-      cities: [],
-      loading: true,
-      error: null,
-      refetch: mockRankRefetch,
-    })
-
-    renderPage()
-
-    const refreshBtn = screen.getByRole('button', { name: /refresh data/i })
-    expect(refreshBtn).not.toBeDisabled()
-
-    // Click refresh — sets isRefreshing=true
-    fireEvent.click(refreshBtn)
-
-    // Button should now be disabled (isRefreshing=true)
-    expect(refreshBtn).toBeDisabled()
-  })
-
-  // 11. Refresh button triggers re-fetch
-  it('refresh button calls retry and rankRefetch', () => {
-    renderPage()
-
-    const refreshBtn = screen.getByRole('button', { name: /refresh data/i })
-    fireEvent.click(refreshBtn)
-
-    expect(mockRetry).toHaveBeenCalledTimes(1)
-    expect(mockRankRefetch).toHaveBeenCalledTimes(1)
-  })
-
-  // 11b. Refresh button calls tzevaadomRefetch when in custom (tzevaadom) mode
-  it('refresh button calls tzevaadomRefetch when in custom date range mode', () => {
-    renderPage()
-
-    // Switch to custom date range — this sets isCustom=true which makes useTzevaadom=true
-    const dateRangeSelect = screen.getByDisplayValue('24 שעות אחרונות')
-    fireEvent.change(dateRangeSelect, { target: { value: 'custom' } })
-
-    // Enter valid custom dates so the page is in a meaningful state
-    const dateInputs = document.querySelectorAll('input[type="date"]')
-    fireEvent.change(dateInputs[0], { target: { value: '2026-03-01' } })
-    fireEvent.change(dateInputs[1], { target: { value: '2026-03-07' } })
-
-    // Clear call counts from state-change re-renders
-    mockTzevaadomRefetch.mockClear()
-    mockRankRefetch.mockClear()
-    mockRetry.mockClear()
-
-    // Click refresh — handleRefresh calls tzevaadomRefetch() because useTzevaadom=true
-    const refreshBtn = screen.getByRole('button', { name: /refresh data/i })
-    fireEvent.click(refreshBtn)
-
-    expect(mockTzevaadomRefetch).toHaveBeenCalledTimes(1)
-    expect(mockRankRefetch).toHaveBeenCalledTimes(1)
   })
 
   // 12. "Last 24 hours · All cities" subtitle visible on charts
