@@ -1,6 +1,6 @@
 # 🚨 Lion's Roar — Israel Alert Tracker
 
-> **A real-time dashboard for tracking IDF Home Front Command (Pikud Ha'Oref) alerts — by city, category, and time of day.**
+> **A real-time dashboard for tracking IDF Home Front Command (Pikud Ha'Oref) alerts — by city, category, time of day, and interactive map.**
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-oref--alerts.vercel.app-blue?style=for-the-badge&logo=vercel)](https://oref-alerts.vercel.app/)
 
@@ -30,7 +30,9 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 | 📊 **Alerts by Day** | Stacked bar chart (always oldest→newest, left to right) |
 | 🕐 **Alerts by Time of Day** | 15-minute resolution across the full 24-hour cycle |
 | 🥇 **City Rankings** | Sortable table ranking every city by alert count, filtered by the selected date range, with city search and compare mode |
+| 🗺️ **Interactive map** | Live alerts on a real-time map, or historical alert density overlaid on a map (History mode) |
 | 🔁 **Automatic API fallback** | Seamlessly switches to tzevaadom when the Oref API cap is reached |
+| ⏱️ **Auto-polling** | Data refreshes automatically every 30 seconds — no manual refresh needed |
 | 🌐 **Hebrew / English** | Full RTL/LTR layout switching |
 | 📱 **Mobile-friendly** | Responsive layout built with Tailwind CSS |
 
@@ -53,7 +55,7 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 │  │  hooks/         │        │   cache headers)             │   │
 │  │  useAlerts      │        └──────────────┬───────────────┘   │
 │  │  useCityRankings│                       │                   │
-│  │  useTzevaadom   │                       │                   │
+│  │  useTzevaadomAlerts                     │                   │
 │  └────────┬────────┘                       │                   │
 │           │ fetch (NEXT_PUBLIC_OREF_PROXY) │                   │
 └───────────┼────────────────────────────────┼───────────────────┘
@@ -62,7 +64,7 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 ┌───────────────────────┐      ┌─────────────────────────────┐
 │   AWS API Gateway     │      │      tzevaadom.co.il        │
 │   + Lambda            │      │  /static/historical/all.json│
-│   (il-central-1 🇮🇱)   │      │  (May 2021 – Dec 2024)      │
+│   (il-central-1 🇮🇱)   │      │  (May 2021 – present)      │
 │                       │      └─────────────────────────────┘
 │  Israeli IP ✓         │
 │  No geo-block         │
@@ -86,6 +88,7 @@ For recent data (up to 30 days), the app pulls live from the official Oref API. 
 | Language | TypeScript |
 | Styling | Tailwind CSS |
 | Charts | Recharts |
+| Data fetching | TanStack React Query v5 |
 | Oref proxy | AWS Lambda + API Gateway (`il-central-1`) |
 | Data | [Pikud Ha'Oref API](https://www.oref.org.il) · [tzevaadom.co.il](https://www.tzevaadom.co.il) |
 | Hosting | Vercel |
