@@ -22,7 +22,7 @@ export function ChartTouchWrapper({ children }: { children: ReactNode }) {
 
   return (
     <div
-      style={{ position: 'relative' }}
+      style={{ position: 'relative', width: '100%' }}
       onTouchStart={(e) => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current)
         startY.current = e.touches[0].clientY
