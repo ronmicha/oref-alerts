@@ -40,8 +40,8 @@
   "mapModeRealtime": "Live",
   "mapModeHistory": "History",
   "mapLastUpdated": "Last updated",
-  "donateText1": "Hey! I'm Ron Michaeli, a father of two daughters and a software developer. I built this out of a genuine desire to help people in Israel stay safe and aware during this difficult time. I pour my free time into keeping it running.",
-  "donateText2": "If it's been helpful to you or someone you care about, a small donation means the world and keeps this going 🙏",
+  "fabText": "I hope this has been helpful to you or someone you care about. Feel free to reach out to me for any feedback:",
+  "fabWhatsAppLabel": "Contact on WhatsApp",
   "categories": {
     "missilealert": "Missile Alert",
     "uav": "Hostile UAV",
