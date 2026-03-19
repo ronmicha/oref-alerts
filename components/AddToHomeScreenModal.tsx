@@ -167,25 +167,8 @@ export function AddToHomeScreenModal() {
 
         {/* Buttons */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          {/* Primary */}
-          {isIOS ? (
-            <button
-              onClick={handleNever}
-              style={{
-                padding: '0.6rem 1rem',
-                borderRadius: '0.5rem',
-                border: 'none',
-                background: 'var(--color-accent)',
-                color: '#fff',
-                fontSize: '0.875rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                width: '100%',
-              }}
-            >
-              {t('addToHomeIosGotIt')}
-            </button>
-          ) : (
+          {/* Primary — Android/Chrome only */}
+          {!isIOS && (
             <button
               onClick={handleAdd}
               style={{
@@ -204,7 +187,7 @@ export function AddToHomeScreenModal() {
             </button>
           )}
 
-          {/* Secondary row */}
+          {/* Secondary row — always shown */}
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button
               onClick={handleNever}
