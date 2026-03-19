@@ -14,6 +14,11 @@ function isIOSDevice(): boolean {
   return /iPhone|iPad|iPod/i.test(navigator.userAgent)
 }
 
+function isRunningAsPWA(): boolean {
+  return window.matchMedia('(display-mode: standalone)').matches
+    || (navigator as Navigator & { standalone?: boolean }).standalone === true
+}
+
 function shouldShowPrompt(): boolean {
   const stored = localStorage.getItem(STORAGE_KEY)
   // "null" means the user dismissed forever (Add or Don't remind me again)
@@ -62,7 +67,7 @@ export function AddToHomeScreenModal() {
     }
     window.addEventListener('beforeinstallprompt', onBeforeInstall)
 
-    if (isMobileDevice() && shouldShowPrompt()) {
+    if (isMobileDevice() && !isRunningAsPWA() && shouldShowPrompt()) {
       setIsIOS(isIOSDevice())
       setVisible(true)
     }
