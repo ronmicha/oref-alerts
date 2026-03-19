@@ -48,6 +48,9 @@
   "addToHomeCta": "הוסף",
   "addToHomeLater": "הזכר לי מאוחר יותר",
   "addToHomeNever": "אל תזכיר לי שוב",
+  "addToHomeIosStep1": "לחץ על כפתור השיתוף",
+  "addToHomeIosStep2": "ואז בחר \"הוסף למסך הבית\"",
+  "addToHomeIosGotIt": "הבנתי",
   "categories": {
     "missilealert": "ירי רקטות וטילים",
     "uav": "חדירת כלי טיס עוין",

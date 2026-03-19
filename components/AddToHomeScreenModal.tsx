@@ -10,6 +10,10 @@ function isMobileDevice(): boolean {
   return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
 }
 
+function isIOSDevice(): boolean {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent)
+}
+
 function shouldShowPrompt(): boolean {
   const stored = localStorage.getItem(STORAGE_KEY)
   // "null" means the user dismissed forever (Add or Don't remind me again)
@@ -22,9 +26,32 @@ function shouldShowPrompt(): boolean {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type BeforeInstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> }
 
+/** Safari share icon — the standard box-with-arrow-up used in iOS Safari */
+function SafariShareIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ display: 'inline', verticalAlign: 'middle', color: '#007AFF', flexShrink: 0 }}
+      aria-hidden="true"
+    >
+      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+      <polyline points="16 6 12 2 8 6" />
+      <line x1="12" y1="2" x2="12" y2="15" />
+    </svg>
+  )
+}
+
 export function AddToHomeScreenModal() {
   const { t, lang } = useI18n()
   const [visible, setVisible] = useState(false)
+  const [isIOS, setIsIOS] = useState(false)
   const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null)
 
   useEffect(() => {
@@ -36,6 +63,7 @@ export function AddToHomeScreenModal() {
     window.addEventListener('beforeinstallprompt', onBeforeInstall)
 
     if (isMobileDevice() && shouldShowPrompt()) {
+      setIsIOS(isIOSDevice())
       setVisible(true)
     }
 
@@ -108,25 +136,73 @@ export function AddToHomeScreenModal() {
           {t('addToHomeMessage')}
         </p>
 
-        {/* Buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          {/* Primary — Add */}
-          <button
-            onClick={handleAdd}
+        {/* iOS instructions */}
+        {isIOS && (
+          <div
             style={{
-              padding: '0.6rem 1rem',
+              background: 'rgba(0,122,255,0.07)',
               borderRadius: '0.5rem',
-              border: 'none',
-              background: 'var(--color-accent)',
-              color: '#fff',
-              fontSize: '0.875rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              width: '100%',
+              padding: '0.75rem 1rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem',
             }}
           >
-            {t('addToHomeCta')}
-          </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--color-text)' }}>
+              <span style={{ fontWeight: 600, minWidth: '1.1rem' }}>1.</span>
+              <SafariShareIcon />
+              <span>{t('addToHomeIosStep1')}</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--color-text)' }}>
+              <span style={{ fontWeight: 600, minWidth: '1.1rem' }}>2.</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, color: '#007AFF' }} aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+              <span>{t('addToHomeIosStep2')}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Buttons */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {/* Primary */}
+          {isIOS ? (
+            <button
+              onClick={handleNever}
+              style={{
+                padding: '0.6rem 1rem',
+                borderRadius: '0.5rem',
+                border: 'none',
+                background: 'var(--color-accent)',
+                color: '#fff',
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                width: '100%',
+              }}
+            >
+              {t('addToHomeIosGotIt')}
+            </button>
+          ) : (
+            <button
+              onClick={handleAdd}
+              style={{
+                padding: '0.6rem 1rem',
+                borderRadius: '0.5rem',
+                border: 'none',
+                background: 'var(--color-accent)',
+                color: '#fff',
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                width: '100%',
+              }}
+            >
+              {t('addToHomeCta')}
+            </button>
+          )}
 
           {/* Secondary row */}
           <div style={{ display: 'flex', gap: '0.5rem' }}>

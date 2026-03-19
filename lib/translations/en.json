@@ -48,6 +48,9 @@
   "addToHomeCta": "Add",
   "addToHomeLater": "Remind me later",
   "addToHomeNever": "Don't remind me again",
+  "addToHomeIosStep1": "Tap the Share button",
+  "addToHomeIosStep2": "Then tap \"Add to Home Screen\"",
+  "addToHomeIosGotIt": "Got it",
   "categories": {
     "missilealert": "Missile Alert",
     "uav": "Hostile UAV",
