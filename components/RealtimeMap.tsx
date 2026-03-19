@@ -43,8 +43,8 @@ const CATEGORY_COLORS: Record<number, string> = {
 }
 
 function formatAlertTime(alertDate: string): string {
-  // alertDate: "YYYY-MM-DDTHH:MM:SS" — extract the time part
-  return alertDate.slice(11, 19)
+  // alertDate: "YYYY-MM-DDTHH:MM:SS" — oref API has minute precision only (seconds always 00)
+  return alertDate.slice(11, 16)
 }
 
 interface CityMarkerProps {
