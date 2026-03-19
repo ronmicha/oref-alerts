@@ -5,22 +5,13 @@ import Image from 'next/image'
 import { useI18n } from '@/lib/i18n'
 import { TAB_BAR_HEIGHT } from '@/lib/layout'
 
-const BITPAY_URL = 'https://www.bitpay.co.il/app/me/05921C5E-8748-4635-48C0-CA76D1DE67145239'
+const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=523857444'
 
-export function DonateFAB() {
+export function FeedbackFAB() {
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const popoverRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)')
-    setIsMobile(mq.matches)
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [])
 
   // Close on outside click
   useEffect(() => {
@@ -54,7 +45,7 @@ export function DonateFAB() {
         <div
           ref={popoverRef}
           role="dialog"
-          aria-label="Support this project"
+          aria-label="Feedback"
           style={{
             position: 'fixed',
             bottom: TAB_BAR_HEIGHT + 64 + 'px',
@@ -69,45 +60,28 @@ export function DonateFAB() {
           }}
         >
           <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text)', marginBottom: '0.9rem' }}>
-            {t('donateText1')}
+            {t('fabText1')}
           </p>
-          <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text)', marginBottom: '1rem' }}>
-            {t('donateText2')}
+          <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+            {t('fabText2')}
           </p>
-
-          {isMobile ? (
+          <div style={{ textAlign: 'center' }}>
             <a
-              href={BITPAY_URL}
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                display: 'block',
-                textAlign: 'center',
-                background: 'var(--color-accent)',
-                color: '#fff',
-                borderRadius: '0.5rem',
-                padding: '0.55rem 1rem',
-                fontSize: '0.875rem',
-                fontWeight: 700,
-                textDecoration: 'none',
-              }}
+              aria-label={t('fabWhatsAppLabel')}
+              style={{ display: 'inline-block' }}
             >
-              {t('donateCta')}
-            </a>
-          ) : (
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>
-                {t('donateQrLabel')}
-              </p>
               <Image
-                src="/donate-qr.jpeg"
-                alt="Donation QR code"
-                width={180}
-                height={180}
-                style={{ borderRadius: '0.5rem', display: 'inline-block' }}
+                src="/WhatsApp.svg"
+                alt={t('fabWhatsAppLabel')}
+                width={40}
+                height={40}
+                style={{ display: 'block' }}
               />
-            </div>
-          )}
+            </a>
+          </div>
         </div>
       )}
 
