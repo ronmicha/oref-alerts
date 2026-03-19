@@ -57,6 +57,13 @@ function scaleRadius(count: number, maxCount: number): number {
   return RADIUS_MIN + (RADIUS_MAX - RADIUS_MIN) * ratio
 }
 
+// ── Category mapping ─────────────────────────────────────────────────────────
+
+// Maps tzevaadom code → oref category ID
+const TZEVAADOM_CODE_TO_OREF_CATEGORY: Record<number, number> = { 0: 1, 5: 2 }
+// Maps oref category ID → translation slug
+const CATEGORY_ID_TO_SLUG: Record<number, string> = { 1: 'missilealert', 2: 'uav' }
+
 // ── MapResizer ────────────────────────────────────────────────────────────────
 
 function MapResizer() {
@@ -109,12 +116,13 @@ interface CityCount {
   cityName: string
   label_en: string
   count: number
+  countByCategory: Map<number, number>
   lat: number
   lng: number
 }
 
 export function HistoryMap() {
-  const { t, lang } = useI18n()
+  const { t, tCategory, lang } = useI18n()
   const [dateRange, setDateRange] = useState<DateRangeOption>('30d')
   const [customFrom, setCustomFrom] = useState('')
   const [customTo, setCustomTo] = useState('')
@@ -142,20 +150,27 @@ export function HistoryMap() {
 
   const cityCounts = useMemo<CityCount[]>(() => {
     if (!raw) return []
-    const counts = new Map<string, number>()
+    const counts = new Map<string, { total: number; byCategory: Map<number, number> }>()
     for (const [, code, cityArr, ts] of raw) {
       if (!TZEVAADOM_ALLOWED_CODES.has(code)) continue
       if (ts < startTs || ts > endTs) continue
+      const catId = TZEVAADOM_CODE_TO_OREF_CATEGORY[code]
       for (const rawCity of cityArr) {
         const city = normalizeTzevaadomCity(rawCity)
-        counts.set(city, (counts.get(city) ?? 0) + 1)
+        const existing = counts.get(city)
+        if (existing) {
+          existing.total++
+          existing.byCategory.set(catId, (existing.byCategory.get(catId) ?? 0) + 1)
+        } else {
+          counts.set(city, { total: 1, byCategory: new Map([[catId, 1]]) })
+        }
       }
     }
     return Array.from(counts.entries())
       .filter(([cityName]) => getCityEntry(cityName) !== null)
-      .map(([cityName, count]) => {
+      .map(([cityName, { total, byCategory }]) => {
         const entry = getCityEntry(cityName)!
-        return { cityName, label_en: entry.label_en, count, lat: entry.lat, lng: entry.lng }
+        return { cityName, label_en: entry.label_en, count: total, countByCategory: byCategory, lat: entry.lat, lng: entry.lng }
       })
   }, [raw, startTs, endTs])
 
@@ -197,7 +212,7 @@ export function HistoryMap() {
       <div
         style={{
           position: 'absolute',
-          top: 52,
+          top: 8,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 1000,
@@ -273,7 +288,7 @@ export function HistoryMap() {
         <MapResizer />
         <MapStateTracker onChange={handleMapState} />
 
-        {cityCounts.map(({ cityName, label_en, count, lat, lng }) => {
+        {cityCounts.map(({ cityName, label_en, count, countByCategory, lat, lng }) => {
           const ratio = maxCount > 0 ? count / maxCount : 0
           const color = interpolateColor(ratio)
           const radius = scaleRadius(count, maxCount)
@@ -298,14 +313,58 @@ export function HistoryMap() {
               <Popup closeButton={false}>
                 <div dir={lang === 'he' ? 'rtl' : 'ltr'} style={lang === 'he' ? { textAlign: 'right' } : undefined}>
                   <strong style={{ fontSize: '0.9rem' }}>{displayName}</strong>
-                  <br />
-                  <span style={{ fontSize: '0.82rem', color: '#CC1212', fontWeight: 600 }}>{t('alertsCount', { count: count.toLocaleString() })}</span>
+                  <div style={{ marginTop: 4, fontSize: '0.82rem', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    {Array.from(countByCategory.entries())
+                      .sort(([a], [b]) => a - b)
+                      .map(([catId, catCount]) => (
+                        <div key={catId} style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                          <span style={{ color: '#555' }}>{tCategory(CATEGORY_ID_TO_SLUG[catId] ?? String(catId))}</span>
+                          <span style={{ fontWeight: 600 }}>{catCount.toLocaleString()}</span>
+                        </div>
+                      ))}
+                    <div style={{ borderTop: '1px solid #eee', marginTop: 2, paddingTop: 4, display: 'flex', justifyContent: 'space-between', fontWeight: 700 }}>
+                      <span>{t('total')}</span>
+                      <span style={{ color: '#CC1212' }}>{count.toLocaleString()}</span>
+                    </div>
+                  </div>
                 </div>
               </Popup>
             </CircleMarker>
           )
         })}
       </MapContainer>
+
+      {/* Color scale legend */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 48,
+          right: 8,
+          zIndex: 1000,
+          background: 'rgba(255,255,255,0.5)',
+          borderRadius: 8,
+          padding: '8px 10px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'stretch',
+          gap: 6,
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '0.7rem', color: '#444', textAlign: 'right' }}>
+          <span>{maxCount.toLocaleString()} {t('alertsColumn')}</span>
+          <span>0 {t('alertsColumn')}</span>
+        </div>
+        <div
+          style={{
+            width: 12,
+            height: 72,
+            borderRadius: 6,
+            background: 'linear-gradient(to bottom, #E01515, #eab308, #22c55e)',
+            flexShrink: 0,
+          }}
+        />
+      </div>
 
       {/* Loading overlay */}
       {isLoading && (

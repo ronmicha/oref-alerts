@@ -13,6 +13,8 @@ interface UseRealtimeAlertsOptions {
 interface RealtimeAlert {
   city: string
   categories: ReadonlySet<number>
+  /** Most recent alertDate string per category, for the click popup */
+  latestByCategory: ReadonlyMap<number, string>
 }
 
 export interface UseRealtimeAlertsResult {
@@ -27,7 +29,7 @@ export interface UseRealtimeAlertsResult {
 }
 
 /**
- * Polls Oref mode=1 (last 24h) every 30 seconds.
+ * Polls Oref mode=1 (last 24h) every 10 seconds.
  * Filters client-side to the last 10 minutes and groups by city.
  *
  * alertDate format: "YYYY-MM-DDTHH:MM:SS" — Israel local time (Asia/Jerusalem).
@@ -38,14 +40,13 @@ export function useRealtimeAlerts({ lang = 'he' }: UseRealtimeAlertsOptions = {}
   const { data, dataUpdatedAt, isLoading, error } = useQuery<AlarmHistoryItem[]>({
     queryKey: ['realtime-alerts', lang],
     queryFn: () => fetchAlertHistory({ mode: 1, lang }),
-    refetchInterval: 30_000,
+    refetchInterval: 10_000,
     staleTime: 0,
   })
 
   const rawAlerts = data ?? []
 
-  // Internal accumulator uses mutable Set; public interface exposes ReadonlySet
-  const mutableAlerts = new Map<string, { city: string; categories: Set<number> }>()
+  const mutableAlerts = new Map<string, { city: string; categories: Set<number>; latestByCategory: Map<number, string> }>()
 
   const cutoff = Date.now() - TEN_MINUTES_MS
   for (const alert of rawAlerts) {
@@ -54,8 +55,16 @@ export function useRealtimeAlerts({ lang = 'he' }: UseRealtimeAlertsOptions = {}
     const existing = mutableAlerts.get(alert.data)
     if (existing) {
       existing.categories.add(alert.category)
+      const prev = existing.latestByCategory.get(alert.category)
+      if (!prev || alert.alertDate > prev) {
+        existing.latestByCategory.set(alert.category, alert.alertDate)
+      }
     } else {
-      mutableAlerts.set(alert.data, { city: alert.data, categories: new Set([alert.category]) })
+      mutableAlerts.set(alert.data, {
+        city: alert.data,
+        categories: new Set([alert.category]),
+        latestByCategory: new Map([[alert.category, alert.alertDate]]),
+      })
     }
   }
 
