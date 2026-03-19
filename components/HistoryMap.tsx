@@ -300,7 +300,7 @@ export function HistoryMap() {
               radius={radius}
               pathOptions={{
                 fillColor: color,
-                color: '#000',
+                color: color,
                 fillOpacity: 0.75,
                 weight: 1,
               }}
