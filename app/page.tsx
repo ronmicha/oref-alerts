@@ -18,7 +18,7 @@ import { Loader2 } from 'lucide-react'
 import { filterAlerts, aggregateByDay, aggregateByTimeOfDay } from '@/lib/filter'
 import { useI18n } from '@/lib/i18n'
 import { getPresetDateRange } from '@/lib/dateRange'
-import { TAB_BAR_HEIGHT, HEADER_HEIGHT } from '@/lib/layout'
+import { TAB_BAR_HEIGHT, HEADER_HEIGHT, MAP_SUBHEADER_HEIGHT } from '@/lib/layout'
 import type { MapMode } from '@/components/MapView'
 import type { DateRangeOption } from '@/types/oref'
 
@@ -190,6 +190,58 @@ export default function Home() {
         </header>
       </div>
 
+      {/* ── MAP SUB-HEADER (Live / History toggle, Map tab only) ── */}
+      {activeTab === 'map' && (
+        <div
+          className="sticky z-30"
+          style={{
+            top: HEADER_HEIGHT,
+            height: MAP_SUBHEADER_HEIGHT,
+            background: '#ede9e3',
+            borderBottom: '1px solid var(--color-border)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              gap: 2,
+              background: 'rgba(255,255,255,0.95)',
+              borderRadius: 10,
+              padding: '3px 4px',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.12)',
+              backdropFilter: 'blur(6px)',
+            }}
+          >
+            {(['realtime', 'history'] as MapMode[]).map((m) => {
+              const isActive = mapMode === m
+              return (
+                <button
+                  key={m}
+                  onClick={() => setMapMode(m)}
+                  style={{
+                    padding: '4px 16px',
+                    borderRadius: 7,
+                    border: 'none',
+                    background: isActive ? '#111111' : 'transparent',
+                    color: isActive ? '#ffffff' : 'var(--color-text-secondary)',
+                    fontSize: '0.78rem',
+                    fontWeight: isActive ? 700 : 400,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {m === 'realtime' ? t('mapModeRealtime') : t('mapModeHistory')}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
       {/* ── CHARTS TAB ── */}
       {activeTab === 'charts' && (
         <>
@@ -339,7 +391,7 @@ export default function Home() {
         </>
       )}
 
-      {activeTab === 'map' && <MapView mode={mapMode} onModeChange={setMapMode} />}
+      {activeTab === 'map' && <MapView mode={mapMode} />}
 
       {/* ── BOTTOM TAB BAR ── */}
       <nav

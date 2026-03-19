@@ -6,7 +6,7 @@
 import 'leaflet/dist/leaflet.css'
 
 import { useEffect } from 'react'
-import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet'
 import { useRealtimeAlerts } from '@/hooks/useRealtimeAlerts'
 import { getCityCoords } from '@/lib/citiesGeo'
 import { useI18n } from '@/lib/i18n'
@@ -30,17 +30,58 @@ const RADIUS_SINGLE = 8
 const RADIUS_OUTER = 12   // UAV outer ring when co-occurring with missile
 const RADIUS_INNER = 7    // Missile inner fill when co-occurring with UAV
 
+const CATEGORY_SLUGS: Record<number, string> = {
+  [CATEGORY_MISSILE]: 'missilealert',
+  [CATEGORY_UAV]: 'uav',
+  [CATEGORY_FLASH]: 'flash',
+}
+
+const CATEGORY_COLORS: Record<number, string> = {
+  [CATEGORY_MISSILE]: COLOR_MISSILE,
+  [CATEGORY_UAV]: COLOR_UAV,
+  [CATEGORY_FLASH]: COLOR_FLASH,
+}
+
+function formatAlertTime(alertDate: string): string {
+  // alertDate: "YYYY-MM-DDTHH:MM:SS" — extract the time part
+  return alertDate.slice(11, 19)
+}
+
 interface CityMarkerProps {
   cityName: string
   categories: ReadonlySet<number>
+  latestByCategory: ReadonlyMap<number, string>
   lat: number
   lng: number
+  lang: 'he' | 'en'
+  tCategory: (slug: string) => string
 }
 
-function CityMarker({ cityName: _cityName, categories, lat, lng }: CityMarkerProps) {
+function CityMarker({ cityName, categories, latestByCategory, lat, lng, lang, tCategory }: CityMarkerProps) {
   const hasMissile = categories.has(CATEGORY_MISSILE)
   const hasUAV = categories.has(CATEGORY_UAV)
   const hasFlash = categories.has(CATEGORY_FLASH)
+  const isSingleType = categories.size === 1
+
+  const popup = (
+    <Popup closeButton={false}>
+      <div dir={lang === 'he' ? 'rtl' : 'ltr'} style={lang === 'he' ? { textAlign: 'right' } : undefined}>
+        <strong style={{ fontSize: '0.9rem' }}>{cityName}</strong>
+        <div style={{ marginTop: 4, fontSize: '0.82rem', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {Array.from(categories).map((catId) => (
+            <div key={catId} style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+              <span style={{ color: CATEGORY_COLORS[catId] ?? '#333', fontWeight: 600 }}>
+                {tCategory(CATEGORY_SLUGS[catId] ?? String(catId))}
+              </span>
+              <span dir="ltr" style={{ color: '#555' }}>
+                {formatAlertTime(latestByCategory.get(catId) ?? '')}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Popup>
+  )
 
   // Flash never co-occurs with other types per design doc
   if (hasFlash && !hasMissile && !hasUAV) {
@@ -48,13 +89,16 @@ function CityMarker({ cityName: _cityName, categories, lat, lng }: CityMarkerPro
       <CircleMarker
         center={[lat, lng]}
         radius={RADIUS_SINGLE}
-        pathOptions={{ fillColor: COLOR_FLASH, color: COLOR_FLASH, fillOpacity: 0.85, weight: 1.5 }}
-      />
+        pathOptions={{ fillColor: COLOR_FLASH, color: isSingleType ? '#000' : COLOR_FLASH, fillOpacity: 0.85, weight: 1 }}
+      >
+        {popup}
+      </CircleMarker>
     )
   }
 
   if (hasMissile && hasUAV) {
     // Concentric rings: outer UAV (larger, transparent fill), inner Missile (filled)
+    // Multiple types — no black border
     return (
       <>
         <CircleMarker
@@ -66,7 +110,9 @@ function CityMarker({ cityName: _cityName, categories, lat, lng }: CityMarkerPro
           center={[lat, lng]}
           radius={RADIUS_INNER}
           pathOptions={{ fillColor: COLOR_MISSILE, color: COLOR_MISSILE, fillOpacity: 0.9, weight: 0 }}
-        />
+        >
+          {popup}
+        </CircleMarker>
       </>
     )
   }
@@ -76,8 +122,10 @@ function CityMarker({ cityName: _cityName, categories, lat, lng }: CityMarkerPro
       <CircleMarker
         center={[lat, lng]}
         radius={RADIUS_SINGLE}
-        pathOptions={{ fillColor: COLOR_UAV, color: COLOR_UAV, fillOpacity: 0.85, weight: 1.5 }}
-      />
+        pathOptions={{ fillColor: COLOR_UAV, color: isSingleType ? '#000' : COLOR_UAV, fillOpacity: 0.85, weight: 1 }}
+      >
+        {popup}
+      </CircleMarker>
     )
   }
 
@@ -86,8 +134,10 @@ function CityMarker({ cityName: _cityName, categories, lat, lng }: CityMarkerPro
       <CircleMarker
         center={[lat, lng]}
         radius={RADIUS_SINGLE}
-        pathOptions={{ fillColor: COLOR_MISSILE, color: COLOR_MISSILE, fillOpacity: 0.85, weight: 1.5 }}
-      />
+        pathOptions={{ fillColor: COLOR_MISSILE, color: isSingleType ? '#000' : COLOR_MISSILE, fillOpacity: 0.85, weight: 1 }}
+      >
+        {popup}
+      </CircleMarker>
     )
   }
 
@@ -105,8 +155,14 @@ function MapResizer() {
   return null
 }
 
+const LEGEND_ITEMS = [
+  { color: COLOR_MISSILE, slug: 'missilealert' },
+  { color: COLOR_UAV,     slug: 'uav' },
+  { color: COLOR_FLASH,   slug: 'flash' },
+]
+
 export function RealtimeMap() {
-  const { lang, t } = useI18n()
+  const { lang, t, tCategory } = useI18n()
   const { cityAlerts, lastUpdated, loading, error } = useRealtimeAlerts({ lang })
 
   const lastUpdatedStr = lastUpdated
@@ -137,12 +193,52 @@ export function RealtimeMap() {
                 key={cityName}
                 cityName={cityName}
                 categories={data.categories}
+                latestByCategory={data.latestByCategory}
                 lat={coords.lat}
                 lng={coords.lng}
+                lang={lang}
+                tCategory={tCategory}
               />
             )
           })}
       </MapContainer>
+
+      {/* Legend */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 48,
+          right: 8,
+          zIndex: 1000,
+          background: 'rgba(255,255,255,0.92)',
+          borderRadius: 8,
+          padding: '8px 10px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 5,
+        }}
+      >
+        {LEGEND_ITEMS.map(({ color, slug }) => (
+          <div key={slug} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: '50%',
+                background: color,
+                border: '1px solid #000',
+                display: 'inline-block',
+                flexShrink: 0,
+              }}
+            />
+            <span style={{ fontSize: '0.72rem', color: '#333', whiteSpace: 'nowrap' }}>
+              {tCategory(slug)}
+            </span>
+          </div>
+        ))}
+      </div>
 
       {/* Last updated badge */}
       <div
