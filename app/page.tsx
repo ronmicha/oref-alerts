@@ -197,8 +197,7 @@ export default function Home() {
           style={{
             top: HEADER_HEIGHT,
             height: MAP_SUBHEADER_HEIGHT,
-            background: '#ede9e3',
-            borderBottom: '1px solid var(--color-border)',
+            background: '#2a2a2a',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
