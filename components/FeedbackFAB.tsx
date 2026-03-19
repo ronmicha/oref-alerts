@@ -74,10 +74,10 @@ export function FeedbackFAB() {
               style={{ display: 'inline-block' }}
             >
               <Image
-                src="/whatsapp.png"
+                src="/WhatsApp.svg"
                 alt={t('fabWhatsAppLabel')}
-                width={120}
-                height={25}
+                width={40}
+                height={40}
                 style={{ display: 'block' }}
               />
             </a>
