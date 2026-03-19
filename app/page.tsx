@@ -206,12 +206,10 @@ export default function Home() {
           <div
             style={{
               display: 'flex',
-              gap: 2,
-              background: 'rgba(255,255,255,0.95)',
-              borderRadius: 10,
-              padding: '3px 4px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.12)',
-              backdropFilter: 'blur(6px)',
+              gap: 3,
+              background: 'rgba(255,255,255,0.08)',
+              borderRadius: 20,
+              padding: '2px 3px',
             }}
           >
             {(['realtime', 'history'] as MapMode[]).map((m) => {
@@ -221,12 +219,12 @@ export default function Home() {
                   key={m}
                   onClick={() => setMapMode(m)}
                   style={{
-                    padding: '4px 16px',
-                    borderRadius: 7,
+                    padding: '3px 12px',
+                    borderRadius: 16,
                     border: 'none',
-                    background: isActive ? '#111111' : 'transparent',
-                    color: isActive ? '#ffffff' : 'var(--color-text-secondary)',
-                    fontSize: '0.78rem',
+                    background: isActive ? 'var(--color-accent)' : 'transparent',
+                    color: isActive ? '#fff' : 'rgba(255,255,255,0.6)',
+                    fontSize: '0.72rem',
                     fontWeight: isActive ? 700 : 400,
                     cursor: 'pointer',
                     transition: 'all 0.15s',
