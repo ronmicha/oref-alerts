@@ -72,6 +72,12 @@
     "lng": 35.2871399
   },
   {
+    "label_he": "אביתר",
+    "label_en": "Evyatar",
+    "lat": 31.7227202,
+    "lng": 35.1071186
+  },
+  {
     "label_he": "אבן יהודה",
     "label_en": "Even Yehuda",
     "lat": 31.781095,
@@ -98,6 +104,12 @@
   {
     "label_he": "אבני איתן",
     "label_en": "Avnei Eitan",
+    "lat": 32.8246384,
+    "lng": 35.7667337
+  },
+  {
+    "label_he": "אבני חפץ",
+    "label_en": "Avnei Hefetz",
     "lat": 32.8246384,
     "lng": 35.7667337
   },
@@ -252,6 +264,12 @@
     "lng": 35.1278912
   },
   {
+    "label_he": "אזור תעשייה אריאל",
+    "label_en": "Ariel Industrial Park",
+    "lat": 33.03629945,
+    "lng": 35.10384048661041
+  },
+  {
     "label_he": "אזור תעשייה באר טוביה",
     "label_en": "Be'er Tuvia Industrial Zone",
     "lat": 31.723616,
@@ -280,6 +298,12 @@
     "label_en": "Brosh Industrial Zone",
     "lat": 32.6375611,
     "lng": 35.3563548
+  },
+  {
+    "label_he": "אזור תעשייה ברקן",
+    "label_en": "Barkan Industrial Park",
+    "lat": 32.991057,
+    "lng": 35.711303
   },
   {
     "label_he": "אזור תעשייה גדרה",
@@ -318,6 +342,12 @@
     "lng": 35.5541362
   },
   {
+    "label_he": "אזור תעשייה טירה (אזור התרעה ישן)",
+    "label_en": "Tira Industrial Area (Previous alert area)",
+    "lat": 32.74206,
+    "lng": 34.969547
+  },
+  {
     "label_he": "אזור תעשייה טמרה (אזור התרעה ישן)",
     "label_en": "Tamra Industiral Park (Previous alert area)",
     "lat": 32.849508,
@@ -352,6 +382,18 @@
     "label_en": "Mevo Carmel Industrial Zone",
     "lat": 32.7923266,
     "lng": 35.0309904
+  },
+  {
+    "label_he": "אזור תעשייה מבואות הגלבוע",
+    "label_en": "Mevuot HaGilboa Industrial Zone",
+    "lat": 32.991057,
+    "lng": 35.711303
+  },
+  {
+    "label_he": "אזור תעשייה מישור אדומים",
+    "label_en": "Mishor Edomim Industrial Zone",
+    "lat": 33.03629945,
+    "lng": 35.10384048661041
   },
   {
     "label_he": "אזור תעשייה מיתרים",
@@ -474,6 +516,12 @@
     "lng": 35.0890131
   },
   {
+    "label_he": "אזור תעשייה שער בנימין",
+    "label_en": "Sha'ar Binyamin Industrial Zone",
+    "lat": 32.889503,
+    "lng": 35.092136
+  },
+  {
     "label_he": "אזור תעשייה שער נעמן",
     "label_en": "Sha'ar Na'aman Industrial Zone",
     "lat": 32.8898605,
@@ -538,6 +586,18 @@
     "label_en": "Ibtin",
     "lat": 32.7607812,
     "lng": 35.1131894
+  },
+  {
+    "label_he": "איבי הנחל",
+    "label_en": "Ibei HaNahal",
+    "lat": 32.6704445,
+    "lng": 34.9661903
+  },
+  {
+    "label_he": "איזור תעשייה מילואות צפון",
+    "label_en": "Milouot Industrial Zone North",
+    "lat": 32.787913,
+    "lng": 35.533978
   },
   {
     "label_he": "אייל",
@@ -648,6 +708,12 @@
     "lng": 35.5462845
   },
   {
+    "label_he": "אלון",
+    "label_en": "Alon",
+    "lat": 32.7571188,
+    "lng": 35.2199802
+  },
+  {
     "label_he": "אלון הגליל",
     "label_en": "Alon HaGalil",
     "lat": 32.7571188,
@@ -658,6 +724,12 @@
     "label_en": "Elon Moreh",
     "lat": 32.2305463,
     "lng": 35.3292144
+  },
+  {
+    "label_he": "אלון שבות",
+    "label_en": "Alon Shvut",
+    "lat": 32.68204,
+    "lng": 34.9421
   },
   {
     "label_he": "אלוני אבא",
@@ -756,6 +828,12 @@
     "lng": 34.9025726
   },
   {
+    "label_he": "אלפי מנשה",
+    "label_en": "Alfei Menashe",
+    "lat": 32.5978839,
+    "lng": 35.0576452
+  },
+  {
     "label_he": "אלקוש",
     "label_en": "Alkosh",
     "lat": 33.0341637,
@@ -808,6 +886,12 @@
     "label_en": "Ibillin",
     "lat": 32.8209166,
     "lng": 35.19133
+  },
+  {
+    "label_he": "אעירה השחר",
+    "label_en": "Aira Shachar",
+    "lat": 33.0215976,
+    "lng": 35.5759521
   },
   {
     "label_he": "אפיק",
@@ -1164,6 +1248,12 @@
     "lng": 35.4312857
   },
   {
+    "label_he": "בית אריה",
+    "label_en": "Beit Arie",
+    "lat": 33.2083012,
+    "lng": 35.6069281
+  },
+  {
     "label_he": "בית ברל",
     "label_en": "Beit Berl",
     "lat": 32.2025325,
@@ -1372,6 +1462,18 @@
     "label_en": "Beit Nekofa",
     "lat": 31.8028567,
     "lng": 35.1252694
+  },
+  {
+    "label_he": "בית סוהר צלמון",
+    "label_en": "Zalmon Prison",
+    "lat": 31.93492955,
+    "lng": 34.88192575873522
+  },
+  {
+    "label_he": "בית סוהר קישון",
+    "label_en": "Kishon Prison",
+    "lat": 31.93492955,
+    "lng": 34.88192575873522
   },
   {
     "label_he": "בית ספר שדה מירון",
@@ -1626,6 +1728,12 @@
     "lng": 35.2400104
   },
   {
+    "label_he": "ברוכין",
+    "label_en": "Brukhin",
+    "lat": 32.0821317,
+    "lng": 35.0907027
+  },
+  {
     "label_he": "ברור חיל",
     "label_en": "Bror Hayil",
     "lat": 31.5597901,
@@ -1636,6 +1744,12 @@
     "label_en": "Brosh",
     "lat": 31.3706542,
     "lng": 34.6350858
+  },
+  {
+    "label_he": "ברחבי הארץ",
+    "label_en": "Entire country",
+    "lat": 32.052117,
+    "lng": 34.772488
   },
   {
     "label_he": "ברטעה",
@@ -1660,6 +1774,12 @@
     "label_en": "Barkai",
     "lat": 32.475134,
     "lng": 35.0300253
+  },
+  {
+    "label_he": "ברקן",
+    "label_en": "Barkan",
+    "lat": 32.50559392749647,
+    "lng": 35.00954743220872
   },
   {
     "label_he": "ברקת",
@@ -1776,6 +1896,12 @@
     "lng": 34.9549687
   },
   {
+    "label_he": "גבעון החדשה",
+    "label_en": "Givon HaHadasha",
+    "lat": 32.9830176,
+    "lng": 35.3227602
+  },
+  {
     "label_he": "גבעות בר",
     "label_en": "Giv'ot Bar",
     "lat": 31.3556259,
@@ -1810,6 +1936,12 @@
     "label_en": "Givat Harel",
     "lat": 31.7810017,
     "lng": 35.1978244
+  },
+  {
+    "label_he": "גבעת הרואה",
+    "label_en": "Givat Ha-Roe",
+    "lat": 31.7715324,
+    "lng": 35.2242095
   },
   {
     "label_he": "גבעת השלושה",
@@ -1896,6 +2028,12 @@
     "lng": 35.1986272
   },
   {
+    "label_he": "גבעת פורת יוסף",
+    "label_en": "Givat Porat Yosef",
+    "lat": 31.775112550000003,
+    "lng": 35.233335429874096
+  },
+  {
     "label_he": "גבעת שמואל",
     "label_en": "Givat Shmuel",
     "lat": 32.076372,
@@ -1954,6 +2092,12 @@
     "label_en": "Gonen",
     "lat": 33.1238763,
     "lng": 35.6462866
+  },
+  {
+    "label_he": "גופנה",
+    "label_en": "Gofna",
+    "lat": 31.9793871,
+    "lng": 35.124449959998174
   },
   {
     "label_he": "גורן",
@@ -2238,6 +2382,12 @@
     "lng": 35.4074874
   },
   {
+    "label_he": "דולב",
+    "label_en": "Dolev",
+    "lat": 31.92609,
+    "lng": 35.13393
+  },
+  {
     "label_he": "דור (אזור התרעה ישן)",
     "label_en": "Dor (Previous alert area)",
     "lat": 32.6075668,
@@ -2340,6 +2490,12 @@
     "lng": 34.9327996
   },
   {
+    "label_he": "הגבעה הצהובה",
+    "label_en": "The Yellow Hill",
+    "lat": 29.540617,
+    "lng": 35.002317
+  },
+  {
     "label_he": "הגושרים",
     "label_en": "HaGoshrim",
     "lat": 33.2211258,
@@ -2394,6 +2550,12 @@
     "lng": 35.2056603
   },
   {
+    "label_he": "היישוב היהודי חברון",
+    "label_en": "Hevron Jewish Settlement",
+    "lat": 32.030389,
+    "lng": 34.933799
+  },
+  {
     "label_he": "הילה",
     "label_en": "Hila",
     "lat": 32.8098037,
@@ -2422,6 +2584,18 @@
     "label_en": "HaOgen",
     "lat": 32.3619422,
     "lng": 34.9231606
+  },
+  {
+    "label_he": "הר אדר",
+    "label_en": "Har Adar",
+    "lat": 31.77058225,
+    "lng": 35.22914258712125
+  },
+  {
+    "label_he": "הר ברכה",
+    "label_en": "Har Bracha",
+    "lat": 31.79232279316357,
+    "lng": 35.217396867915944
   },
   {
     "label_he": "הר גילה",
@@ -2472,10 +2646,22 @@
     "lng": 34.851367
   },
   {
+    "label_he": "הררית יחד",
+    "label_en": "Hararit Yachad",
+    "lat": 32.844982900000005,
+    "lng": 35.361146919048835
+  },
+  {
     "label_he": "ואדי אל חמאם",
     "label_en": "Wadi Hamam",
     "lat": 32.8295555,
     "lng": 35.4903983
+  },
+  {
+    "label_he": "ואדי אל נעם דרום",
+    "label_en": "Wadi el Na'am South",
+    "lat": 32.700122,
+    "lng": 35.292741
   },
   {
     "label_he": "ורדון",
@@ -2640,10 +2826,34 @@
     "lng": 34.9502384
   },
   {
+    "label_he": "חוות אביחי",
+    "label_en": "Havat Avihai",
+    "lat": 32.047922,
+    "lng": 35.033046
+  },
+  {
+    "label_he": "חוות אלחי",
+    "label_en": "Havat Elchai",
+    "lat": 32.56067,
+    "lng": 34.91655
+  },
+  {
+    "label_he": "חוות ארץ האיילים",
+    "label_en": "Havat Eretzh Ha'Ayalim",
+    "lat": 32.7222399,
+    "lng": 35.5680967
+  },
+  {
     "label_he": "חוות בניהו",
     "label_en": "Havat Bnayahu",
     "lat": 31.7629446,
     "lng": 35.2157563
+  },
+  {
+    "label_he": "חוות גלעד",
+    "label_en": "Havat Gil'ad",
+    "lat": 32.55716,
+    "lng": 35.07704
   },
   {
     "label_he": "חוות דרומא",
@@ -2658,10 +2868,46 @@
     "lng": 35.2277301
   },
   {
+    "label_he": "חוות טואמין",
+    "label_en": "Havat Toamin",
+    "lat": 32.56067,
+    "lng": 34.91655
+  },
+  {
     "label_he": "חוות טליה",
     "label_en": "Havat Taliya",
     "lat": 32.9800276,
     "lng": 35.8111728
+  },
+  {
+    "label_he": "חוות יאיר",
+    "label_en": "Havat Yair",
+    "lat": 32.7222399,
+    "lng": 35.5680967
+  },
+  {
+    "label_he": "חוות יד השומר",
+    "label_en": "Havat Yad HaShomer",
+    "lat": 32.7579262,
+    "lng": 35.40353798965084
+  },
+  {
+    "label_he": "חוות יויו",
+    "label_en": "Havat Yoyo",
+    "lat": 32.56067,
+    "lng": 34.91655
+  },
+  {
+    "label_he": "חוות מגנזי",
+    "label_en": "Havat Maginzi",
+    "lat": 32.56067,
+    "lng": 34.91655
+  },
+  {
+    "label_he": "חוות מדבר חבר",
+    "label_en": "Havat Midbar Haver",
+    "lat": 32.5487129,
+    "lng": 35.2643296
   },
   {
     "label_he": "חוות מלאכי אברהם",
@@ -2670,10 +2916,34 @@
     "lng": 35.2140144
   },
   {
+    "label_he": "חוות מלכיאל",
+    "label_en": "Havat Malkiel",
+    "lat": 32.56067,
+    "lng": 34.91655
+  },
+  {
     "label_he": "חוות מנחם",
     "label_en": "Havat Menachem",
     "lat": 31.7883556,
     "lng": 35.2135141
+  },
+  {
+    "label_he": "חוות מעלה אהוביה",
+    "label_en": "Havat Ma'ale Ahuvia",
+    "lat": 32.56067,
+    "lng": 34.91655
+  },
+  {
+    "label_he": "חוות מרום שמואל",
+    "label_en": "Havat Marom Shmuel",
+    "lat": 32.8902548,
+    "lng": 35.6878436
+  },
+  {
+    "label_he": "חוות נווה צוף",
+    "label_en": "Havat Neve Zuf",
+    "lat": 32.56067,
+    "lng": 34.91655
   },
   {
     "label_he": "חוות נוף אב\"י",
@@ -2682,16 +2952,64 @@
     "lng": 35.5307823
   },
   {
+    "label_he": "חוות נחל שילה",
+    "label_en": "Havat Hanal Shilo",
+    "lat": 32.07104722646463,
+    "lng": 34.93604242387766
+  },
+  {
     "label_he": "חוות נחלת אבות",
     "label_en": "Havat Nahlat Avot",
     "lat": 31.5161865,
     "lng": 34.9222349
   },
   {
+    "label_he": "חוות נחלת צבי",
+    "label_en": "Havat Nahalat Tzvi",
+    "lat": 32.7222399,
+    "lng": 35.5680967
+  },
+  {
     "label_he": "חוות עדן",
     "label_en": "Havat Eden",
     "lat": 32.4657413,
     "lng": 35.4869909
+  },
+  {
+    "label_he": "חוות עולם חסד",
+    "label_en": "Havat Olam Hesed",
+    "lat": 32.139515,
+    "lng": 34.967036
+  },
+  {
+    "label_he": "חוות עמיאל",
+    "label_en": "Havat Amiel",
+    "lat": 32.7222399,
+    "lng": 35.5680967
+  },
+  {
+    "label_he": "חוות פריאל",
+    "label_en": "Havat Priel",
+    "lat": 32.7222399,
+    "lng": 35.5680967
+  },
+  {
+    "label_he": "חוות צאן קדר",
+    "label_en": "Havat Tzon Kedar",
+    "lat": 32.7222399,
+    "lng": 35.5680967
+  },
+  {
+    "label_he": "חוות צרידה",
+    "label_en": "Havat Zrida",
+    "lat": 32.56067,
+    "lng": 34.91655
+  },
+  {
+    "label_he": "חוות קשואלה",
+    "label_en": "Havat Kashuala",
+    "lat": 31.676006899999997,
+    "lng": 35.10170165
   },
   {
     "label_he": "חוות ראש תאנה",
@@ -2704,6 +3022,18 @@
     "label_en": "Havat Sade",
     "lat": 32.75376,
     "lng": 35.411148
+  },
+  {
+    "label_he": "חוות שוביאל",
+    "label_en": "Havat Shuviel",
+    "lat": 32.56067,
+    "lng": 34.91655
+  },
+  {
+    "label_he": "חוות תלם צפון",
+    "label_en": "Havat Telem North",
+    "lat": 31.8045339,
+    "lng": 35.1724425
   },
   {
     "label_he": "חולדה",
@@ -2806,6 +3136,12 @@
     "label_en": "Hibat Zion",
     "lat": 32.3987871,
     "lng": 34.9120169
+  },
+  {
+    "label_he": "חיננית",
+    "label_en": "Hinanit",
+    "lat": 32.46667,
+    "lng": 35.16667
   },
   {
     "label_he": "חיפה - בת גלים ק.אליעזר",
@@ -2976,6 +3312,18 @@
     "lng": 35.0510843
   },
   {
+    "label_he": "חרמש",
+    "label_en": "Hermesh",
+    "lat": 32.41667,
+    "lng": 35.11667
+  },
+  {
+    "label_he": "חרמש דרום",
+    "label_en": "Hermesh South",
+    "lat": 32.6420126,
+    "lng": 35.0681549
+  },
+  {
     "label_he": "חרשה",
     "label_en": "Horasha",
     "lat": 33.046635,
@@ -3072,6 +3420,12 @@
     "lng": 34.7700732
   },
   {
+    "label_he": "טלמון",
+    "label_en": "Talmon",
+    "lat": 31.93333,
+    "lng": 35.11667
+  },
+  {
     "label_he": "טמרה",
     "label_en": "Tamra",
     "lat": 32.6340104,
@@ -3088,6 +3442,12 @@
     "label_en": "Tefahot",
     "lat": 32.8684279,
     "lng": 35.4238096
+  },
+  {
+    "label_he": "יבוא דודי",
+    "label_en": "Yevo Dodi",
+    "lat": 32.005502,
+    "lng": 34.961068
   },
   {
     "label_he": "יבול",
@@ -3282,6 +3642,12 @@
     "lng": 35.2754584
   },
   {
+    "label_he": "יפית",
+    "label_en": "Yafit",
+    "lat": 32.05,
+    "lng": 35.46667
+  },
+  {
     "label_he": "יפעת",
     "label_en": "Ifat",
     "lat": 32.6771965,
@@ -3414,6 +3780,18 @@
     "lng": 34.8987981
   },
   {
+    "label_he": "ישובי אומן",
+    "label_en": "Omen Settlements",
+    "lat": 32.5641159,
+    "lng": 35.2422454
+  },
+  {
+    "label_he": "ישובי יעל",
+    "label_en": "Yael Settlements",
+    "lat": 32.5519235,
+    "lng": 35.3079001
+  },
+  {
     "label_he": "ישעי",
     "label_en": "Yish'i",
     "lat": 31.7516368,
@@ -3492,6 +3870,12 @@
     "lng": 35.56282
   },
   {
+    "label_he": "כינרת קבוצה",
+    "label_en": "Kvutzat Kinneret",
+    "lat": 32.7138,
+    "lng": 35.56301
+  },
+  {
     "label_he": "כיסופים",
     "label_en": "Kissufim",
     "lat": 31.3741608,
@@ -3502,6 +3886,12 @@
     "label_en": "Kishor",
     "lat": 32.945775,
     "lng": 35.2495375
+  },
+  {
+    "label_he": "כל הארץ",
+    "label_en": "Entire country",
+    "lat": 31.779303249999998,
+    "lng": 35.23976789691558
   },
   {
     "label_he": "כליל",
@@ -3582,6 +3972,12 @@
     "lng": 34.7213367
   },
   {
+    "label_he": "כפר אדומים",
+    "label_en": "Kfar Edomim",
+    "lat": 33.1946879,
+    "lng": 35.657851
+  },
+  {
     "label_he": "כפר אוריה",
     "label_en": "Kfar Uriah",
     "lat": 31.7919952,
@@ -3660,6 +4056,12 @@
     "lng": 35.5749608
   },
   {
+    "label_he": "כפר גמילה מלכישוע",
+    "label_en": "Mlkishua Rehabilitation Village",
+    "lat": 32.4385275,
+    "lng": 35.4130069
+  },
+  {
     "label_he": "כפר דניאל",
     "label_en": "Kfar Daniel",
     "lat": 31.9332996,
@@ -3688,6 +4090,12 @@
     "label_en": "Kfar HaNagid",
     "lat": 31.8875154,
     "lng": 34.7522152
+  },
+  {
+    "label_he": "כפר הנוער קריית יערים",
+    "label_en": "Kiryat Ye'arim Youth Village",
+    "lat": 32.742271,
+    "lng": 35.10066
   },
   {
     "label_he": "כפר הנוקדים",
@@ -4044,6 +4452,12 @@
     "lng": 35.4204202
   },
   {
+    "label_he": "כפר תפוח",
+    "label_en": "Kfar Tapuach",
+    "lat": 33.1946879,
+    "lng": 35.657851
+  },
+  {
     "label_he": "כפר תקווה",
     "label_en": "Kfar Tikva",
     "lat": 32.7013642,
@@ -4086,6 +4500,12 @@
     "lng": 34.9204701
   },
   {
+    "label_he": "כרמי צור",
+    "label_en": "Karmei Tzur",
+    "lat": 32.24124,
+    "lng": 34.9983819
+  },
+  {
     "label_he": "כרמי קטיף (אזור התרעה ישן)",
     "label_en": "Karmei Katif (Previous alert area)",
     "lat": 31.5372434,
@@ -4126,6 +4546,12 @@
     "label_en": "Carmel",
     "lat": 32.7866144,
     "lng": 34.9803096
+  },
+  {
+    "label_he": "לב החולה",
+    "label_en": "Lev Ha-Hula",
+    "lat": 32.981234,
+    "lng": 35.547859
   },
   {
     "label_he": "לבון",
@@ -4278,6 +4704,12 @@
     "lng": 34.9882935
   },
   {
+    "label_he": "מבואות יריחו",
+    "label_en": "Mevuot Yericho",
+    "lat": 31.858697,
+    "lng": 35.460091
+  },
+  {
     "label_he": "מבועים",
     "label_en": "Mabu'im",
     "lat": 31.4492727,
@@ -4344,6 +4776,12 @@
     "lng": 35.2770876
   },
   {
+    "label_he": "מגדלים",
+    "label_en": "Megadlim",
+    "lat": 32.08333,
+    "lng": 35.33333
+  },
+  {
     "label_he": "מגל",
     "label_en": "Magal",
     "lat": 32.38522,
@@ -4360,6 +4798,12 @@
     "label_en": "Magen Shaul",
     "lat": 32.5206793,
     "lng": 35.3067307
+  },
+  {
+    "label_he": "מגרון",
+    "label_en": "Migron",
+    "lat": 31.8741539,
+    "lng": 35.2590819
   },
   {
     "label_he": "מגשימים",
@@ -4476,6 +4920,12 @@
     "lng": 35.0073522
   },
   {
+    "label_he": "מטווח ניר עם",
+    "label_en": "Nir Am Shooting Range",
+    "lat": 31.5193144,
+    "lng": 34.5807617
+  },
+  {
     "label_he": "מטולה",
     "label_en": "Metulla",
     "lat": 33.2692138,
@@ -4548,6 +4998,18 @@
     "lng": 34.8352009
   },
   {
+    "label_he": "מכורה",
+    "label_en": "Mekhora",
+    "lat": 32.16484,
+    "lng": 35.42285
+  },
+  {
+    "label_he": "מכינת אלישע",
+    "label_en": "Elisha preparatory",
+    "lat": 32.8008854,
+    "lng": 34.99236404509986
+  },
+  {
     "label_he": "מכמורת",
     "label_en": "Mikhmoret",
     "lat": 32.4062774,
@@ -4558,6 +5020,12 @@
     "label_en": "Mikhmanim - Kamane West",
     "lat": 32.9061108,
     "lng": 35.3287602
+  },
+  {
+    "label_he": "מלונות ים המלח מרכז",
+    "label_en": "Dead Sea Hotels - Center",
+    "lat": 31.0708206,
+    "lng": 35.397186774808304
   },
   {
     "label_he": "מלכיה",
@@ -4590,6 +5058,12 @@
     "lng": 35.5555869
   },
   {
+    "label_he": "מנחת מחניים",
+    "label_en": "Machanaim landing pad",
+    "lat": 32.9886405,
+    "lng": 35.570735
+  },
+  {
     "label_he": "מנרה",
     "label_en": "Manara",
     "lat": 33.195939,
@@ -4612,6 +5086,12 @@
     "label_en": "Masada",
     "lat": 32.683069,
     "lng": 35.5987945
+  },
+  {
+    "label_he": "מסוף אורנית",
+    "label_en": "Oranit Terminal",
+    "lat": 32.08295,
+    "lng": 34.796404
   },
   {
     "label_he": "מסילות",
@@ -4674,6 +5154,12 @@
     "lng": 35.5512649
   },
   {
+    "label_he": "מעון",
+    "label_en": "Ma'on",
+    "lat": 32.7830829,
+    "lng": 35.5138937
+  },
+  {
     "label_he": "מעון צופיה",
     "label_en": "Maon Tzofia",
     "lat": 31.8560851,
@@ -4710,6 +5196,12 @@
     "lng": 35.2526186
   },
   {
+    "label_he": "מעלה אפרים",
+    "label_en": "Ma'aleh Ephraim",
+    "lat": 32.4780173,
+    "lng": 35.4174978
+  },
+  {
     "label_he": "מעלה גלבוע",
     "label_en": "Ma'aleh Gilboa",
     "lat": 32.4780173,
@@ -4734,16 +5226,40 @@
     "lng": 35.3532412
   },
   {
+    "label_he": "מעלה לבונה",
+    "label_en": "Ma'aleh Levona",
+    "lat": 31.798727,
+    "lng": 35.06156
+  },
+  {
+    "label_he": "מעלה מכמש",
+    "label_en": "Ma'aleh Michmash",
+    "lat": 32.4780173,
+    "lng": 35.4174978
+  },
+  {
     "label_he": "מעלה עירון",
     "label_en": "Ma'aleh Iron",
     "lat": 32.5494975,
     "lng": 35.1544857
   },
   {
+    "label_he": "מעלה עמוס",
+    "label_en": "Ma'aleh Amos",
+    "lat": 32.8892522,
+    "lng": 35.6853352
+  },
+  {
     "label_he": "מעלה צביה",
     "label_en": "Ma'aleh Zvia",
     "lat": 32.8894552,
     "lng": 35.3306239
+  },
+  {
+    "label_he": "מעלה רחבעם",
+    "label_en": "Ma'ale Rekhav'am",
+    "lat": 31.91553425,
+    "lng": 34.880534336754486
   },
   {
     "label_he": "מעלות תרשיחא",
@@ -4788,6 +5304,12 @@
     "lng": 35.1570974
   },
   {
+    "label_he": "מצוקי דרגות",
+    "label_en": "Metzokei Dragot",
+    "lat": 32.230163,
+    "lng": 35.00642
+  },
+  {
     "label_he": "מצליח",
     "label_en": "Matzliach",
     "lat": 31.9061802,
@@ -4824,6 +5346,30 @@
     "lng": 34.966854
   },
   {
+    "label_he": "מצפה חגית",
+    "label_en": "Mitzpe Hagit",
+    "lat": 31.8512448,
+    "lng": 35.3380634
+  },
+  {
+    "label_he": "מצפה יאיר",
+    "label_en": "Mitzpe Yair",
+    "lat": 32.7902724,
+    "lng": 35.5085407
+  },
+  {
+    "label_he": "מצפה יריחו",
+    "label_en": "Mitzpeh Yericho",
+    "lat": 32.78996,
+    "lng": 35.50926
+  },
+  {
+    "label_he": "מצפה מדרג",
+    "label_en": "Mitzpe Midrag",
+    "lat": 30.6215482,
+    "lng": 34.8010751
+  },
+  {
     "label_he": "מצפה נטופה",
     "label_en": "Mitzpeh Netofa",
     "lat": 32.8023796,
@@ -4834,6 +5380,18 @@
     "label_en": "Mitzpeh Ramon",
     "lat": 30.6119687,
     "lng": 34.8012169
+  },
+  {
+    "label_he": "מצפה שלם",
+    "label_en": "Mitzpeh Shalem",
+    "lat": 32.78996,
+    "lng": 35.50926
+  },
+  {
+    "label_he": "מצפור פצאל",
+    "label_en": "Mitzpor Fatsa'el",
+    "lat": 32.04412,
+    "lng": 35.4424
   },
   {
     "label_he": "מצר",
@@ -4884,10 +5442,40 @@
     "lng": 35.3810386
   },
   {
+    "label_he": "מרכז אזורי דרום השרון",
+    "label_en": "Southern Sharon Regional Center",
+    "lat": 33.001463,
+    "lng": 35.438152
+  },
+  {
+    "label_he": "מרכז אזורי מבואות חרמון",
+    "label_en": "Mevuot Hermon Regional Council",
+    "lat": 33.001463,
+    "lng": 35.438152
+  },
+  {
+    "label_he": "מרכז אזורי מגילות",
+    "label_en": "Megilot Regional Center",
+    "lat": 32.7055371,
+    "lng": 35.3209253
+  },
+  {
+    "label_he": "מרכז אזורי מרום גליל",
+    "label_en": "Marom HaGalil Regional Center",
+    "lat": 33.001463,
+    "lng": 35.438152
+  },
+  {
     "label_he": "מרכז אזורי משגב",
     "label_en": "Misgav Regional Center",
     "lat": 32.8591178,
     "lng": 35.2597137
+  },
+  {
+    "label_he": "מרכז אזורי רמת כורזים",
+    "label_en": "Ramat Korazim Regional Center",
+    "lat": 32.9109804,
+    "lng": 35.5526611
   },
   {
     "label_he": "מרכז חבר",
@@ -5022,10 +5610,34 @@
     "lng": 34.6237776
   },
   {
+    "label_he": "מתחם בני דרום",
+    "label_en": "Bnei Darom Compound",
+    "lat": 31.8206628,
+    "lng": 34.6915762
+  },
+  {
+    "label_he": "מתחם גלילות",
+    "label_en": "Glilot Complex",
+    "lat": 32.158681568672236,
+    "lng": 34.82021910143539
+  },
+  {
     "label_he": "מתחם סקי גלבוע",
     "label_en": "Gilboa Ski Resort",
     "lat": 32.5525408,
     "lng": 35.3339459
+  },
+  {
+    "label_he": "מתחם פי גלילות",
+    "label_en": "Gelilot - Pi Compound",
+    "lat": 31.239457,
+    "lng": 34.755435
+  },
+  {
+    "label_he": "מתחם שביל התפוזים",
+    "label_en": "Shvil HaTapuzim Compound",
+    "lat": 32.058835099999996,
+    "lng": 34.76173752717604
   },
   {
     "label_he": "מתן",
@@ -5166,6 +5778,18 @@
     "lng": 34.7314056
   },
   {
+    "label_he": "נווה ארז",
+    "label_en": "Neveh Erez",
+    "lat": 32.48641325096136,
+    "lng": 35.50669024631636
+  },
+  {
+    "label_he": "נווה דניאל",
+    "label_en": "Neveh Daniel",
+    "lat": 31.9332996,
+    "lng": 34.9326218
+  },
+  {
     "label_he": "נווה זוהר",
     "label_en": "Neveh Zohar",
     "lat": 31.1529016,
@@ -5242,6 +5866,18 @@
     "label_en": "Nof HaGalil",
     "lat": 32.7023065,
     "lng": 35.3183216
+  },
+  {
+    "label_he": "נופי נחמיה",
+    "label_en": "Nofei Nehemiah",
+    "lat": 31.975811,
+    "lng": 34.9550835
+  },
+  {
+    "label_he": "נופי פרת",
+    "label_en": "Nofei Prat",
+    "lat": 32.8369912,
+    "lng": 35.354178916868634
   },
   {
     "label_he": "נופים",
@@ -5538,10 +6174,28 @@
     "lng": 34.815858
   },
   {
+    "label_he": "נעלה",
+    "label_en": "Na'aleh",
+    "lat": 31.96236,
+    "lng": 35.06553
+  },
+  {
+    "label_he": "נעמה",
+    "label_en": "Na'ama",
+    "lat": 31.3450184,
+    "lng": 35.2963104
+  },
+  {
     "label_he": "נען",
     "label_en": "Na'an",
     "lat": 31.8837553,
     "lng": 34.8570894
+  },
+  {
+    "label_he": "נערן",
+    "label_en": "Niran",
+    "lat": 33.02963545,
+    "lng": 35.68897403237363
   },
   {
     "label_he": "נצר חזני",
@@ -5560,6 +6214,12 @@
     "label_en": "Nazareth",
     "lat": 32.7046364,
     "lng": 35.2971854
+  },
+  {
+    "label_he": "נריה",
+    "label_en": "Neria",
+    "lat": 31.7372591,
+    "lng": 34.9862465
   },
   {
     "label_he": "נשר",
@@ -5650,6 +6310,12 @@
     "label_en": "Susya",
     "lat": 32.0903525,
     "lng": 34.982496
+  },
+  {
+    "label_he": "סוסיא הקדומה",
+    "label_en": "Ancient Susya",
+    "lat": 31.776189,
+    "lng": 35.231013
   },
   {
     "label_he": "סופה",
@@ -5756,6 +6422,12 @@
   {
     "label_he": "עדי",
     "label_en": "Adi",
+    "lat": 32.781891,
+    "lng": 35.1736274
+  },
+  {
+    "label_he": "עדי עד",
+    "label_en": "Adei Ad",
     "lat": 32.781891,
     "lng": 35.1736274
   },
@@ -6084,6 +6756,12 @@
     "lng": 35.4226255
   },
   {
+    "label_he": "עינות קדם",
+    "label_en": "Einot Kedem",
+    "lat": 31.8045339,
+    "lng": 35.1724425
+  },
+  {
     "label_he": "עינת",
     "label_en": "Einat",
     "lat": 32.0827765,
@@ -6118,6 +6796,18 @@
     "label_en": "Alumim",
     "lat": 31.4521295,
     "lng": 34.5137154
+  },
+  {
+    "label_he": "עלי",
+    "label_en": "Eli",
+    "lat": 32.7721199,
+    "lng": 35.1542287
+  },
+  {
+    "label_he": "עלי זהב - לשם",
+    "label_en": "Alei Zahav - Leshem",
+    "lat": 32.7721199,
+    "lng": 35.1542287
   },
   {
     "label_he": "עלמה",
@@ -6288,6 +6978,18 @@
     "lng": 34.718333
   },
   {
+    "label_he": "פארק תעשייה ראם",
+    "label_en": "Re'em Industrial Park",
+    "lat": 31.77287645,
+    "lng": 34.75443040884237
+  },
+  {
+    "label_he": "פדואל",
+    "label_en": "Paduel",
+    "lat": 32.05,
+    "lng": 35.05
+  },
+  {
     "label_he": "פדויים",
     "label_en": "Pduim",
     "lat": 31.3277011,
@@ -6348,6 +7050,18 @@
     "lng": 34.7072589
   },
   {
+    "label_he": "פני קדם",
+    "label_en": "Pnei Kedem",
+    "lat": 32.970017,
+    "lng": 35.538799
+  },
+  {
+    "label_he": "פנימיית עין כרם",
+    "label_en": "Ein Kerem Boarding School",
+    "lat": 31.769553,
+    "lng": 35.167881
+  },
+  {
     "label_he": "פסגות",
     "label_en": "Psagot",
     "lat": 31.7478646,
@@ -6364,6 +7078,12 @@
     "label_en": "Pa'amei Tashaz",
     "lat": 31.4381567,
     "lng": 34.6930068
+  },
+  {
+    "label_he": "פצאל",
+    "label_en": "Petza'el",
+    "lat": 32.04412,
+    "lng": 35.4424
   },
   {
     "label_he": "פקיעין",
@@ -6588,10 +7308,22 @@
     "lng": 34.9686245
   },
   {
+    "label_he": "קבוצת גבע",
+    "label_en": "Kvutzat Geva",
+    "lat": 32.5663362,
+    "lng": 35.3715486
+  },
+  {
     "label_he": "קבוצת יבנה",
     "label_en": "Kvutzat Yavne",
     "lat": 31.8138222,
     "lng": 34.7190625
+  },
+  {
+    "label_he": "קדומים",
+    "label_en": "Kdumim",
+    "lat": 32.5029206,
+    "lng": 35.4940496
   },
   {
     "label_he": "קדימה צורן",
@@ -6666,6 +7398,12 @@
     "lng": 35.1142359
   },
   {
+    "label_he": "קידה",
+    "label_en": "Kida",
+    "lat": 33.0218945,
+    "lng": 35.2443988
+  },
+  {
     "label_he": "קיסריה",
     "label_en": "Caesarea",
     "lat": 32.505968,
@@ -6676,6 +7414,12 @@
     "label_en": "Klachim",
     "lat": 31.4505907,
     "lng": 34.6780963
+  },
+  {
+    "label_he": "קליה",
+    "label_en": "Kalia",
+    "lat": 31.76667,
+    "lng": 35.5
   },
   {
     "label_he": "קלנסווה",
@@ -6738,6 +7482,12 @@
     "lng": 34.7634447
   },
   {
+    "label_he": "קריית חינוך מרחבים",
+    "label_en": "Merhavim Educational Campus",
+    "lat": 31.315383,
+    "lng": 34.596906
+  },
+  {
     "label_he": "קריית טבעון - בית זייד",
     "label_en": "Kiryat Tivon - Beit Zaid",
     "lat": 32.711515,
@@ -6798,6 +7548,12 @@
     "lng": 34.9819699
   },
   {
+    "label_he": "קרני שומרון",
+    "label_en": "Karnei Shomron",
+    "lat": 32.7982445,
+    "lng": 35.4595528
+  },
+  {
     "label_he": "קשת",
     "label_en": "Keshet",
     "lat": 32.980733,
@@ -6856,6 +7612,12 @@
     "label_en": "Rishon LeZion - West",
     "lat": 31.9494326,
     "lng": 34.7608535
+  },
+  {
+    "label_he": "רבבה",
+    "label_en": "Revava",
+    "lat": 32.11926,
+    "lng": 35.12896
   },
   {
     "label_he": "רבדים",
@@ -6942,6 +7704,12 @@
     "lng": 34.8105616
   },
   {
+    "label_he": "רחלים",
+    "label_en": "Rechelim",
+    "lat": 32.1028268,
+    "lng": 35.2569545
+  },
+  {
     "label_he": "רטורנו - גבעת שמש",
     "label_en": "Retorno - Givat Shesh",
     "lat": 31.7750342,
@@ -6952,6 +7720,12 @@
     "label_en": "Rehaniya",
     "lat": 33.0482032,
     "lng": 35.4872846
+  },
+  {
+    "label_he": "ריחן",
+    "label_en": "Reihan",
+    "lat": 33.0571974,
+    "lng": 35.4815037
   },
   {
     "label_he": "ריינה",
@@ -7158,6 +7932,12 @@
     "lng": 35.6463364
   },
   {
+    "label_he": "שבות רחל",
+    "label_en": "Shvut Rachel",
+    "lat": 32.316243799999995,
+    "lng": 34.91122322743087
+  },
+  {
     "label_he": "שבי דרום",
     "label_en": "Shavei Darom",
     "lat": 31.4655951,
@@ -7166,6 +7946,12 @@
   {
     "label_he": "שבי ציון",
     "label_en": "Shavei Zion",
+    "lat": 32.980597,
+    "lng": 35.0832938
+  },
+  {
+    "label_he": "שבי שומרון",
+    "label_en": "Shavei Shomron",
     "lat": 32.980597,
     "lng": 35.0832938
   },
@@ -7196,6 +7982,18 @@
   {
     "label_he": "שדה אליעזר",
     "label_en": "Sdeh Eliezer",
+    "lat": 33.0458869,
+    "lng": 35.5641252
+  },
+  {
+    "label_he": "שדה אפרים",
+    "label_en": "Sde Efrayim",
+    "lat": 32.2889798,
+    "lng": 34.9974416
+  },
+  {
+    "label_he": "שדה בועז",
+    "label_en": "Sde Boaz",
     "lat": 33.0458869,
     "lng": 35.5641252
   },
@@ -7318,6 +8116,12 @@
     "label_en": "Shadmot Dvora",
     "lat": 32.6954933,
     "lng": 35.4374472
+  },
+  {
+    "label_he": "שדמות מחולה",
+    "label_en": "Shadmot Mechola",
+    "lat": 32.33333,
+    "lng": 35.5
   },
   {
     "label_he": "שדרות, איבים",
@@ -7462,6 +8266,12 @@
     "label_en": "Shlomit",
     "lat": 31.1685255,
     "lng": 34.3035802
+  },
+  {
+    "label_he": "שלומציון",
+    "label_en": "Shlomtsiyon",
+    "lat": 31.779628659209166,
+    "lng": 35.22201108495841
   },
   {
     "label_he": "שלפים (אזור התרעה ישן)",
@@ -7642,6 +8452,24 @@
     "label_en": "Tuval",
     "lat": 32.9290739,
     "lng": 35.2447876
+  },
+  {
+    "label_he": "תומר",
+    "label_en": "Tomer",
+    "lat": 32.9046841,
+    "lng": 35.1015267
+  },
+  {
+    "label_he": "תחנת רכבת כפר ברוך",
+    "label_en": "Kfar Baruch train station",
+    "lat": 32.6460182,
+    "lng": 35.1930067
+  },
+  {
+    "label_he": "תחנת רכבת כפר יהושוע",
+    "label_en": "Kfar Yehoshua Train Station",
+    "lat": 31.947336,
+    "lng": 34.879343
   },
   {
     "label_he": "תחנת רכבת קריית מלאכי - יואב",
