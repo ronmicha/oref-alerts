@@ -224,7 +224,7 @@ export default function Home() {
                     border: 'none',
                     background: isActive ? 'var(--color-accent)' : 'transparent',
                     color: isActive ? '#fff' : 'rgba(255,255,255,0.6)',
-                    fontSize: '0.72rem',
+                    fontSize: '0.78rem',
                     fontWeight: isActive ? 700 : 400,
                     cursor: 'pointer',
                     transition: 'all 0.15s',
