@@ -165,41 +165,76 @@ export function AddToHomeScreenModal() {
           </div>
         )}
 
-        {/* Buttons — single row */}
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button
-            onClick={handleNever}
-            style={{
-              flex: 1,
-              padding: '0.55rem 0.5rem',
-              borderRadius: '0.5rem',
-              border: '1px solid var(--color-border)',
-              background: 'transparent',
-              color: 'var(--color-text-secondary)',
-              fontSize: '0.78rem',
-              fontWeight: 500,
-              cursor: 'pointer',
-            }}
-          >
-            {t('addToHomeNever')}
-          </button>
-          <button
-            onClick={handleLater}
-            style={{
-              flex: 1,
-              padding: '0.55rem 0.5rem',
-              borderRadius: '0.5rem',
-              border: '1px solid var(--color-border)',
-              background: 'transparent',
-              color: 'var(--color-text-secondary)',
-              fontSize: '0.78rem',
-              fontWeight: 500,
-              cursor: 'pointer',
-            }}
-          >
-            {t('addToHomeLater')}
-          </button>
-          {!isIOS && (
+        {/* Buttons */}
+        {isIOS ? (
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={handleLater}
+              style={{
+                flex: 1,
+                padding: '0.55rem 0.5rem',
+                borderRadius: '0.5rem',
+                border: '1px solid var(--color-border)',
+                background: 'transparent',
+                color: 'var(--color-text-secondary)',
+                fontSize: '0.78rem',
+                fontWeight: 500,
+                cursor: 'pointer',
+              }}
+            >
+              {t('addToHomeLater')}
+            </button>
+            <button
+              onClick={handleNever}
+              style={{
+                flex: 1,
+                padding: '0.55rem 0.5rem',
+                borderRadius: '0.5rem',
+                border: 'none',
+                background: 'var(--color-accent)',
+                color: '#fff',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              {t('addToHomeIosGotIt')}
+            </button>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={handleNever}
+              style={{
+                flex: 1,
+                padding: '0.55rem 0.5rem',
+                borderRadius: '0.5rem',
+                border: '1px solid var(--color-border)',
+                background: 'transparent',
+                color: 'var(--color-text-secondary)',
+                fontSize: '0.78rem',
+                fontWeight: 500,
+                cursor: 'pointer',
+              }}
+            >
+              {t('addToHomeNever')}
+            </button>
+            <button
+              onClick={handleLater}
+              style={{
+                flex: 1,
+                padding: '0.55rem 0.5rem',
+                borderRadius: '0.5rem',
+                border: '1px solid var(--color-border)',
+                background: 'transparent',
+                color: 'var(--color-text-secondary)',
+                fontSize: '0.78rem',
+                fontWeight: 500,
+                cursor: 'pointer',
+              }}
+            >
+              {t('addToHomeLater')}
+            </button>
             <button
               onClick={handleAdd}
               style={{
@@ -216,8 +251,8 @@ export function AddToHomeScreenModal() {
             >
               {t('addToHomeCta')}
             </button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )
