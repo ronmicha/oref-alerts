@@ -352,8 +352,8 @@ export function HistoryMap() {
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '0.7rem', color: '#444', textAlign: 'right' }}>
-          <span>{maxCount.toLocaleString()}</span>
-          <span>0</span>
+          <span>{maxCount.toLocaleString()} {t('alertsColumn')}</span>
+          <span>0 {t('alertsColumn')}</span>
         </div>
         <div
           style={{
