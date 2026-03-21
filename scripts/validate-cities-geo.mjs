@@ -1,15 +1,8 @@
 /**
  * validate-cities-geo.mjs
  *
- * Validates cities-geo.json by removing entries whose coordinates don't match
- * their expected geographic region (oref areaid).
- *
- * Rules:
- *   areaid=3  (Jordan Valley)  → must have lng > 35.1
- *   areaid=10 (Samaria)        → must have lng > 34.9
- *   areaid=17 (Judea)          → must have lng > 34.85
- *   All areas                  → must have lat < 33.5 (not in Lebanon/Syria)
- *   All areas                  → must have lat > 29.0 (not in Sinai)
+ * Removes entries from cities-geo.json whose coordinates don't match the
+ * expected geographic region for their oref areaid.
  *
  * Usage:
  *   node scripts/validate-cities-geo.mjs [--dry-run]
@@ -29,16 +22,33 @@ const OREF_HEADERS = {
   Accept: 'application/json, text/javascript, */*; q=0.01',
 }
 
+/**
+ * Per-areaid bounding boxes [minLat, minLng, maxLat, maxLng].
+ * Only areaids with well-defined, non-overlapping boundaries are listed.
+ * Unlisted areaids pass through without validation.
+ */
+const AREA_BBOX = {
+  1:  [29.4, 34.7, 30.1, 35.1],  // Eilat
+  3:  [31.6, 35.1, 32.6, 35.9],  // Jordan Valley (must be east of ridge)
+  8:  [31.9, 34.7, 32.3, 35.0],  // Dan / Tel Aviv metro
+  10: [31.7, 34.9, 32.6, 35.6],  // Samaria / West Bank North
+  17: [31.1, 34.85, 32.0, 35.6], // Judea / West Bank South
+  18: [30.6, 35.1, 31.9, 35.7],  // Dead Sea
+  20: [31.6, 35.0, 32.0, 35.5],  // Jerusalem
+  22: [31.3, 34.4, 32.0, 35.1],  // Shfela South / Lachish
+  26: [31.1, 34.2, 31.7, 34.8],  // Gaza Envelope
+  29: [29.4, 34.6, 30.9, 35.3],  // Arava
+}
+
+function inBbox(lat, lng, bbox) {
+  return lat >= bbox[0] && lat <= bbox[2] && lng >= bbox[1] && lng <= bbox[3]
+}
+
 function isValid(entry, areaid) {
   const { lat, lng } = entry
-  // Extreme outliers (Lebanon/Syria, Sinai)
-  if (lat > 33.5 || lat < 29.0) return false
-  // Jordan Valley settlements must be east of the Judean ridge
-  if (areaid === 3  && lng < 35.1) return false
-  // Samaria settlements must be east of the Green Line
-  if (areaid === 10 && lng < 34.9) return false
-  // Judea settlements must be east of the Green Line
-  if (areaid === 17 && lng < 34.85) return false
+  if (lat > 33.5 || lat < 29.0) return false // Lebanon/Syria or Sinai
+  const bbox = AREA_BBOX[areaid]
+  if (bbox && !inBbox(lat, lng, bbox)) return false
   return true
 }
 
@@ -51,7 +61,7 @@ async function main() {
   const areaByName = new Map(cities.map((c) => [c.label_he || c.label, c.areaid]))
 
   const geo = JSON.parse(readFileSync(GEO_PATH, 'utf8'))
-  console.log(`Loaded ${geo.length} cities from cities-geo.json\n`)
+  console.log(`Loaded ${geo.length} entries\n`)
 
   const removed = []
   const kept = []
@@ -65,21 +75,18 @@ async function main() {
     }
   }
 
-  console.log(`Valid:   ${kept.length}`)
-  console.log(`Removed: ${removed.length}\n`)
-
+  console.log(`Valid: ${kept.length} | Removed: ${removed.length}\n`)
   if (removed.length > 0) {
-    console.log('Removed entries:')
-    for (const e of removed.sort((a, b) => a.areaid - b.areaid || a.label_he.localeCompare(b.label_he, 'he'))) {
-      console.log(`  [area ${e.areaid}] ${e.label_he} — was at ${e.lat.toFixed(4)}, ${e.lng.toFixed(4)}`)
+    for (const e of removed.sort((a, b) => a.areaid - b.areaid)) {
+      console.log(`  [area ${e.areaid}] ${e.label_he} — ${e.lat.toFixed(4)}, ${e.lng.toFixed(4)}`)
     }
   }
 
   if (!DRY_RUN && removed.length > 0) {
     writeFileSync(GEO_PATH, JSON.stringify(kept, null, 2) + '\n', 'utf8')
-    console.log(`\n✅ cities-geo.json updated: ${kept.length} entries (-${removed.length} removed)`)
+    console.log(`\n✅ Updated: ${kept.length} entries (-${removed.length})`)
   } else if (DRY_RUN) {
-    console.log('\n(dry-run — no changes written)')
+    console.log('\n(dry-run)')
   }
 }
 
