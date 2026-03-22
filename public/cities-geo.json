@@ -1142,8 +1142,8 @@
   {
     "label_he": "באר שבע - דרום",
     "label_en": "Beer Sheva - South",
-    "lat": 31.238572,
-    "lng": 34.6952959
+    "lat": 31.24295,
+    "lng": 34.78579
   },
   {
     "label_he": "באר שבע - כל האזורים",
@@ -1154,14 +1154,14 @@
   {
     "label_he": "באר שבע - מזרח",
     "label_en": "Beer Sheva - East",
-    "lat": 31.238572,
-    "lng": 34.6952959
+    "lat": 31.25654,
+    "lng": 34.80664
   },
   {
     "label_he": "באר שבע - מערב",
     "label_en": "Beer Sheva - West",
-    "lat": 31.238572,
-    "lng": 34.6952959
+    "lat": 31.2657,
+    "lng": 34.76843
   },
   {
     "label_he": "באר שבע - צפון",
@@ -2744,14 +2744,14 @@
   {
     "label_he": "הרצליה - מערב",
     "label_en": "Herzliya - West",
-    "lat": 32.180322,
-    "lng": 34.851367
+    "lat": 32.1786,
+    "lng": 34.81132
   },
   {
     "label_he": "הרצליה - מרכז וגליל ים",
     "label_en": "Herzeliya - Center and Glil Yam",
-    "lat": 32.180322,
-    "lng": 34.851367
+    "lat": 32.16819,
+    "lng": 34.84194
   },
   {
     "label_he": "הררית יחד",
@@ -2924,8 +2924,8 @@
   {
     "label_he": "חדרה - מרכז",
     "label_en": "Hadera - Center",
-    "lat": 32.3795668,
-    "lng": 35.0168422
+    "lat": 32.4352,
+    "lng": 34.92101
   },
   {
     "label_he": "חדרה - נווה חיים",
@@ -3320,8 +3320,8 @@
   {
     "label_he": "חיפה - בת גלים ק.אליעזר",
     "label_en": "Haifa - Bat Galim, Kiryat Eliezer",
-    "lat": 32.7878529,
-    "lng": 34.9656527
+    "lat": 32.82287,
+    "lng": 34.9821
   },
   {
     "label_he": "חיפה - כל האזורים",
@@ -3332,14 +3332,14 @@
   {
     "label_he": "חיפה - כרמל, הדר ועיר תחתית",
     "label_en": "Haifa - Carmel, Hadar and Downtown Lower City",
-    "lat": 32.7878529,
-    "lng": 34.9656527
+    "lat": 32.8066,
+    "lng": 34.98997
   },
   {
     "label_he": "חיפה - מערב",
     "label_en": "Haifa - West",
-    "lat": 32.7878529,
-    "lng": 34.9656527
+    "lat": 32.80935,
+    "lng": 34.9585
   },
   {
     "label_he": "חיפה - מפרץ",
@@ -3350,8 +3350,8 @@
   {
     "label_he": "חיפה - נווה שאנן ורמות כרמל",
     "label_en": "Haifa - Ramot HaCarmel and Neveh Sha'anan",
-    "lat": 32.7878529,
-    "lng": 34.9656527
+    "lat": 32.79024,
+    "lng": 35.01609
   },
   {
     "label_he": "חיפה - קריית חיים ושמואל",
@@ -3914,8 +3914,8 @@
   {
     "label_he": "ירושלים - דרום",
     "label_en": "Jerusalem - South",
-    "lat": 31.7788472,
-    "lng": 35.2257856
+    "lat": 31.76752,
+    "lng": 35.21982
   },
   {
     "label_he": "ירושלים - כל האזורים",
@@ -3944,14 +3944,14 @@
   {
     "label_he": "ירושלים - מרכז",
     "label_en": "Jerusalem - Center",
-    "lat": 31.7788472,
-    "lng": 35.2257856
+    "lat": 31.77438,
+    "lng": 35.2173
   },
   {
     "label_he": "ירושלים - צפון",
     "label_en": "Jerusalem - North",
-    "lat": 31.7788472,
-    "lng": 35.2257856
+    "lat": 31.79639,
+    "lng": 35.21274
   },
   {
     "label_he": "ירחיב",
@@ -7886,14 +7886,14 @@
   {
     "label_he": "ראשון לציון - מזרח",
     "label_en": "Rishon LeZion - East",
-    "lat": 31.9494326,
-    "lng": 34.7608535
+    "lat": 31.96549,
+    "lng": 34.8066
   },
   {
     "label_he": "ראשון לציון - מערב",
     "label_en": "Rishon LeZion - West",
-    "lat": 31.9494326,
-    "lng": 34.7608535
+    "lat": 31.97849,
+    "lng": 34.76714
   },
   {
     "label_he": "רבבה",
@@ -8084,14 +8084,14 @@
   {
     "label_he": "רמת גן - מזרח",
     "label_en": "Ramat Gan - East",
-    "lat": 32.0686867,
-    "lng": 34.8246812
+    "lat": 32.0685,
+    "lng": 34.82661
   },
   {
     "label_he": "רמת גן - מערב",
     "label_en": "Ramat Gan - West",
-    "lat": 32.0686867,
-    "lng": 34.8246812
+    "lat": 32.08432,
+    "lng": 34.81243
   },
   {
     "label_he": "רמת דוד",
@@ -8804,8 +8804,8 @@
   {
     "label_he": "תל אביב - מזרח",
     "label_en": "Tel Aviv - East",
-    "lat": 32.0518101,
-    "lng": 34.807247
+    "lat": 32.05764,
+    "lng": 34.79657
   },
   {
     "label_he": "תל אביב - מרכז העיר",
