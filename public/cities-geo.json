@@ -986,26 +986,26 @@
   {
     "label_he": "אשדוד - א,ב,ד,ה",
     "label_en": "Ashdod - Alef, Bet, Dalet, Heh",
-    "lat": 31.7957411,
-    "lng": 34.6488659
+    "lat": 31.802727,
+    "lng": 34.647614
   },
   {
     "label_he": "אשדוד - איזור תעשייה צפוני",
     "label_en": "Ashdod - Northen Industrial Zone",
-    "lat": 31.7957411,
-    "lng": 34.6488659
+    "lat": 31.83187,
+    "lng": 34.679424
   },
   {
     "label_he": "אשדוד - ג,ו,ז",
     "label_en": "Ashdod - Gimmel, Vav, Zain",
-    "lat": 31.803549,
-    "lng": 34.66358
+    "lat": 31.795691,
+    "lng": 34.660551
   },
   {
     "label_he": "אשדוד - ח,ט,י,יג,יד,טז",
     "label_en": "Ashdod - Het, Tet, Yod, Yod Gimmel, Yod Dalet, Te*",
-    "lat": 31.7977314,
-    "lng": 34.6529922
+    "lat": 31.783481,
+    "lng": 34.651063
   },
   {
     "label_he": "אשדוד - כל האזורים",
@@ -1016,8 +1016,8 @@
   {
     "label_he": "אשדוד -יא,יב,טו,יז,מרינה,סיטי",
     "label_en": "Ashdod-11,12,15,17,Marine,City",
-    "lat": 31.7833125,
-    "lng": 34.6501379
+    "lat": 31.787563,
+    "lng": 34.634479
   },
   {
     "label_he": "אשדות יעקב",
